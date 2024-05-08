@@ -9,6 +9,7 @@ const nextConfig = {
       // Thêm các mẫu khác nếu cần
     ],
   },
+  reactStrictMode: false,
 };
 
 export default nextConfig;

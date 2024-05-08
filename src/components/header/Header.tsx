@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import HeaderMain from "@/components/header/HeaderMain";
 import Navbar from "@/components/header/Navbar";
 
-export default function Header() {
+export default function HeaderTop() {
   const pathname = usePathname();
   const [showNavbar, setShowNavbar] = useState(true);
 

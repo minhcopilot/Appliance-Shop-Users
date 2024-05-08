@@ -5,9 +5,14 @@ import { ThemeProvider } from "@/components/theme-provider";
 import AppProvider from "@/app/AppProvider";
 import { cookies } from "next/headers";
 import { Toaster } from "@/components/ui/toaster";
-import Header from "@/components/header/Header";
+import HeaderTop from "@/components/header/Header";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Content, Footer, Header } from "antd/es/layout/layout";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { Chat } from "@/components/chat/chat";
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -22,8 +27,12 @@ export default function RootLayout({
 }>) {
   const cookieStore = cookies();
   const sessionToken = cookieStore.get("sessionToken");
+  const items = new Array(3).fill(null).map((_, index) => ({
+    key: String(index + 1),
+    label: `nav ${index + 1}`,
+  }));
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
@@ -32,9 +41,14 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AppProvider initialSessionToken={sessionToken?.value}>
-            <Header />
-            {children}
-            <Toaster />
+            <ReactQueryProvider>
+              <AntdRegistry>
+                <Chat />
+                <HeaderTop />
+                {children}
+                <Toaster />
+              </AntdRegistry>
+            </ReactQueryProvider>
           </AppProvider>
         </ThemeProvider>
       </body>
