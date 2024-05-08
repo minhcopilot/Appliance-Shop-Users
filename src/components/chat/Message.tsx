@@ -22,7 +22,11 @@ export default function Message({ message }: { message: MessageProps }) {
   return (
     <>
       {/* {message.replyTo && <ReplyTo id={message.replyTo} />} */}
-      <Badge.Ribbon text={message.sender} placement={placement}>
+      <Badge.Ribbon
+        text={message.sender}
+        placement={placement}
+        style={{ margin: 10 }}
+      >
         <Card
           size="small"
           actions={[

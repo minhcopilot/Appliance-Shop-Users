@@ -1,6 +1,5 @@
 "use client";
-import { useSocket } from "@/app/socket";
-import { useChat } from "@/hooks/chat/useSocket";
+import { useChat, useSocket } from "@/hooks/chat/useSocket";
 import { SendOutlined } from "@ant-design/icons";
 import { Button, Form, Input, message } from "antd";
 import React from "react";
@@ -9,7 +8,7 @@ type Props = {};
 
 export default function StartChat({}: Props) {
   const socket = useSocket();
-
+  const setChatId = useChat((state) => state.setChatId);
   const startChat = (data: any) => {
     socket.connect();
     socket.emit("client-message", {
@@ -17,9 +16,6 @@ export default function StartChat({}: Props) {
       message: data.name,
     });
     console.log("Start Chat");
-  };
-  const setChatId = useChat((state) => state.setChatId);
-  React.useEffect(() => {
     socket.on("server-message", (data: any) => {
       console.log(data);
       if (data.type === "chat-started") {
@@ -29,7 +25,8 @@ export default function StartChat({}: Props) {
     return () => {
       socket.off("server-message");
     };
-  }, [socket]);
+  };
+
   return (
     <>
       <Form onFinish={startChat}>

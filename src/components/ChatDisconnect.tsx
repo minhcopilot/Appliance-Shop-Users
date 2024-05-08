@@ -1,6 +1,6 @@
+"use client";
 import { useChat, useSocket } from "@/hooks/chat/useSocket";
 import { Button } from "antd";
-import { m } from "framer-motion";
 import React from "react";
 
 type Props = {
@@ -9,15 +9,13 @@ type Props = {
 
 export default function ChatDisconnect({ chatId }: Props) {
   const socket = useSocket();
-  const setChatId = useChat((state) => state.setChatId);
   const disconnect = () => {
     socket.connect();
     socket.emit("client-message", {
       type: "close-chat",
-      message: { id: chatId },
+      message: chatId,
     });
-    socket.disconnect();
-    setChatId(null);
+    console.log(`Disconnecting chat: ${chatId}`);
   };
   return (
     <Button type="primary" danger onClick={disconnect}>

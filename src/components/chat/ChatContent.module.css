@@ -1,0 +1,11 @@
+.container {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    overscroll-behavior-y: contain;
+    scroll-snap-type: y proximity;
+}
+
+.container>div:last-child {
+    scroll-snap-align: end;
+}
