@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 const ProductsPage = async () => {
   const products = await getProducts();
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-44">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {products.map((product: any) => (
         <ProductCard key={product.id} data={product} />
       ))}

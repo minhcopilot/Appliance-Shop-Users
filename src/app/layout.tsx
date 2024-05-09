@@ -45,7 +45,7 @@ export default function RootLayout({
               <AntdRegistry>
                 <Chat />
                 <HeaderTop />
-                {children}
+                <div className="mt-44">{children}</div>
                 <Toaster />
               </AntdRegistry>
             </ReactQueryProvider>
