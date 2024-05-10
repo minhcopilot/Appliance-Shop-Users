@@ -27,7 +27,7 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
-  const { setSessionToken } = useAppContext();
+  const { setSessionToken, setUser } = useAppContext();
   // 1. Define your form.
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBody),
@@ -43,8 +43,13 @@ export function LoginForm() {
     setLoading(true);
     try {
       const result = await axiosClient.post("/user/auth/login", values);
-      await axiosServerNext.post("/api/auth", result.data.payload.data.token);
+      localStorage.setItem(
+        "user",
+        JSON.stringify(result.data.payload.data.customer)
+      );
+      setUser(result.data.payload.data.customer);
       setSessionToken(result.data.payload.data.token);
+      await axiosServerNext.post("/api/auth", result.data.payload.data.token);
       router.push("/");
     } catch (error: any) {
       const status = error.response?.status;
@@ -58,7 +63,7 @@ export function LoginForm() {
       } else {
         toast({
           title: "Lỗi",
-          description: "Lỗi rồi",
+          description: "Đã có lỗi xảy ra!",
         });
       }
     } finally {
@@ -77,7 +82,7 @@ export function LoginForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-2 max-w-[300px] flex-shink-0 w-full"
+        className="space-y-2 max-w-[400px] flex-shink-0 w-full rounded-lg shadow-md p-6"
       >
         <FormField
           control={form.control}
@@ -116,6 +121,9 @@ export function LoginForm() {
         <Link href="/forgot-password" className="text-sm text-blue-700">
           Quên mật khẩu
         </Link>
+        <Button type="submit" className="w-full">
+          Đăng nhập
+        </Button>
         <div className="flex items-center justify-center">
           <div className="flex-grow h-px bg-gray-300"></div>
           <span className="mx-4 opacity-40">HOẶC</span>
@@ -139,9 +147,12 @@ export function LoginForm() {
             Google
           </Button>
         </div>
-        <Button type="submit" className="w-full !mt-10">
-          Đăng nhập
-        </Button>
+        <div className="flex justify-center">
+          <span>Bạn chưa có tài khoản?</span>
+          <Link href="/register" className="ms-1 text-yellow-500">
+            Đăng ký
+          </Link>
+        </div>
       </form>
     </Form>
   );

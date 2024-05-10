@@ -10,8 +10,11 @@ export default function HeaderTop() {
   const [showNavbar, setShowNavbar] = useState(true);
 
   useEffect(() => {
-    // Ví dụ: đường dẫn đến trang đăng nhập là '/login'
-    if (pathname === "/login" || pathname === "/register") {
+    if (
+      pathname === "/login" ||
+      pathname === "/register" ||
+      pathname === "/forgot-password"
+    ) {
       setShowNavbar(false);
     } else {
       setShowNavbar(true);
