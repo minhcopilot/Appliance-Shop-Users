@@ -12,6 +12,6 @@ export interface Error extends AxiosError {
 
 export const getSubject = async (subject: string, id?: string | null) => {
   const url = !id ? subject : subject + "/" + id;
-  const result = await axiosClient.get(url);
+  const result = await axiosClient.get(url, { withCredentials: true });
   return result.data;
 };

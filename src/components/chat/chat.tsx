@@ -1,4 +1,5 @@
 "use client";
+import "./chat.css";
 import { CommentOutlined } from "@ant-design/icons";
 import { Card, Flex, FloatButton } from "antd";
 import React from "react";
