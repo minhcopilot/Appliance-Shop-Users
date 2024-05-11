@@ -18,13 +18,6 @@ export const RegisterBody = z
       .string()
       .min(6, { message: "Mật khẩu tối phải có ít nhất 6 ký tự" })
       .max(100),
-    birthday: z.date().min(new Date("1900-01-01"), {
-      message: "Vui lòng nhập ngày sinh hợp lệ",
-    }),
-    address: z
-      .string()
-      .min(6, { message: "Mật khẩu tối phải có ít nhất 6 ký tự" })
-      .max(500),
   })
   .strict();
 
@@ -55,6 +48,25 @@ export const LoginBody = z
   .strict();
 
 export type LoginBodyType = z.TypeOf<typeof LoginBody>;
+
+export const ForgotPassBody = z
+  .object({
+    email: z.string().email({ message: "Email không đúng định dạng" }),
+  })
+  .strict();
+
+export type ForgotPassType = z.TypeOf<typeof ForgotPassBody>;
+
+export const ResetPassBody = z
+  .object({
+    password: z
+      .string()
+      .min(6, { message: "Mật khẩu tối phải có ít nhất 6 ký tự" })
+      .max(100),
+  })
+  .strict();
+
+export type ResetPassType = z.TypeOf<typeof ResetPassBody>;
 
 export const LoginRes = RegisterRes;
 
