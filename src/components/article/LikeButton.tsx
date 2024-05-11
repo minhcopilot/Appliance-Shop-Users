@@ -27,7 +27,6 @@ export default function LikeButton({ url }: Props) {
         position: "absolute",
         top: 10,
         right: 10,
-        zIndex: 100,
         fontSize: 30,
         color: "red",
       }}

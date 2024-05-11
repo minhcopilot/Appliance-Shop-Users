@@ -16,7 +16,7 @@ export default async function MeProfile() {
   return (
     <div>
       <h1>Profile</h1>
-      <div>xin chao {result.data.payload.data.customer[0].lastName}</div>
+      <div>xin chao {result.data[0].lastName}</div>
       <Profile />
     </div>
   );

@@ -1,0 +1,18 @@
+.orderDetails {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.editableCell {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.editableRow:hover .editableCell {
+    padding: 5px;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+}

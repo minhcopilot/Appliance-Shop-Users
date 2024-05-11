@@ -6,7 +6,7 @@ import React from "react";
 import StartChat from "./StartChat";
 import { useChat } from "@/hooks/chat/useSocket";
 import ChatContent from "./ChatContent";
-import ChatDisconnect from "../ChatDisconnect";
+import ChatDisconnect from "./ChatDisconnect";
 import SendForm from "./SendForm";
 
 type Props = {};
