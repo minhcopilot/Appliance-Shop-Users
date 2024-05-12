@@ -1,4 +1,8 @@
+"use client";
 import Cart from "@/components/cart/Cart";
+import CheckoutRedirectButton from "@/components/cart/CheckoutRedirectButton";
+import TotalPrice from "@/components/cart/TotalPrice";
+import { useOrder } from "@/hooks/useOrder";
 import { Flex } from "antd";
 import Sider from "antd/lib/layout/Sider";
 import { Content } from "antd/lib/layout/layout";
@@ -7,13 +11,21 @@ import React from "react";
 type Props = {};
 
 export default function CartPage({}: Props) {
+  const { orderItems } = useOrder((state) => state);
   return (
     <Flex style={{ backgroundColor: "inherit" }} wrap>
-      <Content className="mx-14 my-3">
+      <Content className="px-14 py-3">
         <Cart />
       </Content>
-      <Sider width={400} style={{ backgroundColor: "inherit" }}>
-        Thanh toán
+      <Sider
+        width={500}
+        className="px-14 py-3"
+        style={{ backgroundColor: "inherit" }}
+      >
+        <div className="flex flex-col gap-3">
+          <TotalPrice items={orderItems} />
+          <CheckoutRedirectButton />
+        </div>
       </Sider>
     </Flex>
   );

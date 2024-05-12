@@ -17,7 +17,7 @@ type Props = { comment: commentInterface };
 export default function Comment({ comment }: Props) {
   return (
     <Card hoverable>
-      <Flex justify="space-between" gap={20} wrap>
+      <Flex justify="space-between" gap={20} wrap className="divide-x">
         <Space direction="vertical" size={10} align="center">
           <Avatar icon={<UserOutlined />} />
           <Meta
@@ -27,14 +27,16 @@ export default function Comment({ comment }: Props) {
                 target="blank"
                 style={{ textAlign: "center" }}
               >
-                <Title level={4}>{comment.author}</Title>
+                <Title level={4} style={{ color: "hsl(var(--foreground))" }}>
+                  {comment.author}
+                </Title>
               </a>
             }
             description={dayjs(comment.createdAt).format("DD/MM/YYYY")}
             style={{ alignItems: "center" }}
           />
         </Space>
-        <div style={{ flexGrow: 2 }}>{comment.content}</div>
+        <div className="grow pl-4">{comment.content}</div>
       </Flex>
     </Card>
   );

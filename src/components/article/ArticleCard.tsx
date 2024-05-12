@@ -10,7 +10,9 @@ import Meta from "antd/lib/card/Meta";
 import Link from "next/link";
 import React from "react";
 import Paragraph from "antd/lib/typography/Paragraph";
+import Title from "antd/lib/typography/Title";
 import dayjs from "dayjs";
+import Image from "next/image";
 
 type Props = {
   post: postSchema;
@@ -59,25 +61,23 @@ export const ArticleCard = async ({ post }: Props) => {
   return (
     <>
       <Card
-        style={{ width: 300 }}
+        className="w-[300px]"
+        style={{ backgroundColor: "hsl(var(--card))" }}
         cover={
           <Link key="edit" href={"/blog/" + post.url}>
             {post.imageUrl ? (
-              <img
+              <Image
                 alt={post.title}
                 src={post.imageUrl.url}
-                style={{ height: 200 }}
+                width={300}
+                height={200}
+                style={{ height: 200, objectFit: "cover" }}
               />
             ) : (
               <div style={{ height: 200, backgroundColor: "#00000073" }}></div>
             )}
           </Link>
         }
-        actions={[
-          <Link key={"open" + post.id} href={"/post/" + post.url}>
-            Read more
-          </Link>,
-        ]}
         hoverable
       >
         <Space direction="vertical" size={20} style={{ width: "100%" }}>
@@ -91,11 +91,21 @@ export const ArticleCard = async ({ post }: Props) => {
               }
             />
             <Link key="edit" href={"/blog/" + post.url}>
-              <Meta title={post.title} />
+              <Meta
+                title={
+                  <Title
+                    style={{ color: "hsl(var(--card-foreground))" }}
+                    level={4}
+                  >
+                    {post.title}
+                  </Title>
+                }
+              />
             </Link>
             <Paragraph
               ellipsis={{ rows: 1, expandable: "collapsible" }}
-              style={{ minHeight: "2lh" }}
+              className="min-h-8"
+              style={{ color: "hsl(var(--card-foreground))" }}
             >
               {post.content}
             </Paragraph>
@@ -106,7 +116,7 @@ export const ArticleCard = async ({ post }: Props) => {
               avatar={<UserOutlined />}
               //   title={post.authorName}
               description={post.authorName}
-              style={{ alignItems: "center" }}
+              className="flex items-center gap-2"
             />
             <Space>
               {post.like + " "} <HeartOutlined />{" "}

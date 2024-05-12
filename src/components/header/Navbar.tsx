@@ -7,7 +7,7 @@ interface NavbarProps {
 
 export default function Navbar({ className }: NavbarProps) {
   return (
-    <div className={`hidden lg:block ${className}`}>
+    <div className={`hidden lg:block ${className || ""}`}>
       <div className="container">
         <div className="flex w-fit gap-10 mx-auto font-medium py-4 text-blackish">
           <Link className="navbar__link relative" href="/">
