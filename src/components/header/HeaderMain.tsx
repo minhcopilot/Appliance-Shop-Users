@@ -50,7 +50,7 @@ export default function HeaderMain() {
                 {user ? (
                   <>
                     <Link
-                      href="/me"
+                      href="/profile"
                       className="block bg-yellow-500 text-white rounded-md py-2 px-2 mb-1 text-sm text-center hover:bg-yellow-600"
                     >
                       Tài khoản

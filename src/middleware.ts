@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const privatePaths = ["/me"];
+const privatePaths = ["/profile"];
 const authPaths = ["/login", "/register"];
 //check user khi vào website
 export function middleware(request: NextRequest) {
@@ -11,14 +11,14 @@ export function middleware(request: NextRequest) {
   if (privatePaths.some((path) => pathname.startsWith(path)) && !sessionToken) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
-  //Nếu đăng nhập rồi thì sẽ redirect với trang /me
+  //Nếu đăng nhập rồi thì sẽ redirect với trang /profile
   if (authPaths.some((path) => pathname.startsWith(path)) && sessionToken) {
-    return NextResponse.redirect(new URL("/me", request.url));
+    return NextResponse.redirect(new URL("/profile", request.url));
   }
   //còn ko đúng điều kiện thì next()
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/me", "/login", "/register"],
+  matcher: ["/profile", "/login", "/register"],
 };
