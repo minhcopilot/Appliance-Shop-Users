@@ -1,5 +1,6 @@
 import React from "react";
 import { axiosClient } from "@/lib/axiosClient";
+import AddToCartButton from "@/components/cart/AddToCart";
 export const revalidate = false; // false | 0 | number (seconds)
 
 export async function generateStaticParams() {
@@ -52,9 +53,10 @@ export default async function Product({ params }: Props) {
             </span>
           </div>
           <div className="mt-4">
-            <button className="text-white bg-red-500 px-4 py-2 rounded-md">
-              Buy Now
-            </button>
+            <AddToCartButton
+              product={product}
+              className="text-white bg-red-500 px-4 py-2 rounded-md"
+            />
           </div>
         </div>
       </div>
