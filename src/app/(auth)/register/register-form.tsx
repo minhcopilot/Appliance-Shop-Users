@@ -27,8 +27,9 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import Link from "next/link";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 export function RegisterForm() {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { setSessionToken } = useAppContext();
   const { toast } = useToast();
   const { setUser } = useAppContext();
@@ -48,11 +49,12 @@ export function RegisterForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: RegisterBodyType) {
-    if (loading) return;
-    setLoading(true);
+    if (isLoading) return;
+    setIsLoading(true);
     try {
       const result = await axiosClient.post("/user/auth/register", values);
       if (result.data) {
+        router.push("/");
         localStorage.setItem(
           "user",
           JSON.stringify(result.data.payload.data.customer)
@@ -60,7 +62,6 @@ export function RegisterForm() {
         setUser(result.data.payload.data.customer);
         setSessionToken(result.data.payload.data.token);
         await axiosServerNext.post("/api/auth", result.data.payload.data.token);
-        router.push("/");
       }
     } catch (error: any) {
       const status = error.response.status;
@@ -75,7 +76,7 @@ export function RegisterForm() {
         });
       }
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }
 
@@ -179,8 +180,8 @@ export function RegisterForm() {
           />
         </div>
 
-        <Button type="submit" className="w-full mt-6">
-          Đăng ký
+        <Button type="submit" className="w-full mt-6" disabled={isLoading}>
+          {isLoading ? <LoadingSpinner /> : "Đăng ký"}
         </Button>
         <div className="flex items-center justify-center my-3">
           <div className="flex-grow h-px bg-gray-300"></div>

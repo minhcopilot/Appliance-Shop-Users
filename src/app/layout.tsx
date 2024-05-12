@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import AppProvider from "@/app/AppProvider";
 import { cookies } from "next/headers";
 import { Toaster } from "@/components/ui/toaster";
-import HeaderTop from "@/components/header/Header";
+import Header from "@/components/header/Header";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
@@ -44,7 +44,7 @@ export default function RootLayout({
               <ReactQueryProvider>
                 <AntdRegistry>
                   <Chat />
-                  <HeaderTop />
+                  <Header />
                   <div className="mt-44">{children}</div>
                   <Toaster />
                 </AntdRegistry>
