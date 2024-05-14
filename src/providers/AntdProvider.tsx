@@ -1,6 +1,8 @@
 import { ConfigProvider } from "antd";
 import React from "react";
 
+import viVN from "antd/lib/locale/vi_VN";
+
 type Props = {};
 
 export default function AntdProvider({
@@ -8,6 +10,7 @@ export default function AntdProvider({
 }: React.PropsWithChildren<Props>) {
   return (
     <ConfigProvider
+      locale={viVN}
       theme={{
         components: {
           Table: {

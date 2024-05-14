@@ -1,6 +1,5 @@
 "use client";
 import { useCart } from "@/hooks/useCart";
-import useStore from "@/hooks/useStore";
 import { Badge, Popover } from "antd";
 import React from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi";

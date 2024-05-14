@@ -1,5 +1,4 @@
 import { AxiosError, AxiosResponse } from "axios";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosClient } from "@/lib/axiosClient";
 
 interface ErrorResponse extends AxiosResponse {
@@ -12,6 +11,11 @@ export interface Error extends AxiosError {
 
 export const getSubject = async (subject: string, id?: string | null) => {
   const url = !id ? subject : subject + "/" + id;
-  const result = await axiosClient.get(url, { withCredentials: true });
-  return result.data;
+  try {
+    const result = await axiosClient.get(url, { withCredentials: true });
+    return result.data;
+  } catch (error: any) {
+    throw new Error(error.response.data.message);
+    return null;
+  }
 };
