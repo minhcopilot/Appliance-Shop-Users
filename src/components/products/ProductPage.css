@@ -1,0 +1,41 @@
+/* Custom CSS for pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .pagination li {
+    margin: 0 5px;
+  }
+  
+  .pagination li a {
+    display: block;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .pagination li a:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .pagination .active a {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  .pagination .pagination-previous a,
+  .pagination .pagination-next a {
+    font-weight: bold;
+  }
+  
+  .pagination .pagination-disabled a {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+  

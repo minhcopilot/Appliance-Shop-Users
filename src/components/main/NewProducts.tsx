@@ -2,7 +2,7 @@ import React from "react";
 
 import { Metadata } from "next";
 import ProductCard from "@/components/products/ProductCard";
-import { axiosClient } from "@/lib/axiosClient";
+import { axiosClient, axiosServerNext } from "@/lib/axiosClient";
 export const revalidate = false; // false | 0 | number (seconds)
 
 async function getProducts() {
