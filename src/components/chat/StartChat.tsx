@@ -1,7 +1,8 @@
 "use client";
 import { useChat, useSocket } from "@/hooks/chat/useSocket";
 import { SendOutlined } from "@ant-design/icons";
-import { Button, Form, Input, message } from "antd";
+import { Button, Form, Input, Space } from "antd";
+const { Compact } = Space;
 import React from "react";
 
 type Props = {};
@@ -9,6 +10,7 @@ type Props = {};
 export default function StartChat({}: Props) {
   const socket = useSocket();
   const setChatId = useChat((state) => state.setChatId);
+  const [form] = Form.useForm();
   const startChat = (data: any) => {
     socket.connect();
     socket.emit("client-message", {
@@ -29,18 +31,19 @@ export default function StartChat({}: Props) {
 
   return (
     <>
-      <Form onFinish={startChat}>
+      <Form form={form} onFinish={startChat}>
         <Form.Item
           name="name"
-          label="Name"
-          rules={[{ required: true, message: "Please input your name!" }]}
+          rules={[{ required: true, message: "Vui lòng điền tên của bạn!" }]}
         >
-          <Input />
-        </Form.Item>
-        <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-          <Button type="primary" htmlType="submit">
-            <SendOutlined /> Start Chat
-          </Button>
+          <Compact block>
+            <Input name="name" placeholder="Tên của bạn" />
+            <Button type="primary" onClick={form.submit}>
+              <div className="flex items-center gap-1">
+                <SendOutlined /> Bắt đầu chat
+              </div>
+            </Button>
+          </Compact>
         </Form.Item>
       </Form>
     </>

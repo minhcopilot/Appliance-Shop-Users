@@ -1,7 +1,6 @@
 "use client";
 import { useAppContext } from "@/app/AppProvider";
-import { useCart } from "@/hooks/useCart";
-import useStore from "@/hooks/useStore";
+import { CartItem, useCart } from "@/hooks/useCart";
 import {
   Button,
   Form,
@@ -15,6 +14,7 @@ import styles from "./Cart.module.css";
 import { DeleteOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
+import { useOrder } from "@/hooks/useOrder";
 
 interface getoption {
   id: number;
@@ -62,6 +62,7 @@ export default function Cart({
     removeItem,
     clearCart,
   } = useCart((state) => state);
+  const { orderItems, setOrderItems } = useOrder((state) => state);
 
   useEffect(() => {
     sessionToken && getItems(sessionToken);
@@ -105,6 +106,8 @@ export default function Cart({
         console.log("Save failed:", errInfo);
       }
     };
+    const stock = items.find((item) => item.productId === record?.productId)
+      ?.product.stock;
 
     let childNode = children;
 
@@ -117,6 +120,20 @@ export default function Cart({
               required: true,
               message: `${title} không được bỏ trống.`,
             },
+            {
+              type: "number",
+              message: "Số lượng phải là số.",
+            },
+            {
+              type: "number",
+              min: 0,
+              message: "Số lượng phải lớn hơn hoặc bằng 0.",
+            },
+            {
+              type: "number",
+              max: stock,
+              message: "Số lượng phải nhỏ hơn hoặc bằng số lượng trong kho.",
+            },
           ]}
         >
           <InputNumber
@@ -126,6 +143,7 @@ export default function Cart({
             onPressEnter={save}
             onBlur={save}
             min={0}
+            max={stock}
           />
         </Form.Item>
       ) : (
@@ -161,6 +179,7 @@ export default function Cart({
       title: "Hình ảnh",
       dataIndex: "product.coverImageUrl",
       key: "product.coverImageUrl",
+      responsive: ["md"],
       render: (_: any, record: any) => {
         let coverImageUrl = record.product.coverImageUrl;
         return (
@@ -199,7 +218,14 @@ export default function Cart({
       key: "product.price",
       align: "right",
       render: (_: any, record: any) => {
-        return <>{record.product.price}đ</>;
+        return (
+          <>
+            {record.product.price.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </>
+        );
       },
       responsive: ["lg"],
     },
@@ -220,9 +246,13 @@ export default function Cart({
       render: (_: any, record: any) => {
         return (
           <>
-            {((record.product.price * (100 - record.product.discount)) / 100) *
-              record.quantity}
-            đ
+            {(
+              ((record.product.price * (100 - record.product.discount)) / 100) *
+              record.quantity
+            ).toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
           </>
         );
       },
@@ -242,7 +272,6 @@ export default function Cart({
             description="Bạn có chắc chắn muốn xoá sản phẩm này?"
             onConfirm={() => {
               removeItem(record.productId, sessionToken);
-              setCart(sessionToken);
             }}
             okText="Đồng ý"
             cancelText="Không"
@@ -260,15 +289,24 @@ export default function Cart({
   }
 
   const handleSave = (row: order) => {
+    if (row.quantity <= 0) {
+      removeItem(row.productId, sessionToken);
+      setOrderItems(
+        orderItems.filter((item) => item.productId !== row.productId)
+      );
+      return;
+    }
     const newData = [...items];
     const index = newData.findIndex((item) => row.productId === item.productId);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
-    });
+    newData[index].quantity = row.quantity;
     setItems(newData, sessionToken);
-    row.quantity <= 0 && removeItem(row.productId, sessionToken);
+    setOrderItems(
+      orderItems.map((item) =>
+        item.productId === row.productId
+          ? { ...item, quantity: row.quantity }
+          : item
+      )
+    );
   };
 
   const columns = productColumn.map((col) => {
@@ -287,19 +325,32 @@ export default function Cart({
     };
   });
 
+  const onSelectChange = (
+    newSelectedRowKeys: React.Key[],
+    selectedRows: CartItem[]
+  ) => {
+    setOrderItems(selectedRows);
+  };
+
+  const rowSelection = {
+    fixed: true,
+    onChange: onSelectChange,
+  };
+
   return (
     <>
       <Table
         components={components}
         rowClassName={styles.editableRow}
         rowKey="productId"
-        columns={columns as ColumnTypes}
+        rowSelection={compact ? undefined : rowSelection}
+        columns={columns as any}
         dataSource={
           limit ? items.toSpliced(limit) : compact ? items.toSpliced(5) : items
         }
-        pagination={false}
         showHeader={!compact}
         style={{ overflow: "hidden" }}
+        pagination={!compact && { position: ["bottomCenter"] }}
       />
     </>
   );

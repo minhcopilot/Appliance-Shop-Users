@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 // the store itself does not need any change
-interface CartItem {
+export interface CartItem {
   productId: number;
   product?: any;
   quantity: number;

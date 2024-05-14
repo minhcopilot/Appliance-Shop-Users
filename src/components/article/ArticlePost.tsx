@@ -38,7 +38,9 @@ export default function ArticlePost({ post }: Props) {
               </>
             }
           />
-          <Title level={2}>{post.title}</Title>
+          <Title level={2} style={{ color: "hsl(var(--card-foreground))" }}>
+            {post.title}
+          </Title>
         </Space>
       </Space>
       {parse(post.content)}

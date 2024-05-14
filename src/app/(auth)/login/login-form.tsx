@@ -22,9 +22,10 @@ import { useAppContext } from "@/app/AppProvider";
 import { axiosClient, axiosServerNext } from "@/lib/axiosClient";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 export function LoginForm() {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
   const { setSessionToken, setUser } = useAppContext();
@@ -39,10 +40,11 @@ export function LoginForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: LoginBodyType) {
-    if (loading) return;
-    setLoading(true);
+    if (isLoading) return;
+    setIsLoading(true);
     try {
       const result = await axiosClient.post("/user/auth/login", values);
+      router.push("/");
       localStorage.setItem(
         "user",
         JSON.stringify(result.data.payload.data.customer)
@@ -50,7 +52,6 @@ export function LoginForm() {
       setUser(result.data.payload.data.customer);
       setSessionToken(result.data.payload.data.token);
       await axiosServerNext.post("/api/auth", result.data.payload.data.token);
-      router.push("/");
     } catch (error: any) {
       const status = error.response?.status;
       if (status == 401) {
@@ -67,7 +68,7 @@ export function LoginForm() {
         });
       }
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }
 
@@ -121,8 +122,8 @@ export function LoginForm() {
         <Link href="/forgot-password" className="text-sm text-blue-700">
           Quên mật khẩu
         </Link>
-        <Button type="submit" className="w-full">
-          Đăng nhập
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? <LoadingSpinner /> : "Đăng nhập"}
         </Button>
         <div className="flex items-center justify-center">
           <div className="flex-grow h-px bg-gray-300"></div>

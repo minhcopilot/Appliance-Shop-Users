@@ -8,6 +8,7 @@
     --foreground: 20 14.3% 4.1%;
     --card: 0 0% 100%;
     --card-foreground: 20 14.3% 4.1%;
+    --card-hover: 0 0% 95%;
     --popover: 0 0% 100%;
     --popover-foreground: 20 14.3% 4.1%;
     --primary: 47.9 95.8% 53.1%;
@@ -29,9 +30,10 @@
   .dark {
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;
-    --card: 20 14.3% 4.1%;
+    --card: 240 6% 10%;
     --card-foreground: 60 9.1% 97.8%;
-    --popover: 20 14.3% 4.1%;
+    --card-hover: 240 6% 15%;
+    --popover: 240 6% 10%;
     --popover-foreground: 60 9.1% 97.8%;
     --primary: 47.9 95.8% 53.1%;
     --primary-foreground: 26 83.3% 14.1%;
@@ -53,15 +55,18 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
+
 @layer components {
   .navbar__link:hover {
     color: #facc15;
     transition: all 0.4s;
   }
+
   .navbar__link::after {
     position: absolute;
     content: "";
@@ -75,7 +80,23 @@
     transition: all 0.4s;
     background-color: #facc15;
   }
+
   .navbar__link:hover::after {
     scale: 1;
   }
+}
+
+::-webkit-scrollbar {
+  height: 12px;
+  width: 10px;
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--accent));
+  -webkit-border-radius: 1ex;
+}
+
+::-webkit-scrollbar-corner {
+  background: hsl(var(--background));
 }

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import HeaderMain from "@/components/header/HeaderMain";
 import Navbar from "@/components/header/Navbar";
 
-export default function HeaderTop() {
+export default function Header() {
   const pathname = usePathname();
   const [showNavbar, setShowNavbar] = useState(true);
 
@@ -13,7 +13,12 @@ export default function HeaderTop() {
     if (
       pathname === "/login" ||
       pathname === "/register" ||
-      pathname === "/forgot-password"
+      pathname === "/forgot-password" ||
+      pathname === "/reset-password" ||
+      pathname === "/profile" ||
+      pathname === "/profile/password" ||
+      pathname === "/profile/order" ||
+      pathname === "/profile/voucher"
     ) {
       setShowNavbar(false);
     } else {
@@ -22,7 +27,7 @@ export default function HeaderTop() {
   }, [pathname]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-card">
       <div>
         <HeaderMain />
         {showNavbar && <Navbar />}

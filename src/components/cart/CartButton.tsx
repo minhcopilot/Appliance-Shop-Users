@@ -1,6 +1,5 @@
 "use client";
 import { useCart } from "@/hooks/useCart";
-import useStore from "@/hooks/useStore";
 import { Badge, Popover } from "antd";
 import React from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi";
@@ -16,10 +15,15 @@ export default function CartButton({}: Props) {
       placement="bottomRight"
       title="Giỏ hàng"
       content={<Cart limit={5} compact />}
+      className="block mb-[-10px]"
     >
       <Link href="/cart">
-        <Badge count={items.length} overflowCount={99}>
-          <HiOutlineShoppingBag className="text-2xl text-gray-700" />
+        <Badge
+          count={items.length}
+          overflowCount={99}
+          className="border-accent"
+        >
+          <HiOutlineShoppingBag className="text-[30px] text-accent-foreground" />
         </Badge>
       </Link>
     </Popover>

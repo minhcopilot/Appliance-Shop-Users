@@ -14,7 +14,7 @@ export default function HeaderMain() {
   const { user } = useAppContext();
 
   return (
-    <div className="border-b border-gray-200 py-6">
+    <div className="border-b border-border py-6">
       <div className="container sm:flex justify-between items-center">
         <Link
           href="/"
@@ -33,25 +33,25 @@ export default function HeaderMain() {
             className="absolute right-0 top-0 mr-3 mt-3 text-gray-400"
           />
         </div>
-        <div className="hidden items-center lg:flex gap-4 text-gray-500 text-[30px]">
+        <div className="hidden items-center lg:flex gap-4 text-accent-foreground text-[30px]">
           <div className="relative">
             <div className="group inline-block">
               {user ? (
                 <div className="flex">
                   <div className="text-[20px] cursor-pointer mr-2">{`${user.firstName} ${user.lastName}`}</div>
-                  <BiUser className="text-gray-500 text-[24px] cursor-pointer" />
+                  <BiUser className="text-[24px] cursor-pointer" />
                 </div>
               ) : (
                 <div className="flex">
                   <span className="text-[20px] mr-2">Tài khoản </span>
-                  <BiUser className="text-gray-500 text-[24px] cursor-pointer" />
+                  <BiUser className="text-[24px] cursor-pointer" />
                 </div>
               )}
               <div className="absolute top-full -right-4 mt-1 bg-white shadow-md rounded-md p-2 w-36 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {user ? (
                   <>
                     <Link
-                      href="/me"
+                      href="/profile"
                       className="block bg-yellow-500 text-white rounded-md py-2 px-2 mb-1 text-sm text-center hover:bg-yellow-600"
                     >
                       Tài khoản
