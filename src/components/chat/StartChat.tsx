@@ -1,8 +1,8 @@
 "use client";
 import { useChat, useSocket } from "@/hooks/chat/useSocket";
 import { SendOutlined } from "@ant-design/icons";
-import { Button, Form, Input, message } from "antd";
-import Compact from "antd/lib/space/Compact";
+import { Button, Form, Input, Space } from "antd";
+const { Compact } = Space;
 import React from "react";
 
 type Props = {};

@@ -11,9 +11,10 @@ type Props = {
   };
 };
 
-export default async function page({ params }: Props) {
+export default async function BlogPost({ params }: Props) {
   const { url } = params;
   const postContent = await getSubject("article/posts", url);
+  !postContent && (window.location.href = "/404");
   return (
     <Flex gap={30} vertical align="center">
       <ArticlePost post={postContent} />

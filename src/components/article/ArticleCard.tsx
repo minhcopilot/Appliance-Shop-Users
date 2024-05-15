@@ -80,8 +80,8 @@ export const ArticleCard = async ({ post }: Props) => {
         }
         hoverable
       >
-        <Space direction="vertical" size={20} style={{ width: "100%" }}>
-          <Space direction="vertical" size={10}>
+        <Flex vertical gap={20} className="w-full">
+          <Flex vertical gap={20} className="w-full">
             <Meta
               description={
                 <>
@@ -95,7 +95,7 @@ export const ArticleCard = async ({ post }: Props) => {
                 title={
                   <Title
                     style={{ color: "hsl(var(--card-foreground))" }}
-                    level={4}
+                    level={5}
                   >
                     {post.title}
                   </Title>
@@ -103,13 +103,17 @@ export const ArticleCard = async ({ post }: Props) => {
               />
             </Link>
             <Paragraph
-              ellipsis={{ rows: 1, expandable: "collapsible" }}
+              ellipsis={{
+                rows: 2,
+                expandable: "collapsible",
+                symbol: "thêm",
+              }}
               className="min-h-8"
               style={{ color: "hsl(var(--card-foreground))" }}
             >
               {post.content}
             </Paragraph>
-          </Space>
+          </Flex>
 
           <Flex justify="space-between">
             <Meta
@@ -124,7 +128,7 @@ export const ArticleCard = async ({ post }: Props) => {
               <CommentOutlined />
             </Space>
           </Flex>
-        </Space>
+        </Flex>
       </Card>
     </>
   );

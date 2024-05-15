@@ -53,7 +53,7 @@ export default function ChatContent({}: Props) {
   return (
     <div style={{ height: 450 }}>
       <Skeleton loading={chatContent.isLoading} active>
-        <Flex vertical className={styles.container} gap={10}>
+        <Flex vertical className={styles.container + " px-2"} gap={10}>
           <FloatButton
             icon={<ArrowDownOutlined />}
             onClick={scrollToLatest}

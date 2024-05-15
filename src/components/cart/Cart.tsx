@@ -350,6 +350,7 @@ export default function Cart({
         }
         showHeader={!compact}
         style={{ overflow: "hidden" }}
+        pagination={!compact && { position: ["bottomCenter"] }}
       />
     </>
   );

@@ -3,9 +3,8 @@ import Cart from "@/components/cart/Cart";
 import CheckoutRedirectButton from "@/components/cart/CheckoutRedirectButton";
 import TotalPrice from "@/components/cart/TotalPrice";
 import { useOrder } from "@/hooks/useOrder";
-import { Flex } from "antd";
-import Sider from "antd/lib/layout/Sider";
-import { Content } from "antd/lib/layout/layout";
+import { Flex, Layout } from "antd";
+const { Content, Sider } = Layout;
 import React from "react";
 
 type Props = {};

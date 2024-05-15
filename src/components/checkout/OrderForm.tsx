@@ -4,7 +4,6 @@ import dayjs from "dayjs";
 import React from "react";
 import utc from "dayjs/plugin/utc";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import TextArea from "antd/lib/input/TextArea";
 import useAdd from "@/hooks/useAdd";
 import { OrderItem, useOrder } from "@/hooks/useOrder";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -110,7 +109,14 @@ export default function OrderForm({}: Props) {
             // { required: true, message: "Shipping Address is required" },
           ]}
         >
-          <TextArea name="shippingAddress" autoSize></TextArea>
+          <Input.TextArea
+            name="shippingAddress"
+            autoSize
+            style={{
+              backgroundColor: "hsl(var(--background))",
+              borderColor: "hsl(var(--border))",
+            }}
+          ></Input.TextArea>
         </Form.Item>
         <Form.Item
           name="shippingCity"
@@ -151,7 +157,14 @@ export default function OrderForm({}: Props) {
             { max: 300, message: "Ghi chú không được quá dài" },
           ]}
         >
-          <TextArea name="description" autoSize></TextArea>
+          <Input.TextArea
+            name="description"
+            autoSize
+            style={{
+              backgroundColor: "hsl(var(--background))",
+              borderColor: "hsl(var(--border))",
+            }}
+          ></Input.TextArea>
         </Form.Item>
       </Form>
       <Form.Item wrapperCol={{ sm: { offset: 6 } }}>

@@ -1,16 +1,18 @@
+"use client";
 import { getSubject } from "@/hooks/blog/useGet";
-import { Card, Flex } from "antd";
+import { Card, Flex, List, Skeleton } from "antd";
 import React from "react";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
+import useGetComments from "@/hooks/blog/useGetComment";
 
 type Props = {
   url: string;
   enableComment: boolean;
 };
 
-export default async function CommentSection({ url, enableComment }: Props) {
-  const commentList = await getSubject("article/posts/" + url + "/comments");
+export default function CommentSection({ url, enableComment }: Props) {
+  const commentList = useGetComments(url);
   return (
     <Card style={{ margin: "0 50px", minWidth: "80%" }}>
       <Flex vertical gap={10}>
@@ -19,9 +21,20 @@ export default async function CommentSection({ url, enableComment }: Props) {
         ) : (
           <Card size="small">Bình luận bị đóng</Card>
         )}
-        {commentList.map((comment: any) => (
-          <Comment comment={comment} />
-        ))}
+        <List
+          pagination={
+            commentList.data?.length > 0
+              ? { simple: true, pageSize: 10 }
+              : false
+          }
+          dataSource={commentList.data}
+          loading={commentList.isLoading}
+          renderItem={(item: any) => (
+            <Skeleton loading={commentList.isLoading} active avatar>
+              <Comment comment={item} />
+            </Skeleton>
+          )}
+        />
       </Flex>
     </Card>
   );

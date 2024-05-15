@@ -1,6 +1,5 @@
-import { Badge, Button, Card, List, Modal } from "antd";
+import { Badge, Button, Card } from "antd";
 import React from "react";
-// import { Link, useNavigate } from "react-router-dom";
 // import ReplyTo from "./ReplyTo";
 
 type MessageProps = {
@@ -22,20 +21,9 @@ export default function Message({ message }: { message: MessageProps }) {
   return (
     <>
       {/* {message.replyTo && <ReplyTo id={message.replyTo} />} */}
-      <Badge.Ribbon
-        text={message.sender}
-        placement={placement}
-        style={{ margin: 10 }}
-      >
-        <Card
-          size="small"
-          actions={[
-            <Modal title="Edit History">
-              <List children={message.editHistory} />
-            </Modal>,
-          ]}
-        >
-          <div style={{ marginLeft: 80 }}>
+      <Badge.Ribbon text={message.sender} placement={placement}>
+        <Card size="small">
+          <div style={{ marginLeft: 70 }}>
             {message.type === "text" && message.content}
             {message.type === "image" && (
               <img src={message.content} alt="image" />

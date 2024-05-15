@@ -1,8 +1,8 @@
 "use client";
+import { useAppContext } from "@/app/AppProvider";
 import { axiosClient } from "@/lib/axiosClient";
-import { Button, Form, Input, message } from "antd";
-import FormItem from "antd/lib/form/FormItem";
-import TextArea from "antd/lib/input/TextArea";
+import { Button, Form, Input, Skeleton, message } from "antd";
+const { Item } = Form;
 import React from "react";
 
 type Props = {
@@ -10,6 +10,11 @@ type Props = {
 };
 
 export default function CommentForm({ url }: Props) {
+  const { sessionToken, user } = useAppContext();
+  const initialValues = {
+    author: user?.lastName + " " + user?.firstName,
+    email: user?.email,
+  };
   const onFinish = async (data: any) => {
     const result = await axiosClient.post(
       "article/posts/" + url + "/comments",
@@ -19,9 +24,10 @@ export default function CommentForm({ url }: Props) {
       ? message.success("Bình luận đã được gửi để chờ kiểm duyệt")
       : message.error(result.data.message);
   };
+  console.log(initialValues);
   return (
-    <Form onFinish={onFinish}>
-      <FormItem
+    <Form onFinish={onFinish} initialValues={user ? initialValues : undefined}>
+      <Item
         name="author"
         rules={[
           { required: true, message: "Tên là bắt buộc" },
@@ -29,9 +35,13 @@ export default function CommentForm({ url }: Props) {
         ]}
         style={{ width: "100%" }}
       >
-        <Input name="author" placeholder="Tên của bạn" />
-      </FormItem>
-      <FormItem
+        <Input
+          name="author"
+          placeholder="Tên của bạn"
+          disabled={Boolean(user)}
+        />
+      </Item>
+      <Item
         name="email"
         rules={[
           { required: true, message: "Email là bắt buộc" },
@@ -39,9 +49,13 @@ export default function CommentForm({ url }: Props) {
         ]}
         style={{ width: "100%" }}
       >
-        <Input name="email" placeholder="Email của bạn" />
-      </FormItem>
-      <FormItem
+        <Input
+          name="email"
+          placeholder="Email của bạn"
+          disabled={Boolean(user)}
+        />
+      </Item>
+      <Item
         name="content"
         rules={[
           { required: true, message: "Hãy điền bình luận của bạn!" },
@@ -49,8 +63,12 @@ export default function CommentForm({ url }: Props) {
         ]}
         style={{ width: "100%" }}
       >
-        <TextArea rows={3} name="content" placeholder="Bình luận của bạn" />
-      </FormItem>
+        <Input.TextArea
+          rows={3}
+          name="content"
+          placeholder="Bình luận của bạn"
+        />
+      </Item>
       <Button type="primary" htmlType="submit">
         Bình luận
       </Button>
