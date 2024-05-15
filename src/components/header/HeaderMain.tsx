@@ -38,12 +38,12 @@ export default function HeaderMain() {
             <div className="group inline-block">
               {user ? (
                 <div className="flex">
-                  <div className="text-[20px] cursor-pointer mr-2">{`${user.firstName} ${user.lastName}`}</div>
+                  <div className="text-[18px] cursor-pointer mr-2">{`${user.firstName} ${user.lastName}`}</div>
                   <BiUser className="text-[24px] cursor-pointer" />
                 </div>
               ) : (
                 <div className="flex">
-                  <span className="text-[20px] mr-2">Tài khoản </span>
+                  <span className="text-[18px] mr-2">Tài khoản </span>
                   <BiUser className="text-[24px] cursor-pointer" />
                 </div>
               )}
