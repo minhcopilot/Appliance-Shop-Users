@@ -24,7 +24,6 @@ export default function CommentForm({ url }: Props) {
       ? message.success("Bình luận đã được gửi để chờ kiểm duyệt")
       : message.error(result.data.message);
   };
-  console.log(initialValues);
   return (
     <Form onFinish={onFinish} initialValues={user ? initialValues : undefined}>
       <Item

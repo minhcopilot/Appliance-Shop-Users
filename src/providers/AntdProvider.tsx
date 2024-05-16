@@ -30,6 +30,9 @@ export default function AntdProvider({
             primaryShadow: "0 2px 0 hsl(var(--background))",
             dangerShadow: "0 2px 0 hsl(var(--background))",
           },
+          Menu: {
+            itemBg: "hsl(var(--card))",
+          },
         },
         token: {
           colorBgContainer: "hsl(var(--background))",

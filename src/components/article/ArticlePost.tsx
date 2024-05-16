@@ -25,7 +25,7 @@ export default function ArticlePost({ post }: Props) {
           <div style={{ height: 400, backgroundColor: "#00000073" }}></div>
         )
       }
-      style={{ margin: "0 50px", minWidth: "80%" }}
+      className="w-full"
     >
       <LikeButton url={post.url} />
       <Space direction="vertical" size={20}>

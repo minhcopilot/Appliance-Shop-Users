@@ -8,6 +8,7 @@ const nextConfig = {
       },
       // Thêm các mẫu khác nếu cần
     ],
+    formats: ["image/avif", "image/webp"],
   },
   reactStrictMode: false,
 };

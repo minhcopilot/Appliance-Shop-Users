@@ -1,9 +1,9 @@
 import ArticlePost from "@/components/article/ArticlePost";
+import Breadcumb from "@/components/article/Breadcumb";
 import CommentSection from "@/components/article/CommentSection";
 import PostAuthor from "@/components/article/PostAuthor";
 import { getSubject } from "@/hooks/blog/useGet";
 import { Flex } from "antd";
-import React from "react";
 
 type Props = {
   params: {
@@ -14,9 +14,9 @@ type Props = {
 export default async function BlogPost({ params }: Props) {
   const { url } = params;
   const postContent = await getSubject("article/posts", url);
-  !postContent && (window.location.href = "/404");
   return (
-    <Flex gap={30} vertical align="center">
+    <Flex gap={30} vertical align="center" className="mx-[10%] min-w-[80%]">
+      <Breadcumb postContent={postContent} />
       <ArticlePost post={postContent} />
       <PostAuthor
         authorName={postContent.authorName}

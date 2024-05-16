@@ -12,6 +12,7 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Chat } from "@/components/chat/chat";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import AntdProvider from "@/providers/AntdProvider";
+import Navbar from "@/components/header/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -44,7 +45,9 @@ export default function RootLayout({
               <ReactQueryProvider>
                 <AntdRegistry>
                   <Chat />
-                  <Header />
+                  <Header>
+                    <Navbar />
+                  </Header>
                   <div className="mt-44">{children}</div>
                   <Toaster />
                 </AntdRegistry>

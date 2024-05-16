@@ -1,4 +1,3 @@
-import { getSubject } from "@/hooks/blog/useGet";
 import {
   CalendarOutlined,
   CommentOutlined,
@@ -13,6 +12,7 @@ import Paragraph from "antd/lib/typography/Paragraph";
 import Title from "antd/lib/typography/Title";
 import dayjs from "dayjs";
 import Image from "next/image";
+import { cropArticleCard } from "@/lib/utils";
 
 type Props = {
   post: postSchema;
@@ -61,15 +61,15 @@ export const ArticleCard = async ({ post }: Props) => {
   return (
     <>
       <Card
-        className="w-[300px]"
+        className="w-[400px]"
         style={{ backgroundColor: "hsl(var(--card))" }}
         cover={
           <Link key="edit" href={"/blog/" + post.url}>
             {post.imageUrl ? (
               <Image
                 alt={post.title}
-                src={post.imageUrl.url}
-                width={300}
+                src={cropArticleCard(post.imageUrl.url)}
+                width={400}
                 height={200}
                 style={{ height: 200, objectFit: "cover" }}
               />

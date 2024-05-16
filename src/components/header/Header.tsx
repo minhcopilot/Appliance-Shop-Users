@@ -3,9 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import HeaderMain from "@/components/header/HeaderMain";
-import Navbar from "@/components/header/Navbar";
 
-export default function Header() {
+const Header: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const pathname = usePathname();
   const [showNavbar, setShowNavbar] = useState(true);
 
@@ -30,8 +29,10 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-card">
       <div>
         <HeaderMain />
-        {showNavbar && <Navbar />}
+        {showNavbar && children}
       </div>
     </header>
   );
-}
+};
+
+export default Header;

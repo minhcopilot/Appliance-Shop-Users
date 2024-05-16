@@ -32,7 +32,9 @@ export default function Comment({ comment }: Props) {
                 </Title>
               </a>
             }
-            description={dayjs(comment.createdAt).format("DD/MM/YYYY")}
+            description=<div className="text-center">
+              {dayjs(comment.createdAt).format("DD/MM/YYYY")}
+            </div>
             style={{ alignItems: "center" }}
           />
         </Space>

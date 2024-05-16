@@ -100,3 +100,8 @@
 ::-webkit-scrollbar-corner {
   background: hsl(var(--background));
 }
+
+.ant-menu-item::after,
+.ant-menu-submenu::after {
+  border: none !important;
+}

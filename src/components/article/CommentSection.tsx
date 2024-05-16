@@ -14,7 +14,7 @@ type Props = {
 export default function CommentSection({ url, enableComment }: Props) {
   const commentList = useGetComments(url);
   return (
-    <Card style={{ margin: "0 50px", minWidth: "80%" }}>
+    <Card className="w-full">
       <Flex vertical gap={10}>
         {enableComment ? (
           <CommentForm url={url} />
