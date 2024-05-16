@@ -12,6 +12,9 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Chat } from "@/components/chat/chat";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import AntdProvider from "@/providers/AntdProvider";
+import Footer from "@/components/footer/Footer";
+import NewsletterSignup from "@/components/ui/NewsletterSignup";
+import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -47,6 +50,9 @@ export default function RootLayout({
                   <Header />
                   <div className="mt-44">{children}</div>
                   <Toaster />
+                  <NewsletterSignup />
+                  <Footer />
+                  <ScrollToTopButton />
                 </AntdRegistry>
               </ReactQueryProvider>
             </AntdProvider>

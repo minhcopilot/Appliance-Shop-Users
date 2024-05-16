@@ -23,9 +23,11 @@ import { axiosClient, axiosServerNext } from "@/lib/axiosClient";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import SuccessModal from "@/components/ui/SuccessModal";
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
   const { setSessionToken, setUser } = useAppContext();
@@ -44,7 +46,6 @@ export function LoginForm() {
     setIsLoading(true);
     try {
       const result = await axiosClient.post("/user/auth/login", values);
-      router.push("/");
       localStorage.setItem(
         "user",
         JSON.stringify(result.data.payload.data.customer)
@@ -52,6 +53,10 @@ export function LoginForm() {
       setUser(result.data.payload.data.customer);
       setSessionToken(result.data.payload.data.token);
       await axiosServerNext.post("/api/auth", result.data.payload.data.token);
+      setShowSuccessModal(true);
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
     } catch (error: any) {
       const status = error.response?.status;
       if (status == 401) {
@@ -154,6 +159,12 @@ export function LoginForm() {
             Đăng ký
           </Link>
         </div>
+        <SuccessModal
+          isOpen={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
+          title="Đăng nhập thành công!"
+          content="Chào mừng bạn đến với cửa hàng của chúng tôi!"
+        />
       </form>
     </Form>
   );
