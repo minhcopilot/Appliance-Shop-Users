@@ -27,7 +27,7 @@ export default function Hero() {
   ];
   return (
     <div>
-      <div className="container pt-6 lg:pt-0">
+      <div className=" pt-6 lg:pt-0">
         <Slider {...settings}>
           {slideData.map((slide) => (
             <Slide key={slide.id} img={slide.img} />

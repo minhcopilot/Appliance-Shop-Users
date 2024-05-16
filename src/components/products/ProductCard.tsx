@@ -11,13 +11,15 @@ export default function ProductCard({ data }: Props) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden max-w-[400px] h-[380px] w-full">
       <div className="relative">
-        <Image
-          src={data?.imageUrls[0]?.url}
-          alt={data.name}
-          width={400}
-          height={300}
-          className="w-full h-64 object-cover"
-        />
+        <Link href={`/products/${data.id}`}>
+          <Image
+            src={data?.imageUrls[0]?.url}
+            alt={data.name}
+            width={400}
+            height={300}
+            className="w-full h-64 object-cover"
+          />
+        </Link>
         <AddToCart
           compact
           className="absolute bottom-2 right-2 bg-yellow-500 text-white font-bold p-3 rounded-full flex items-center justify-center hover:bg-yellow-600 transition-colors duration-300"
@@ -31,7 +33,9 @@ export default function ProductCard({ data }: Props) {
           </h3>
           <div className="flex items-center justify-between">
             <p className="text-gray-600 font-medium">{data.price}đ</p>
-            <del className="text-gray-400">{parseInt(data?.price) + 50}đ</del>
+            <del className="text-gray-400">
+              {parseInt(data?.price) + 50000}đ
+            </del>
           </div>
         </div>
       </Link>

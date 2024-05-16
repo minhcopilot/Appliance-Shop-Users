@@ -28,12 +28,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import Link from "next/link";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import SuccessModal from "@/components/ui/SuccessModal";
 export function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
   const { setSessionToken } = useAppContext();
   const { toast } = useToast();
   const { setUser } = useAppContext();
   const router = useRouter();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // 1. Define your form.
   const form = useForm<RegisterBodyType>({
@@ -54,7 +56,6 @@ export function RegisterForm() {
     try {
       const result = await axiosClient.post("/user/auth/register", values);
       if (result.data) {
-        router.push("/");
         localStorage.setItem(
           "user",
           JSON.stringify(result.data.payload.data.customer)
@@ -62,6 +63,10 @@ export function RegisterForm() {
         setUser(result.data.payload.data.customer);
         setSessionToken(result.data.payload.data.token);
         await axiosServerNext.post("/api/auth", result.data.payload.data.token);
+        setShowSuccessModal(true);
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
       }
     } catch (error: any) {
       const status = error.response.status;
@@ -212,6 +217,12 @@ export function RegisterForm() {
             Đăng nhập
           </Link>
         </div>
+        <SuccessModal
+          isOpen={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
+          title="Đăng ký thành công!"
+          content="Chào mừng bạn đến với cửa hàng của chúng tôi!"
+        />
       </form>
     </Form>
   );
