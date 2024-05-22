@@ -4,7 +4,7 @@ import {
   HeartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Card, Flex, Space } from "antd";
+import { Card, Flex, Space, Tooltip } from "antd";
 import Meta from "antd/lib/card/Meta";
 import Link from "next/link";
 import React from "react";
@@ -93,12 +93,14 @@ export const ArticleCard = async ({ post }: Props) => {
             <Link key="edit" href={"/blog/" + post.url}>
               <Meta
                 title={
-                  <Title
-                    style={{ color: "hsl(var(--card-foreground))" }}
-                    level={5}
-                  >
-                    {post.title}
-                  </Title>
+                  <Tooltip title={post.title}>
+                    <Title
+                      style={{ color: "hsl(var(--card-foreground))" }}
+                      level={5}
+                    >
+                      {post.title}
+                    </Title>
+                  </Tooltip>
                 }
               />
             </Link>

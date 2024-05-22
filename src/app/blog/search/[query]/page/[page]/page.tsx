@@ -6,13 +6,14 @@ import React from "react";
 
 type Props = {
   params: {
+    query: string;
     page: number;
   };
 };
 
-export default async function BlogPage({ params: { page } }: Props) {
+export default async function BlogPage({ params: { page, query } }: Props) {
   const postList = await getSubject(
-    `article/posts/?type=post&page=${page}&limit=10&sort=-updatedAt`
+    `?type=post&page=${page}&limit=10&sort=-updatedAt&search=${query}`
   );
   return (
     <Content style={{ margin: "0 50px" }}>

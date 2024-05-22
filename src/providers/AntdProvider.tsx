@@ -13,6 +13,12 @@ export default function AntdProvider({
       locale={viVN}
       theme={{
         components: {
+          Layout: {
+            bodyBg: "hsl(var(--background))",
+            siderBg: "hsl(var(--background))",
+            triggerBg: "hsl(var(--card))",
+            triggerColor: "hsl(var(--foreground))",
+          },
           Table: {
             headerBg: "hsl(var(--card))",
             borderColor: "hsl(var(--border))",

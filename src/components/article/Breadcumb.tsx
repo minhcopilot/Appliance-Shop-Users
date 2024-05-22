@@ -20,5 +20,11 @@ const getBreadcumb = async (breadcumb: any[], id?: string) => {
 
 export default async function Breadcumb({ postContent }: Props) {
   const breadcumb = await getBreadcumb([], postContent.postCategoryId);
-  return <Breadcrumb className="self-start" items={breadcumb} />;
+  return (
+    <Breadcrumb
+      className="self-start"
+      style={{ marginBottom: 20 }}
+      items={breadcumb}
+    />
+  );
 }

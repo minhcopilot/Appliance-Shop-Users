@@ -12,7 +12,10 @@ type Props = {
 export default function PostAuthor({ authorName, authorId }: Props) {
   return (
     <Link href={`/blog/author/${authorId}`}>
-      <Card style={{ margin: "0 50px" }} hoverable>
+      <Card
+        style={{ margin: "0 50px", maxWidth: 350, textAlign: "center" }}
+        hoverable
+      >
         <Meta
           avatar={<Avatar size={64} icon={<UserOutlined />} />}
           title={authorName}

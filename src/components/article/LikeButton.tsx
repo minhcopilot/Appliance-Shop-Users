@@ -11,13 +11,13 @@ type Props = {
 export default function LikeButton({ url }: Props) {
   const [like, setLike] = useLike(url)((state) => [state.like, state.setLike]);
 
-  React.useEffect(() => {
-    console.log(like);
-  }, [like]);
   return (
     <motion.div
-      whileTap={{ scale: 0.9 }}
-      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9, filter: "drop-shadow(0 1px 1px gray)" }}
+      whileHover={{
+        scale: 1.1,
+        filter: "drop-shadow(0 3px 2px gray)",
+      }}
       transition={{ duration: 0.2 }}
       onClick={() => {
         setLike();
@@ -29,6 +29,7 @@ export default function LikeButton({ url }: Props) {
         right: 10,
         fontSize: 30,
         color: "red",
+        filter: "drop-shadow(0 2px 1px gray)",
       }}
     >
       {like ? <HeartFilled color="red" /> : <HeartOutlined color="red" />}
