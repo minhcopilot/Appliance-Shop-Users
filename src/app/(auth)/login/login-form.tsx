@@ -50,6 +50,10 @@ export function LoginForm() {
         "user",
         JSON.stringify(result.data.payload.data.customer)
       );
+      localStorage.setItem(
+        "SessionToken",
+        JSON.stringify(result.data.payload.data.token)
+      );
       setUser(result.data.payload.data.customer);
       setSessionToken(result.data.payload.data.token);
       await axiosServerNext.post("/api/auth", result.data.payload.data.token);
@@ -155,7 +159,7 @@ export function LoginForm() {
         </div>
         <div className="flex justify-center">
           <span>Bạn chưa có tài khoản?</span>
-          <Link href="/register" className="ms-1 text-yellow-500">
+          <Link href="/register" className="text-yellow-500 ms-1">
             Đăng ký
           </Link>
         </div>

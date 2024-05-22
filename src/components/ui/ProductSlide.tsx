@@ -6,41 +6,37 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { axiosClient } from "@/lib/axiosClient";
 
-async function getProducts() {
-  const response = await axiosClient.get("/products");
-  const data = response.data;
-  return data;
-}
 interface ProductSlidesProps {
   title: string;
-  description: string;
+  description?: string;
+  products: any[]; // Thêm prop products
 }
-const ProductSlides: React.FC<ProductSlidesProps> = async ({
+
+const ProductSlides: React.FC<ProductSlidesProps> = ({
   title,
   description,
+  products,
 }) => {
-  const products: any = await getProducts();
-  const chunkSize = 4; // Số lượng sản phẩm trong mỗi nhóm
+  const chunkSize = 4;
   const productChunks = [];
-
-  for (let i = 0; i < products.length; i += chunkSize) {
+  const topFourProducts = products.slice(0, 12);
+  for (let i = 0; i < topFourProducts.length; i += chunkSize) {
     const chunk = products.slice(i, i + chunkSize);
     productChunks.push(chunk);
   }
 
   return (
-    <div className=" mt-16">
-      <div className="bg-yellow-300  py-4 text-center">
+    <div className="mt-16 ">
+      <div className="py-4 text-center bg-yellow-300">
         <h2 className="text-xl font-bold uppercase">{title}</h2>
         <p className="">{description}</p>
       </div>
-      <Carousel className="mx-auto w-full mt-7">
+      <Carousel className="w-full mx-auto mt-7">
         <CarouselContent>
           {productChunks.map((chunk: any[], index: number) => (
             <CarouselItem key={index}>
-              <div className="flex justify-around space-x-4 py-5">
+              <div className="flex justify-around py-5 space-x-4">
                 {chunk.map((product: any) => (
                   <ProductCard key={product.id} data={product} />
                 ))}
@@ -48,7 +44,7 @@ const ProductSlides: React.FC<ProductSlidesProps> = async ({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="absolute -left-8 top-1/2 -translate-y-1/2">
+        <CarouselPrevious className="absolute -translate-y-1/2 -left-8 top-1/2">
           <span className="sr-only">Previous</span>
           <svg
             className="w-6 h-6 text-gray-600"
@@ -62,7 +58,7 @@ const ProductSlides: React.FC<ProductSlidesProps> = async ({
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </CarouselPrevious>
-        <CarouselNext className="absolute -right-8 top-1/2 -translate-y-1/2">
+        <CarouselNext className="absolute -translate-y-1/2 -right-8 top-1/2">
           <span className="sr-only">Next</span>
           <svg
             className="w-6 h-6 text-gray-600"

@@ -6,7 +6,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "res.cloudinary.com",
       },
-      // Thêm các mẫu khác nếu cần
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
     ],
     formats: ["image/avif", "image/webp"],
   },

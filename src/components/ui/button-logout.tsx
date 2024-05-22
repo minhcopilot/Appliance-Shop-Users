@@ -13,9 +13,10 @@ export default function ButtonLogout() {
 
   const handleLogout = async () => {
     try {
-      await axiosServerNext.post("/api/auth/logout");
+      // await axiosServerNext.post("/api/auth/logout");
       setUser(null);
       localStorage.removeItem("user");
+      localStorage.removeItem("SessionToken");
       router.push("/");
     } catch (error: any) {
       //handle error logout
@@ -27,7 +28,7 @@ export default function ButtonLogout() {
   };
   return (
     <Button
-      className="block w-full bg-gray-200 text-gray-700 rounded-md h-9 px-2 text-sm text-center hover:bg-gray-300"
+      className="block w-full px-2 text-sm text-center text-gray-700 bg-gray-200 rounded-md h-9 hover:bg-gray-300"
       onClick={handleLogout}
     >
       Đăng xuất

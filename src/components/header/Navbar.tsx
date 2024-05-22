@@ -18,7 +18,7 @@ const getCategoryMenu = async () => {
         label: (
           <Link
             href={`/blog/category/${category.url}`}
-            className="navbar__link relative text-foreground"
+            className="relative navbar__link text-foreground"
           >
             {category.title}
           </Link>
@@ -54,7 +54,7 @@ export default async function Navbar({ className }: NavbarProps) {
     {
       key: "/",
       label: (
-        <Link href="/" className="navbar__link relative">
+        <Link href="/" className="relative navbar__link text-foreground">
           TRANG CHỦ
         </Link>
       ),
@@ -62,7 +62,10 @@ export default async function Navbar({ className }: NavbarProps) {
     {
       key: "/products",
       label: (
-        <Link href="/products" className="navbar__link relative">
+        <Link
+          href="/products"
+          className="relative navbar__link text-foreground"
+        >
           SẢN PHẨM
         </Link>
       ),
@@ -70,7 +73,7 @@ export default async function Navbar({ className }: NavbarProps) {
     {
       key: "/blog",
       label: (
-        <Link href="/blog" className="navbar__link relative text-foreground">
+        <Link href="/blog" className="relative navbar__link text-foreground">
           BLOG
         </Link>
       ),
@@ -79,7 +82,7 @@ export default async function Navbar({ className }: NavbarProps) {
     {
       key: "/contact",
       label: (
-        <Link href="/contact" className="navbar__link relative">
+        <Link href="/contact" className="relative navbar__link text-foreground">
           LIÊN HỆ
         </Link>
       ),
@@ -87,7 +90,10 @@ export default async function Navbar({ className }: NavbarProps) {
     {
       key: "/check-order",
       label: (
-        <Link href="/check-order" className="navbar__link relative">
+        <Link
+          href="/check-order"
+          className="relative navbar__link text-foreground"
+        >
           KIỂM TRA ĐƠN HÀNG
         </Link>
       ),
@@ -99,7 +105,7 @@ export default async function Navbar({ className }: NavbarProps) {
       <div className="container flex justify-center">
         <Menu
           selectable={false}
-          className="flex w-fit mx-auto font-bold py-4 text-blackish"
+          className="flex py-4 mx-auto font-bold w-fit text-blackish"
           style={{
             minWidth: 0,
             flex: "auto",

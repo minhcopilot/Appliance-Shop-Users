@@ -63,8 +63,8 @@
 
 @layer components {
   .navbar__link:hover {
-    color: #facc15;
-    transition: all 0.4s;
+    color: #facc15 !important;
+    transition: all 0.4s !important;
   }
 
   .navbar__link::after {
