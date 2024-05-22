@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { BiUser } from "react-icons/bi";
 import { ModeToggle } from "@/components/ModeToggle";
@@ -8,9 +8,19 @@ import { useAppContext } from "@/app/AppProvider";
 import ButtonLogout from "@/components/ui/button-logout";
 import CartButton from "../cart/CartButton";
 
+import { useRouter } from "next/navigation";
 export default function HeaderMain() {
   const { user } = useAppContext();
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
+  const handleKeyDown = (e: any) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+  const handleSearch = async () => {
+    router.push(`/search?q=${searchTerm}`);
+  };
   return (
     <div className="py-6 border-b border-border">
       <div className="container items-center justify-between sm:flex">
@@ -25,11 +35,17 @@ export default function HeaderMain() {
             placeholder="Nhập tên sản phẩm"
             type="text"
             className="w-full p-2 px-4 border border-gray-200 rounded-lg"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
-          <BsSearch
-            size={20}
-            className="absolute top-0 right-0 mt-3 mr-3 text-gray-400"
-          />
+          <button
+            type="button"
+            className="absolute top-0 right-0 p-3 text-yellow-400 rounded-e-lg hover:bg-yellow-300 hover:text-white"
+            onClick={handleSearch}
+          >
+            <BsSearch size={17} />
+          </button>
         </div>
         <div className="hidden items-center lg:flex gap-4 text-accent-foreground text-[30px]">
           <div className="relative">

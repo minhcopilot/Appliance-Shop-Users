@@ -1,15 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { FaCartPlus } from "react-icons/fa";
 import AddToCart from "../cart/AddToCart";
+
 type Props = {
   data: any;
 };
 
 export default function ProductCard({ data }: Props) {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden max-w-[400px] h-[380px] w-full">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden max-w-[400px] h-[380px] w-full relative">
       <div className="relative">
         <Link href={`/products/${data.id}`}>
           <Image
@@ -17,14 +17,19 @@ export default function ProductCard({ data }: Props) {
             alt={data.name}
             width={400}
             height={300}
-            className="w-full h-64 object-cover"
+            className="object-cover w-full h-64 transition-transform duration-300 cursor-pointer hover:scale-105"
           />
         </Link>
         <AddToCart
           compact
-          className="absolute bottom-2 right-2 bg-yellow-500 text-white font-bold p-3 rounded-full flex items-center justify-center hover:bg-yellow-600 transition-colors duration-300"
+          className="absolute flex items-center justify-center p-3 font-bold text-white transition-colors duration-300 bg-yellow-500 rounded-full bottom-2 right-2 hover:bg-yellow-600"
           product={data}
         />
+        {data.discount > 0 && (
+          <span className="absolute top-0 right-0 px-2 py-1 text-white bg-red-500 rounded-md">
+            {data.discount}%
+          </span>
+        )}
       </div>
       <Link href={`/products/${data.id}`}>
         <div className="p-4 ">
@@ -32,9 +37,9 @@ export default function ProductCard({ data }: Props) {
             {data.name}
           </h3>
           <div className="flex items-center justify-between">
-            <p className="text-gray-600 font-medium">{data.price}đ</p>
+            <p className="font-medium text-gray-600">{data.price}đ</p>
             <del className="text-gray-400">
-              {parseInt(data?.price) + 50000}đ
+              {Math.round((data.price * (100 + data.discount)) / 100)}đ
             </del>
           </div>
         </div>
