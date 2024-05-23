@@ -13,7 +13,7 @@ export default function ButtonLogout() {
 
   const handleLogout = async () => {
     try {
-      // await axiosServerNext.post("/api/auth/logout");
+      await axiosServerNext.post("/api/auth/logout");
       setUser(null);
       localStorage.removeItem("user");
       localStorage.removeItem("SessionToken");

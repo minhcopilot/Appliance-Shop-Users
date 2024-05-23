@@ -58,13 +58,13 @@ export default function BirthDateInputs({
   const daysInMonth = (month: any, year: any) =>
     new Date(year, month, 0).getDate();
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-16">
       <div className="border ">
         <select
           id="day"
           value={selectedDay}
           onChange={handleDayChange}
-          className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          className="block w-full py-2 pl-3 pr-10 mt-1 text-base border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         >
           {generateOptions(1, daysInMonth(selectedMonth, selectedYear))}
         </select>
@@ -74,7 +74,7 @@ export default function BirthDateInputs({
           id="month"
           value={selectedMonth}
           onChange={handleMonthChange}
-          className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          className="block w-full py-2 pl-3 pr-10 mt-1 text-base border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         >
           {generateOptions(1, 12)}
         </select>
@@ -84,7 +84,7 @@ export default function BirthDateInputs({
           id="year"
           value={selectedYear}
           onChange={handleYearChange}
-          className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          className="block w-full py-2 pl-3 pr-10 mt-1 text-base border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         >
           {generateOptions(1900, 2024)}
         </select>

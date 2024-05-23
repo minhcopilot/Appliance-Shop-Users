@@ -1,3 +1,5 @@
+import CustomerOrders from "@/components/profile/CustomerOrders";
+import VoucherList from "@/components/profile/CustomerVoucher";
 import PasswordInput from "@/components/profile/PasswordInput";
 
 interface ContentProps {
@@ -13,9 +15,17 @@ export default function ContentMe({ section }: ContentProps) {
         </div>
       );
     case "order":
-      return <div>Order</div>;
+      return (
+        <div>
+          <CustomerOrders />
+        </div>
+      );
     case "voucher":
-      return <div>voucher</div>;
+      return (
+        <div>
+          <VoucherList />
+        </div>
+      );
     default:
       return <div>Nội dung mặc định</div>;
   }
