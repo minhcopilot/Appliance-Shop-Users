@@ -11,7 +11,11 @@ export default async function SectionAsvelRetainsHeat() {
   const products: any = await getProductsByCate();
   return (
     <div>
-      <ProductSlides title="Nhóm Asvel giữ nhiệt" products={products} />
+      <ProductSlides
+        title="Nhóm Asvel giữ nhiệt"
+        description="Giải pháp giữ nhiệt thông minh, an toàn cho mâm cơm gia đình."
+        products={products}
+      />
     </div>
   );
 }

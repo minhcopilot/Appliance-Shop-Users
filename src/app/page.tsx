@@ -43,9 +43,12 @@ export default async function Home() {
       <SectionMotherBaby />
       <SectionAsvelRetainsHeat />
       <div>
-        <h1 className="p-4 my-8 text-xl font-bold text-center uppercase bg-yellow-300">
-          Tin tức khuyến mãi
-        </h1>
+        <div className="p-4 my-8 text-center bg-yellow-300">
+          <h1 className="text-xl font-bold uppercase ">Tin tức khuyến mãi</h1>
+          <p className="">
+            Cập nhật các chương trình khuyến mãi, ưu đãi hấp dẫn cho khách hàng.
+          </p>
+        </div>
         <ArticleList postList={postList} />
       </div>
       <div className="py-8 ">

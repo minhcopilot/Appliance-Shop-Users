@@ -22,7 +22,7 @@ export default function ProductCard({ data }: Props) {
         </Link>
         <AddToCart
           compact
-          className="absolute flex items-center justify-center p-3 font-bold text-white transition-colors duration-300 bg-yellow-500 rounded-full bottom-2 right-2 hover:bg-yellow-600"
+          className="absolute flex items-center justify-center p-3 font-bold text-white transition-colors duration-300 bg-yellow-500 rounded-full bottom-2 right-2 hover:bg-yellow-600 "
           product={data}
         />
         {data.discount > 0 && (

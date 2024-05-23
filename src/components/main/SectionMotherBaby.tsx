@@ -11,7 +11,11 @@ export default async function SectionMotherBaby() {
   const products: any = await getProductsByCate();
   return (
     <div>
-      <ProductSlides title="Nhóm Mẹ & Bé" products={products} />
+      <ProductSlides
+        title="Nhóm Mẹ & Bé"
+        description="Đồng hành cùng mẹ bầu và bé yêu với đầy đủ thiết bị, đồ dùng chất lượng cao."
+        products={products}
+      />
     </div>
   );
 }
