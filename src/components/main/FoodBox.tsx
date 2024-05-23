@@ -9,7 +9,7 @@ interface FoodBoxProps {
 const FoodBox: React.FC<FoodBoxProps> = ({ imageUrl, title }) => {
   return (
     <div className="flex flex-col p-4 space-x-4 bg-white rounded-lg shadow-md">
-      <Link href={"/"}>
+      <Link href={"/products"}>
         <Image
           src={imageUrl}
           alt={title}

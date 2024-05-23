@@ -11,7 +11,7 @@ import ReviewInterface from "@/components/main/ReviewInterface";
 export default async function Home() {
   const reviewData = [
     {
-      name: "Lennie Swiffan",
+      name: "Phan Lê Văn Minh",
       rating: 5,
       comment:
         "Sản phẩm chất lượng tốt, giá cả phải chăng, giao hàng nhanh và thân thiện. Tôi rất khuyên dùng.",
@@ -19,14 +19,14 @@ export default async function Home() {
         "https://lh3.googleusercontent.com/a/ACg8ocKiW4dCZfKzZQo7V2mv_yjy6tUHW-zvvnnTBbU2QmZV7_38vdY=s96-c",
     },
     {
-      name: "Jane Doe",
+      name: "Lê Minh Vương",
       rating: 4,
       comment: "Website dễ dàng điều hướng và dịch vụ khách hàng nhanh chóng.",
       avatar:
         "https://lh3.googleusercontent.com/a/ACg8ocJYdazcqPBtNxFA6qhe_SMNUhYtwCsb7AP4jDMdfB0f1ZmXc6lO=s96-c",
     },
     {
-      name: "John Smith",
+      name: "Lê Phước Đức",
       rating: 3,
       comment: "Lựa chọn sản phẩm tốt, nhưng một số mặt hàng đã hết hàng.",
       avatar:
