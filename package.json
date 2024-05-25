@@ -23,6 +23,7 @@
     "@shadcn/ui": "^0.0.4",
     "antd": "^5.17.0",
     "axios": "^1.6.8",
+    "bootstrap": "^5.3.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
