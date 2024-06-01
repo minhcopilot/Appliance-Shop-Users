@@ -13,12 +13,15 @@ export default function CartPage({}: Props) {
   const { orderItems } = useOrder((state) => state);
   return (
     <Flex style={{ backgroundColor: "inherit" }} wrap>
-      <Content className="px-14 py-3">
+      <Content className="py-3 px-14">
+        <h1 className="text-2xl font-bold text-center uppercase">
+          Giỏ hàng của bạn
+        </h1>
         <Cart />
       </Content>
       <Sider
         width={500}
-        className="px-14 py-3"
+        className="py-3 px-14"
         style={{ backgroundColor: "inherit" }}
       >
         <div className="flex flex-col gap-3">

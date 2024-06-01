@@ -21,6 +21,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
+import { axiosClient } from "@/lib/axiosClient";
+import { Input } from "@/components/ui/input";
 
 interface OrderDetail {
   productId: number;
@@ -50,6 +52,9 @@ interface Order {
   shippingCity: string;
   paymentType: string;
   orderDetails: OrderDetail[];
+  voucherId?: number;
+  voucherCode?: string;
+  discountPercentage?: number;
 }
 
 interface OrderListProps {
@@ -58,6 +63,8 @@ interface OrderListProps {
 
 const OrderList: React.FC<OrderListProps> = ({ orders }) => {
   const [showSheet, setShowSheet] = useState<number | null>(null);
+  const [orderData, setOrderData] = useState<Order[]>(orders);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const sheetRef: any = useRef(null);
 
   const handleShowSheet = (orderId: number) => {
@@ -67,6 +74,33 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
   const handleCloseSheet = () => {
     setShowSheet(null);
   };
+
+  useEffect(() => {
+    const fetchVoucherCodes = async () => {
+      try {
+        const updatedOrders = await Promise.all(
+          orders.map(async (order) => {
+            if (order.voucherId) {
+              const response = await axiosClient.get(
+                `/vouchers/${order.voucherId}`
+              );
+              return {
+                ...order,
+                voucherCode: response.data.voucherCode,
+                discountPercentage: response.data.discountPercentage,
+              };
+            }
+            return order;
+          })
+        );
+        setOrderData(updatedOrders);
+      } catch (error) {
+        console.error("Error fetching voucher codes:", error);
+      }
+    };
+
+    fetchVoucherCodes();
+  }, [orders]);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -82,12 +116,62 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
     };
   }, [sheetRef]);
 
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      if (searchQuery.trim() === "") {
+        setOrderData(orders);
+        return;
+      }
+
+      try {
+        const response = await axiosClient.get(`/orders/search`, {
+          params: { keyword: searchQuery },
+        });
+        setOrderData(response.data);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    };
+
+    fetchSearchResults();
+  }, [searchQuery, orders]);
+
+  const calculateTotalOrderValue = (order: Order) => {
+    const orderTotal = order.orderDetails.reduce((total, detail) => {
+      const productPrice = parseFloat(detail.price);
+      const productDiscount = detail.discount;
+      const discountedPrice =
+        productPrice - (productPrice * productDiscount) / 100;
+      const productTotal = discountedPrice * detail.quantity;
+      return total + productTotal;
+    }, 0);
+
+    const discount = order.discountPercentage || 0;
+    return orderTotal - (orderTotal * discount) / 100;
+  };
+
+  const totalPrice = (orderDetail: OrderDetail) => {
+    const productPrice = parseFloat(orderDetail.price);
+    const productDiscount = orderDetail.discount;
+    const discountedPrice =
+      productPrice - (productPrice * productDiscount) / 100;
+    const productTotal = discountedPrice * orderDetail.quantity;
+    return productTotal;
+  };
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Danh sách đơn hàng</CardTitle>
       </CardHeader>
       <CardContent>
+        <Input
+          type="text"
+          placeholder="Nhập id đơn hàng hoặc tên sản phẩm"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="mb-4"
+        />
         <Table>
           <TableCaption>Danh sách các đơn hàng của bạn.</TableCaption>
           <TableHeader>
@@ -97,11 +181,13 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
               <TableHead>Trạng thái</TableHead>
               <TableHead>Địa chỉ giao hàng</TableHead>
               <TableHead>Phương thức thanh toán</TableHead>
+              <TableHead>Mã giảm giá</TableHead>
+              <TableHead>Tổng thanh toán</TableHead>
               <TableHead>Chi tiết đơn hàng</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders.map((order) => (
+            {orderData.map((order) => (
               <React.Fragment key={order.id}>
                 <TableRow>
                   <TableCell>{order.id}</TableCell>
@@ -111,6 +197,10 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                   <TableCell>{order.status}</TableCell>
                   <TableCell>{`${order.shippingAddress}, ${order.shippingCity}`}</TableCell>
                   <TableCell>{order.paymentType}</TableCell>
+                  <TableCell>{order.voucherCode || " "}</TableCell>
+                  <TableCell>
+                    {calculateTotalOrderValue(order).toFixed(0)} đ
+                  </TableCell>
                   <TableCell>
                     <Sheet open={showSheet === order.id}>
                       <SheetTrigger asChild>
@@ -120,17 +210,17 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                       </SheetTrigger>
                       <SheetContent
                         ref={sheetRef}
-                        style={{ maxWidth: "600px" }}
+                        style={{ maxWidth: "750px" }}
                       >
                         <SheetHeader>
                           <SheetTitle className="mb-5">
                             Chi tiết đơn hàng # {order.id}
                           </SheetTitle>
                           <SheetClose asChild onClick={handleCloseSheet}>
-                            <button className="absolute top-0 right-2 inline-flex items-center justify-center rounded-full p-1 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
+                            <button className="absolute top-0 inline-flex items-center justify-center p-1 rounded-full right-2 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6"
+                                className="w-6 h-6"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -153,6 +243,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                               <TableHead>Đơn giá</TableHead>
                               <TableHead>Giảm giá</TableHead>
                               <TableHead>Hình ảnh</TableHead>
+                              <TableHead>Tổng tiền</TableHead>
                             </TableRow>
                           </TableHeader>
                           <TableBody>
@@ -172,6 +263,9 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                                     width={100}
                                     height={100}
                                   />
+                                </TableCell>
+                                <TableCell>
+                                  {totalPrice(detail).toFixed(0)} đ
                                 </TableCell>
                               </TableRow>
                             ))}

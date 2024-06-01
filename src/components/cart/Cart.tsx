@@ -11,7 +11,7 @@ import {
 } from "antd";
 import React, { useState, useEffect } from "react";
 import styles from "./Cart.module.css";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, SelectOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useOrder } from "@/hooks/useOrder";
@@ -67,6 +67,8 @@ export default function Cart({
   useEffect(() => {
     sessionToken && getItems(sessionToken);
   }, [sessionToken]);
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
@@ -168,35 +170,6 @@ export default function Cart({
     dataIndex?: string;
   })[] = [
     {
-      title: "Số lượng",
-      dataIndex: "quantity",
-      key: "quantity",
-      align: "right",
-      width: 20,
-      editable: true,
-    },
-    {
-      title: "Hình ảnh",
-      dataIndex: "product.coverImageUrl",
-      key: "product.coverImageUrl",
-      responsive: ["md"],
-      render: (_: any, record: any) => {
-        let coverImageUrl = record.product.coverImageUrl;
-        return (
-          <>
-            {coverImageUrl && (
-              <Image
-                src={coverImageUrl}
-                width={50}
-                height={50}
-                alt={record.product.name}
-              />
-            )}
-          </>
-        );
-      },
-    },
-    {
       title: "Tên sản phẩm",
       dataIndex: "product.name",
       key: "product.name",
@@ -211,7 +184,36 @@ export default function Cart({
         );
       },
     },
+    {
+      title: "Hình ảnh",
+      dataIndex: "product.imageUrls[0]?.url",
+      key: "product.imageUrls[0]?.url",
+      responsive: ["md"],
+      render: (_: any, record: any) => {
+        let coverImageUrl = record.product.imageUrls[0]?.url;
+        return (
+          <>
+            {coverImageUrl && (
+              <Image
+                src={coverImageUrl}
+                width={50}
+                height={50}
+                alt={record.product.name}
+              />
+            )}
+          </>
+        );
+      },
+    },
 
+    {
+      title: "Số lượng",
+      dataIndex: "quantity",
+      key: "quantity",
+      align: "right",
+      width: 20,
+      editable: true,
+    },
     {
       title: "Giá cả",
       dataIndex: "product.price",
@@ -329,6 +331,7 @@ export default function Cart({
     newSelectedRowKeys: React.Key[],
     selectedRows: CartItem[]
   ) => {
+    setSelectedRowKeys(newSelectedRowKeys);
     setOrderItems(selectedRows);
   };
 
@@ -336,9 +339,29 @@ export default function Cart({
     fixed: true,
     onChange: onSelectChange,
   };
+  // Hàm để xóa các sản phẩm được chọn
+  const deleteSelectedItems = () => {
+    selectedRowKeys.forEach((key) => {
+      removeItem(Number(key), sessionToken);
+    });
+    setOrderItems([]);
+    setSelectedRowKeys([]);
+  };
 
   return (
     <>
+      {!compact && (
+        <div style={{ marginBottom: 16 }}>
+          <Button
+            onClick={deleteSelectedItems}
+            icon={<DeleteOutlined />}
+            danger
+            disabled={selectedRowKeys.length === 0}
+          >
+            Xóa
+          </Button>
+        </div>
+      )}
       <Table
         components={components}
         rowClassName={styles.editableRow}
@@ -346,7 +369,7 @@ export default function Cart({
         rowSelection={compact ? undefined : rowSelection}
         columns={columns as any}
         dataSource={
-          limit ? items.toSpliced(limit) : compact ? items.toSpliced(5) : items
+          limit ? items.slice(0, limit) : compact ? items.slice(0, 5) : items
         }
         showHeader={!compact}
         style={{ overflow: "hidden" }}

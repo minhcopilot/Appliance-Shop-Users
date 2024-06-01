@@ -37,10 +37,10 @@ export default function ProductCard({ data }: Props) {
             {data.name}
           </h3>
           <div className="flex items-center justify-between">
-            <p className="font-medium text-gray-600">{data.price}đ</p>
-            <del className="text-gray-400">
-              {Math.round((data.price * (100 + data.discount)) / 100)}đ
-            </del>
+            <p className="font-medium text-gray-600">
+              {Math.round((data.price * (100 - data.discount)) / 100)}đ
+            </p>
+            <del className="text-gray-400">{data.price}đ</del>
           </div>
         </div>
       </Link>

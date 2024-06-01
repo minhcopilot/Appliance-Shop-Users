@@ -42,19 +42,21 @@ export default function OrderDetail({}) {
     dataIndex?: string;
   })[] = [
     {
-      title: "Số lượng",
-      dataIndex: "quantity",
-      key: "quantity",
-      align: "right",
-      width: 20,
+      title: "Tên sản phẩm",
+      dataIndex: "product.name",
+      key: "product.name",
+      render: (_: any, record: any) => {
+        let name = record.product?.name;
+        return <Link href={"/products/" + record.productId}>{name}</Link>;
+      },
     },
     {
       title: "Hình ảnh",
-      dataIndex: "product.coverImageUrl",
-      key: "product.coverImageUrl",
+      dataIndex: "product.imageUrls[0]?.url",
+      key: "product.imageUrls[0]?.url",
       responsive: ["md"],
       render: (_: any, record: any) => {
-        let coverImageUrl = record.product?.coverImageUrl;
+        let coverImageUrl = record.product?.imageUrls[0]?.url;
         return (
           <>
             {coverImageUrl && (
@@ -69,16 +71,14 @@ export default function OrderDetail({}) {
         );
       },
     },
-    {
-      title: "Tên sản phẩm",
-      dataIndex: "product.name",
-      key: "product.name",
-      render: (_: any, record: any) => {
-        let name = record.product?.name;
-        return <Link href={"/products/" + record.productId}>{name}</Link>;
-      },
-    },
 
+    {
+      title: "Số lượng",
+      dataIndex: "quantity",
+      key: "quantity",
+      align: "right",
+      width: 20,
+    },
     {
       title: "Giá cả",
       dataIndex: "product.price",
