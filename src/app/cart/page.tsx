@@ -12,23 +12,21 @@ type Props = {};
 export default function CartPage({}: Props) {
   const { orderItems } = useOrder((state) => state);
   return (
-    <Flex style={{ backgroundColor: "inherit" }} wrap>
-      <Content className="py-3 px-14">
-        <h1 className="text-2xl font-bold text-center uppercase">
-          Giỏ hàng của bạn
-        </h1>
-        <Cart />
-      </Content>
-      <Sider
-        width={500}
-        className="py-3 px-14"
-        style={{ backgroundColor: "inherit" }}
-      >
-        <div className="flex flex-col gap-3">
-          <TotalPrice items={orderItems} />
-          <CheckoutRedirectButton />
-        </div>
-      </Sider>
-    </Flex>
+    <>
+      <h1 className="text-2xl font-bold text-center uppercase">
+        Giỏ hàng của bạn
+      </h1>
+      <div className="bg-inherit flex">
+        <Content className="py-3 px-14 flex-grow">
+          <Cart />
+        </Content>
+        <Sider width={400} className="py-3 px-14 bg-inherit flex-shrink-0">
+          <div className="flex flex-col gap-3">
+            <TotalPrice items={orderItems} />
+            <CheckoutRedirectButton />
+          </div>
+        </Sider>
+      </div>
+    </>
   );
 }

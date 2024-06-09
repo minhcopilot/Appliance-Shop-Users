@@ -60,12 +60,14 @@ export default function OrderDetail({}) {
         return (
           <>
             {coverImageUrl && (
-              <Image
-                src={coverImageUrl}
-                width={50}
-                height={50}
-                alt={record.product?.name}
-              />
+              <Link href={"/products/" + record.productId}>
+                <Image
+                  src={coverImageUrl}
+                  width={50}
+                  height={50}
+                  alt={record.product?.name}
+                />
+              </Link>
             )}
           </>
         );
@@ -133,8 +135,8 @@ export default function OrderDetail({}) {
       rowKey="productId"
       columns={productColumn}
       dataSource={orderDetailItems}
-      pagination={false}
       style={{ overflow: "hidden" }}
+      pagination={{ position: ["bottomCenter"] }}
     />
   );
 }

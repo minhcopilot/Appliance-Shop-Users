@@ -173,6 +173,7 @@ export default function Cart({
       title: "Tên sản phẩm",
       dataIndex: "product.name",
       key: "product.name",
+      width: 300,
       render: (_: any, record: any) => {
         let name = record.product.name;
         return (
@@ -211,13 +212,14 @@ export default function Cart({
       dataIndex: "quantity",
       key: "quantity",
       align: "right",
-      width: 20,
+      width: 100,
       editable: true,
     },
     {
       title: "Giá cả",
       dataIndex: "product.price",
       key: "product.price",
+      width: 100,
       align: "right",
       render: (_: any, record: any) => {
         return (

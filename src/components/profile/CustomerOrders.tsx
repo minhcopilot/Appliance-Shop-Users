@@ -4,12 +4,12 @@ import { axiosClient } from "@/lib/axiosClient";
 import OrderList from "@/components/orders/OrderList";
 import OrderListSkeleton from "@/components/ui/OrderListSkeleton";
 import { useAppContext } from "@/app/AppProvider";
+import { OrderListCustomer } from "@/components/orders/OrderListCustomer";
 
 const CustomerOrders: React.FC = () => {
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const { user } = useAppContext();
-
+  const user = useAppContext().user;
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -37,6 +37,7 @@ const CustomerOrders: React.FC = () => {
       ) : (
         <div className="">
           <OrderList orders={orders} />
+          {/* <OrderListCustomer orders={orders} /> */}
         </div>
       )}
     </div>

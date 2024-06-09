@@ -1,5 +1,5 @@
 "use client";
-import { Button, Form, Input, Radio, Space, message } from "antd";
+import { Button, Form, Input, Radio, Space, message, Select } from "antd";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import utc from "dayjs/plugin/utc";
@@ -23,7 +23,7 @@ export default function OrderForm({}: Props) {
   const { setOrderItems } = useOrder((state) => state);
   const { removeItem } = useCart((state) => state);
   const token = useAppContext().sessionToken;
-  const user = useAppContext().user;
+  const user: any = useAppContext().user;
   const searchParams = useSearchParams();
   const orderItems = JSON.parse(
     searchParams.get("orderItems") || "[]"
@@ -31,12 +31,57 @@ export default function OrderForm({}: Props) {
   const [orderForm] = Form.useForm();
   const query = useAdd("/orders");
   const [voucherCode, setVoucherCode] = React.useState<string | null>(null);
+  const [cities, setCities] = React.useState<any>([]);
+  useEffect(() => {
+    fetchCities();
+  }, []);
 
-  const submitOrder = async (data: any) => {
-    if (voucherCode) {
-      await applyVoucher(voucherCode);
+  const fetchCities = async () => {
+    try {
+      const response = await fetch("https://esgoo.net/api-tinhthanh/1/0.htm");
+      const data = await response.json();
+      setCities(data.data);
+    } catch (error) {
+      console.error("Error fetching cities:", error);
     }
-    query.mutate({ ...data, orderDetails: orderItems });
+  };
+  const submitOrder = async (data: any) => {
+    const orderData = { ...data, orderDetails: orderItems };
+    orderData.customerId = user.id;
+    try {
+      if (voucherCode) {
+        await applyVoucher(voucherCode);
+      }
+      if (data.paymentType === "MOMO") {
+        const response = await axiosClient.post(
+          "/orders/momo-payment",
+          orderData
+        );
+
+        if (response.data && response.data.payUrl) {
+          orderItems.forEach((item) => {
+            removeItem(item.productId, token);
+          });
+          setOrderItems([]);
+          orderForm.resetFields();
+          window.location.href = response.data.payUrl;
+        } else {
+          message.error("Thanh toán MoMo thất bại");
+        }
+      } else {
+        const result = await query.mutateAsync(orderData);
+        if (result.status === 200) {
+          orderItems.forEach((item) => {
+            removeItem(item.productId, token);
+          });
+          setOrderItems([]);
+          orderForm.resetFields();
+          message.success("Đặt hàng thành công");
+        }
+      }
+    } catch (error) {
+      message.error("Đã xảy ra lỗi khi đặt hàng");
+    }
   };
   const Router = useRouter();
   const loggedin = user ? true : false;
@@ -49,7 +94,7 @@ export default function OrderForm({}: Props) {
       message.success("Đặt hàng thành công");
 
       orderForm.resetFields();
-      Router.replace("/cart");
+      Router.replace("/profile/order");
     }
     if (query.isError) {
       message.error(query.error.message || "Đặt hàng thất bại");
@@ -155,14 +200,26 @@ export default function OrderForm({}: Props) {
             name="shippingCity"
             label="Thành phố giao hàng"
             rules={[
-              { type: "string" },
               {
                 required: true,
                 message: "Thành phố giao hàng không được bỏ trống",
               },
             ]}
           >
-            <Input name="shippingCity" type="text"></Input>
+            <Select
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option: any) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
+              placeholder="Chọn thành phố"
+            >
+              {cities.map((city: any) => (
+                <Select.Option key={city.id} value={city.name}>
+                  {city.name}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item
             name="paymentType"
@@ -170,7 +227,7 @@ export default function OrderForm({}: Props) {
             rules={[
               {
                 type: "enum",
-                enum: ["CASH", "CREDIT CARD"],
+                enum: ["CASH", "MOMO"],
                 message: "Phương thức thanh toán không hợp lệ",
               },
               {
@@ -182,8 +239,8 @@ export default function OrderForm({}: Props) {
             <Radio.Group
               optionType="button"
               options={[
-                { value: "CASH", label: "Cash" },
-                { value: "CREDIT CARD", label: "Credit Card", disabled: true },
+                { value: "CASH", label: "Tiền mặt" },
+                { value: "MOMO", label: "Ví MoMo" },
               ]}
             />
           </Form.Item>

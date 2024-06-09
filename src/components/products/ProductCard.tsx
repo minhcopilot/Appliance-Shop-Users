@@ -38,9 +38,21 @@ export default function ProductCard({ data }: Props) {
           </h3>
           <div className="flex items-center justify-between">
             <p className="font-medium text-gray-600">
-              {Math.round((data.price * (100 - data.discount)) / 100)}đ
+              {Math.round(
+                (data.price * (100 - data.discount)) / 100
+              ).toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+                useGrouping: true,
+              })}
             </p>
-            <del className="text-gray-400">{data.price}đ</del>
+            <del className="text-gray-400">
+              {data.price.toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+                useGrouping: true,
+              })}
+            </del>
           </div>
         </div>
       </Link>
