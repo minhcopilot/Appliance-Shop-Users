@@ -62,7 +62,6 @@ const OrderCheckForm = () => {
       } else {
         setError("Đã xảy ra lỗi khi lấy danh sách đơn hàng");
       }
-      console.error(error);
     } finally {
       setIsLoading(false);
     }

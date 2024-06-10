@@ -15,6 +15,7 @@ import { DeleteOutlined, SelectOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useOrder } from "@/hooks/useOrder";
+import { toast } from "@/components/ui/use-toast";
 
 interface getoption {
   id: number;
@@ -105,7 +106,10 @@ export default function Cart({
         toggleEdit();
         handleSave({ ...record, ...values });
       } catch (errInfo) {
-        console.log("Save failed:", errInfo);
+        toast({
+          title: "Lỗi",
+          description: "Đã có lỗi xảy ra!",
+        });
       }
     };
     const stock = items.find((item) => item.productId === record?.productId)

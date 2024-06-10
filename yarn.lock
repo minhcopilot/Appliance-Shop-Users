@@ -2180,10 +2180,10 @@ formdata-polyfill@^4.0.10:
   dependencies:
     fetch-blob "^3.1.2"
 
-framer-motion@^11.1.7:
-  version "11.1.9"
-  resolved "https://registry.npmjs.org/framer-motion/-/framer-motion-11.1.9.tgz"
-  integrity sha512-flECDIPV4QDNcOrDafVFiIazp8X01HFpzc01eDKJsdNH/wrATcYydJSH9JbPWMS8UD5lZlw+J1sK8LG2kICgqw==
+framer-motion@^11.2.10:
+  version "11.2.10"
+  resolved "https://registry.npmjs.org/framer-motion/-/framer-motion-11.2.10.tgz"
+  integrity sha512-/gr3PLZUVFCc86a9MqCUboVrALscrdluzTb3yew+2/qKBU8CX6nzs918/SRBRCqaPbx0TZP10CB6yFgK2C5cYQ==
   dependencies:
     tslib "^2.4.0"
 

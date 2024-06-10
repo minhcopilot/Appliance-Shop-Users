@@ -126,7 +126,10 @@ export function RegisterForm() {
     try {
       window.open(`http://localhost:9000/user/auth/${typeLogin}`, "_self");
     } catch (error) {
-      console.log("««««« error »»»»»", error);
+      toast({
+        title: "Lỗi",
+        description: "Đã có lỗi xảy ra!",
+      });
     }
   };
 
