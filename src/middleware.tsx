@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const privatePaths = ["/profile"];
+const privatePaths = [
+  "/profile",
+  "/profile/order",
+  "/profile/password",
+  "/profile/voucher",
+];
 const authPaths = ["/login", "/register"];
 //check user khi vào website
 export function middleware(request: NextRequest) {
@@ -20,5 +25,12 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/profile", "/login", "/register"],
+  matcher: [
+    "/profile",
+    "/profile/order",
+    "/profile/password",
+    "/profile/voucher",
+    "/login",
+    "/register",
+  ],
 };

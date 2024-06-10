@@ -30,10 +30,10 @@ export default function RootLayout({
 }>) {
   const cookieStore = cookies();
   const sessionToken = cookieStore.get("sessionToken");
-  const items = new Array(3).fill(null).map((_, index) => ({
-    key: String(index + 1),
-    label: `nav ${index + 1}`,
-  }));
+  const userCookie = cookieStore.get("user");
+  const user = userCookie
+    ? JSON.parse(decodeURIComponent(userCookie.value))
+    : null;
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -43,7 +43,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AppProvider initialSessionToken={sessionToken?.value}>
+          <AppProvider
+            initialSessionToken={sessionToken?.value}
+            initialUser={user}
+          >
             <AntdProvider>
               <ReactQueryProvider>
                 <AntdRegistry>

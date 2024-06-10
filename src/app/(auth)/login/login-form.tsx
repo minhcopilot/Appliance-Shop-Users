@@ -1,37 +1,38 @@
 "use client";
-import { FcGoogle } from "react-icons/fc";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { FaFacebook } from "react-icons/fa";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppContext } from "@/app/AppProvider";
+import { axiosClient, axiosServerNext } from "@/lib/axiosClient";
+import { useRouter } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import SuccessModal from "@/components/ui/SuccessModal";
+import Link from "next/link";
+import ReCAPTCHA from "react-google-recaptcha";
+import { LoginBody, LoginBodyType } from "@/schemaValidations/auth.schema";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-import { LoginBody, LoginBodyType } from "@/schemaValidations/auth.schema";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import { useAppContext } from "@/app/AppProvider";
-import { axiosClient, axiosServerNext } from "@/lib/axiosClient";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import LoadingSpinner from "@/components/ui/LoadingSpinner";
-import SuccessModal from "@/components/ui/SuccessModal";
+import { FaFacebook } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
   const { toast } = useToast();
   const router = useRouter();
   const { setSessionToken, setUser } = useAppContext();
-  // 1. Define your form.
+
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBody),
     defaultValues: {
@@ -40,23 +41,44 @@ export function LoginForm() {
     },
   });
 
-  // 2. Define a submit handler.
+  const email = useWatch({ control: form.control, name: "email" });
+  const password = useWatch({ control: form.control, name: "password" });
+
+  const handleCaptchaChange = (value: any) => {
+    setIsCaptchaVerified(!!value);
+  };
+
+  const isFormValid = email && password && isCaptchaVerified;
+
   async function onSubmit(values: LoginBodyType) {
     if (isLoading) return;
     setIsLoading(true);
+    const recaptchaToken = await recaptchaRef.current?.getValue();
+    recaptchaRef.current?.reset();
+
+    if (!recaptchaToken) {
+      toast({
+        title: "Lỗi xác thực",
+        description: "Vui lòng xác minh bạn không phải là robot!",
+      });
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const result = await axiosClient.post("/user/auth/login", values);
-      localStorage.setItem(
-        "user",
-        JSON.stringify(result.data.payload.data.customer)
-      );
-      localStorage.setItem(
-        "SessionToken",
-        JSON.stringify(result.data.payload.data.token)
-      );
-      setUser(result.data.payload.data.customer);
-      setSessionToken(result.data.payload.data.token);
-      await axiosServerNext.post("/api/auth", result.data.payload.data.token);
+      const result = await axiosClient.post("/user/auth/login", {
+        ...values,
+        recaptchaToken,
+      });
+
+      const user = result.data.payload.data.customer;
+      const token = result.data.payload.data.token;
+
+      setUser(user);
+      setSessionToken(token);
+
+      // Gửi thông tin user và token tới API
+      await axiosServerNext.post("/api/auth", { token, user });
       setShowSuccessModal(true);
       setTimeout(() => {
         router.push("/");
@@ -67,9 +89,7 @@ export function LoginForm() {
         form.setError("password", {
           message: `Email hoặc mật khẩu không chính xác!`,
         });
-        form.setError("email", {
-          message: ``,
-        });
+        form.setError("email", { message: `` });
       } else {
         toast({
           title: "Lỗi",
@@ -88,11 +108,12 @@ export function LoginForm() {
       console.log("««««« error »»»»»", error);
     }
   };
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-2 max-w-[400px] flex-shink-0 w-full rounded-lg shadow-md p-6"
+        className="space-y-2 max-w-[380px] flex-shink-0 w-full rounded-lg shadow-md p-6"
       >
         <FormField
           control={form.control}
@@ -108,12 +129,10 @@ export function LoginForm() {
                   {...field}
                 />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="password"
@@ -123,15 +142,23 @@ export function LoginForm() {
               <FormControl>
                 <Input type="password" placeholder="Mật khẩu" {...field} />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}
         />
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey={`${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          onChange={handleCaptchaChange}
+        />
         <Link href="/forgot-password" className="text-sm text-blue-700">
           Quên mật khẩu
         </Link>
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={!isFormValid || isLoading}
+        >
           {isLoading ? <LoadingSpinner /> : "Đăng nhập"}
         </Button>
         <div className="flex items-center justify-center">

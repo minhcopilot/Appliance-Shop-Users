@@ -1,22 +1,19 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
-
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { DatePicker } from "@/components/ui/date-picker";
 import { axiosClient, axiosServerNext } from "@/lib/axiosClient";
 import { useAppContext } from "@/app/AppProvider";
 import {
@@ -25,19 +22,21 @@ import {
 } from "@/schemaValidations/auth.schema";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import SuccessModal from "@/components/ui/SuccessModal";
+import ReCAPTCHA from "react-google-recaptcha";
+
 export function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
-  const { setSessionToken } = useAppContext();
+  const { setSessionToken, setUser } = useAppContext();
   const { toast } = useToast();
-  const { setUser } = useAppContext();
   const router = useRouter();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-  // 1. Define your form.
   const form = useForm<RegisterBodyType>({
     resolver: zodResolver(RegisterBody),
     defaultValues: {
@@ -49,20 +48,53 @@ export function RegisterForm() {
     },
   });
 
-  // 2. Define a submit handler.
+  const firstName = useWatch({ control: form.control, name: "firstName" });
+  const lastName = useWatch({ control: form.control, name: "lastName" });
+  const email = useWatch({ control: form.control, name: "email" });
+  const phoneNumber = useWatch({ control: form.control, name: "phoneNumber" });
+  const password = useWatch({ control: form.control, name: "password" });
+
+  const handleCaptchaChange = (value: any) => {
+    setIsCaptchaVerified(!!value);
+  };
+
+  const isFormValid =
+    firstName &&
+    lastName &&
+    email &&
+    phoneNumber &&
+    password &&
+    isCaptchaVerified;
+
   async function onSubmit(values: RegisterBodyType) {
     if (isLoading) return;
     setIsLoading(true);
+    const recaptchaToken = await recaptchaRef.current?.getValue();
+    recaptchaRef.current?.reset();
+
+    if (!recaptchaToken) {
+      toast({
+        title: "Lỗi xác thực",
+        description: "Vui lòng xác minh bạn không phải là robot!",
+      });
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const result = await axiosClient.post("/user/auth/register", values);
+      const result = await axiosClient.post("/user/auth/register", {
+        ...values,
+        recaptchaToken,
+      });
       if (result.data) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify(result.data.payload.data.customer)
-        );
-        setUser(result.data.payload.data.customer);
-        setSessionToken(result.data.payload.data.token);
-        await axiosServerNext.post("/api/auth", result.data.payload.data.token);
+        const user = result.data.payload.data.customer;
+        const token = result.data.payload.data.token;
+
+        setUser(user);
+        setSessionToken(token);
+
+        // Gửi thông tin user và token tới API
+        await axiosServerNext.post("/api/auth", { token, user });
         setShowSuccessModal(true);
         setTimeout(() => {
           router.push("/");
@@ -75,6 +107,11 @@ export function RegisterForm() {
         form.setError("email", {
           message: `Email đã tồn tại`,
         });
+        toast({
+          title: "Lỗi",
+          description: "Email đã tồn tại!",
+        });
+      } else {
         toast({
           title: "Lỗi",
           description: "Đã có lỗi xảy ra!",
@@ -92,6 +129,7 @@ export function RegisterForm() {
       console.log("««««« error »»»»»", error);
     }
   };
+
   return (
     <Form {...form}>
       <form
@@ -116,7 +154,7 @@ export function RegisterForm() {
             control={form.control}
             name="lastName"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mb-3">
                 <FormLabel>Tên</FormLabel>
                 <FormControl>
                   <Input placeholder="Nhập tên của bạn" {...field} />
@@ -131,7 +169,7 @@ export function RegisterForm() {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mb-3">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
@@ -151,7 +189,7 @@ export function RegisterForm() {
             control={form.control}
             name="phoneNumber"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mb-3">
                 <FormLabel>Số điện thoại</FormLabel>
                 <FormControl>
                   <Input
@@ -185,7 +223,18 @@ export function RegisterForm() {
           />
         </div>
 
-        <Button type="submit" className="w-full mt-6" disabled={isLoading}>
+        <ReCAPTCHA
+          className="mt-3"
+          ref={recaptchaRef}
+          sitekey={`${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          onChange={handleCaptchaChange}
+        />
+
+        <Button
+          type="submit"
+          className="w-full mt-6"
+          disabled={!isFormValid || isLoading}
+        >
           {isLoading ? <LoadingSpinner /> : "Đăng ký"}
         </Button>
         <div className="flex items-center justify-center my-3">
