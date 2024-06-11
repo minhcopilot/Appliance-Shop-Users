@@ -65,6 +65,10 @@ export default function Cart({
   const { orderItems, setOrderItems } = useOrder((state) => state);
 
   useEffect(() => {
+    setOrderItems([]);
+  }, []);
+
+  useEffect(() => {
     sessionToken && getItems(sessionToken);
   }, [sessionToken]);
 

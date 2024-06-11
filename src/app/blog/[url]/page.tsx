@@ -34,33 +34,42 @@ export default async function BlogPost({ params }: Props) {
         <Content>
           <Flex vertical gap={20} align="center">
             <ArticlePost post={postContent} />
-            <PostAuthor
-              authorName={postContent.authorName}
-              authorId={postContent.authorId || undefined}
-            />
-            <CommentSection
-              url={url}
-              enableComment={postContent.commentStatus === "open"}
-            />
+            {postContent.type === "post" && (
+              <>
+                <PostAuthor
+                  authorName={postContent.authorName}
+                  authorId={postContent.authorId || undefined}
+                />
+                <CommentSection
+                  url={url}
+                  enableComment={postContent.commentStatus === "open"}
+                />
+              </>
+            )}
           </Flex>
         </Content>
-        <Sider
-          width={400}
-          breakpoint="xl"
-          collapsible
-          collapsedWidth={0}
-          className="ml-5"
-        >
-          <Flex vertical gap={20}>
-            <SidebarList postList={newest} title="Bài viết mới nhất" />
-            <ArticleSearchBar />
-            <SidebarList postList={mostLiked} title="Bài viết được yêu thích" />
-            <SidebarList
-              postList={mostViewed}
-              title="Bài viết được xem nhiều"
-            />
-          </Flex>
-        </Sider>
+        {postContent.type === "post" && (
+          <Sider
+            width={400}
+            breakpoint="xl"
+            collapsible
+            collapsedWidth={0}
+            className="ml-5"
+          >
+            <Flex vertical gap={20}>
+              <SidebarList postList={newest} title="Bài viết mới nhất" />
+              <ArticleSearchBar />
+              <SidebarList
+                postList={mostLiked}
+                title="Bài viết được yêu thích"
+              />
+              <SidebarList
+                postList={mostViewed}
+                title="Bài viết được xem nhiều"
+              />
+            </Flex>
+          </Sider>
+        )}
       </Layout>
     </Content>
   );
