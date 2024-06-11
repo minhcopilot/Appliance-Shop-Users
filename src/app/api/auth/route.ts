@@ -1,13 +1,22 @@
-//api next server session token vào cookie của client
 export async function POST(request: Request) {
   const res = await request.json();
-  if (!res) {
-    return Response.json({ message: "Token not found" }, { status: 401 });
+  if (!res || !res.token || !res.user) {
+    return Response.json(
+      { message: "Token or user not found" },
+      { status: 401 }
+    );
   }
+
+  const maxAge = 30 * 24 * 60 * 60; // 7 ngày
+  const userCookie = encodeURIComponent(JSON.stringify(res.user));
+
   return Response.json(res, {
     status: 200,
     headers: {
-      "Set-Cookie": `sessionToken=${res}; Path=/; HttpOnly; `,
+      "Set-Cookie": [
+        `sessionToken=${res.token}; Path=/; HttpOnly; Max-Age=${maxAge};`,
+        `user=${userCookie}; Path=/; HttpOnly; Max-Age=${maxAge};`,
+      ].join(", "),
     },
   });
 }

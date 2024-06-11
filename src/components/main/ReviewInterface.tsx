@@ -13,7 +13,7 @@ interface ReviewProps {
 const ReviewInterface: React.FC<ReviewProps> = ({ reviews }) => {
   return (
     <div className="p-6 pb-10 text-center bg-gray-100 rounded-lg">
-      <h2 className="mb-4 text-2xl font-bold ">Đánh giá của khác hàng</h2>
+      <h2 className="mb-4 text-2xl font-bold ">Đánh giá của khách hàng</h2>
       <div className="grid grid-cols-3 gap-4">
         {reviews.map((review, index) => (
           <div key={index} className="p-4 bg-white rounded-lg shadow">

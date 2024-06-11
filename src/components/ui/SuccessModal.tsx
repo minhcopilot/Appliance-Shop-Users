@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 interface SuccessModalProps {
-  isOpen: boolean;
+  isOpen?: boolean;
   onClose: () => void;
   title: string;
   content?: string;

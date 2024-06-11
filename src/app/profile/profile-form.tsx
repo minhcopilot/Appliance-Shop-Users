@@ -8,7 +8,6 @@ import BirthDateInputs from "@/components/ui/BirthDateInputs";
 import { Button } from "@/components/ui/button";
 import ImageUploader from "@/components/ui/ImageUploader";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import { useAppContext } from "@/app/AppProvider";
 import { axiosClient } from "@/lib/axiosClient";
@@ -110,7 +109,6 @@ export default function ProfileForm() {
       if (result.status === 200) {
         setIsLoading(false);
         setShowSuccessModal(true);
-        localStorage.setItem("user", JSON.stringify(result.data));
         setUser(result.data);
       } else {
         setIsLoading(false);

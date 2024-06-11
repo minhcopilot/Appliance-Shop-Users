@@ -9,7 +9,7 @@ export default function TotalPrice({ items }: Props) {
     <Flex vertical gap={10}>
       <Flex gap={10}>
         <div className="text-lg font-bold">Tổng cộng</div>
-        <div className="text-2xl font-bold text-red-600">
+        <div className="text-2xl font-bold text-yellow-600">
           {items
             .reduce(
               (acc, item) =>
@@ -25,7 +25,7 @@ export default function TotalPrice({ items }: Props) {
       </Flex>
       <Flex gap={10}>
         <div className="text-base">Tiết kiệm</div>
-        <div className="text-xl text-red-600">
+        <div className="text-xl text-yellow-600">
           {items
             .reduce(
               (acc, item) =>

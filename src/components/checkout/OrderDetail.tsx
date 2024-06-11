@@ -42,34 +42,6 @@ export default function OrderDetail({}) {
     dataIndex?: string;
   })[] = [
     {
-      title: "Số lượng",
-      dataIndex: "quantity",
-      key: "quantity",
-      align: "right",
-      width: 20,
-    },
-    {
-      title: "Hình ảnh",
-      dataIndex: "product.coverImageUrl",
-      key: "product.coverImageUrl",
-      responsive: ["md"],
-      render: (_: any, record: any) => {
-        let coverImageUrl = record.product?.coverImageUrl;
-        return (
-          <>
-            {coverImageUrl && (
-              <Image
-                src={coverImageUrl}
-                width={50}
-                height={50}
-                alt={record.product?.name}
-              />
-            )}
-          </>
-        );
-      },
-    },
-    {
       title: "Tên sản phẩm",
       dataIndex: "product.name",
       key: "product.name",
@@ -78,7 +50,37 @@ export default function OrderDetail({}) {
         return <Link href={"/products/" + record.productId}>{name}</Link>;
       },
     },
+    {
+      title: "Hình ảnh",
+      dataIndex: "product.imageUrls[0]?.url",
+      key: "product.imageUrls[0]?.url",
+      responsive: ["md"],
+      render: (_: any, record: any) => {
+        let coverImageUrl = record.product?.imageUrls[0]?.url;
+        return (
+          <>
+            {coverImageUrl && (
+              <Link href={"/products/" + record.productId}>
+                <Image
+                  src={coverImageUrl}
+                  width={50}
+                  height={50}
+                  alt={record.product?.name}
+                />
+              </Link>
+            )}
+          </>
+        );
+      },
+    },
 
+    {
+      title: "Số lượng",
+      dataIndex: "quantity",
+      key: "quantity",
+      align: "right",
+      width: 20,
+    },
     {
       title: "Giá cả",
       dataIndex: "product.price",
@@ -133,8 +135,8 @@ export default function OrderDetail({}) {
       rowKey="productId"
       columns={productColumn}
       dataSource={orderDetailItems}
-      pagination={false}
       style={{ overflow: "hidden" }}
+      pagination={{ position: ["bottomCenter"] }}
     />
   );
 }

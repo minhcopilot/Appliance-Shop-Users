@@ -20,13 +20,14 @@ export default function LoginSuccess() {
     const fetchToken = async () => {
       let result: any = await apiLoginSuccess(decodedEmail);
       if (result.data) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify(result.data.payload.data.customer)
-        );
-        setUser(result.data.payload.data.customer);
-        setSessionToken(result.data.payload.data.token);
-        await axiosServerNext.post("/api/auth", result.data.payload.data.token);
+        const user = result.data.payload.data.customer;
+        const token = result.data.payload.data.token;
+
+        setUser(user);
+        setSessionToken(token);
+
+        // Gửi thông tin user và token tới API
+        await axiosServerNext.post("/api/auth", { token, user });
       } else {
         alert("Login failed");
       }

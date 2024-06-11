@@ -42,18 +42,15 @@ export const useAppContext = () => {
 export default function AppProvider({
   children,
   initialSessionToken = "",
+  initialUser = null,
 }: {
   children: React.ReactNode;
   initialSessionToken?: string;
+  initialUser?: User | null;
 }) {
   const [sessionToken, setSessionToken] = useState(initialSessionToken);
-  const [user, setUser] = useState<User | null>(null);
-  React.useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+  const [user, setUser] = useState<User | null>(initialUser);
+
   return (
     <AppContext.Provider
       value={{ sessionToken, setSessionToken, user, setUser }}

@@ -2,11 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { axiosClient } from "@/lib/axiosClient";
 import OrderList from "@/components/orders/OrderList";
+import OrderListSkeleton from "@/components/ui/OrderListSkeleton";
 import { useAppContext } from "@/app/AppProvider";
+import { OrderListCustomer } from "@/components/orders/OrderListCustomer";
 
 const CustomerOrders: React.FC = () => {
   const [orders, setOrders] = useState<any[]>([]);
-  const { user } = useAppContext();
+  const [loading, setLoading] = useState<boolean>(true);
+  const user = useAppContext().user;
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -17,20 +20,24 @@ const CustomerOrders: React.FC = () => {
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchOrders();
-  }, []);
+  }, [user]);
 
   return (
     <div>
-      <h1>Danh sách đơn hàng</h1>
-      {orders.length === 0 ? (
+      {loading ? (
+        <OrderListSkeleton /> // Render the skeleton component while loading
+      ) : orders.length === 0 ? (
         <p>Không có đơn hàng nào.</p>
       ) : (
-        <div className="container mt-8">
+        <div className="">
           <OrderList orders={orders} />
+          {/* <OrderListCustomer orders={orders} /> */}
         </div>
       )}
     </div>

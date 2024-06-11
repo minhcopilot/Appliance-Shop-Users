@@ -15,11 +15,9 @@ export default function ButtonLogout() {
     try {
       await axiosServerNext.post("/api/auth/logout");
       setUser(null);
-      localStorage.removeItem("user");
-      localStorage.removeItem("SessionToken");
+
       router.push("/");
     } catch (error: any) {
-      //handle error logout
       toast({
         title: "Lỗi",
         description: "Có lỗi khi đăng xuất",

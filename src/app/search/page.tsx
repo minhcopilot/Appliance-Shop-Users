@@ -3,6 +3,7 @@ import { axiosClient } from "@/lib/axiosClient";
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/products/ProductCard";
 import { useSearchParams } from "next/navigation";
+import { toast } from "@/components/ui/use-toast";
 const SearchPage = () => {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("q") || "";
@@ -17,7 +18,10 @@ const SearchPage = () => {
         const data = response.data;
         setSearchResults(data);
       } catch (error) {
-        console.error(error);
+        toast({
+          title: "Lỗi tìm kiếm",
+          description: "Đã xảy ra lỗi tìm kiếm !",
+        });
       }
     };
 

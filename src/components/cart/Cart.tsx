@@ -11,10 +11,11 @@ import {
 } from "antd";
 import React, { useState, useEffect } from "react";
 import styles from "./Cart.module.css";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, SelectOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useOrder } from "@/hooks/useOrder";
+import { toast } from "@/components/ui/use-toast";
 
 interface getoption {
   id: number;
@@ -72,6 +73,8 @@ export default function Cart({
     sessionToken && getItems(sessionToken);
   }, [sessionToken]);
 
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
   const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
   const EditableRow = ({ index, ...props }: EditableRowProps) => {
@@ -107,7 +110,10 @@ export default function Cart({
         toggleEdit();
         handleSave({ ...record, ...values });
       } catch (errInfo) {
-        console.log("Save failed:", errInfo);
+        toast({
+          title: "Lỗi",
+          description: "Đã có lỗi xảy ra!",
+        });
       }
     };
     const stock = items.find((item) => item.productId === record?.productId)
@@ -172,20 +178,28 @@ export default function Cart({
     dataIndex?: string;
   })[] = [
     {
-      title: "Số lượng",
-      dataIndex: "quantity",
-      key: "quantity",
-      align: "right",
-      width: 20,
-      editable: true,
+      title: "Tên sản phẩm",
+      dataIndex: "product.name",
+      key: "product.name",
+      width: 300,
+      render: (_: any, record: any) => {
+        let name = record.product.name;
+        return (
+          <Link href={"/products/" + record.productId}>
+            {compact
+              ? name.substring(0, 40) + (name.length > 40 ? "..." : "")
+              : record.product.name}
+          </Link>
+        );
+      },
     },
     {
       title: "Hình ảnh",
-      dataIndex: "product.coverImageUrl",
-      key: "product.coverImageUrl",
+      dataIndex: "product.imageUrls[0]?.url",
+      key: "product.imageUrls[0]?.url",
       responsive: ["md"],
       render: (_: any, record: any) => {
-        let coverImageUrl = record.product.coverImageUrl;
+        let coverImageUrl = record.product.imageUrls[0]?.url;
         return (
           <>
             {coverImageUrl && (
@@ -200,26 +214,20 @@ export default function Cart({
         );
       },
     },
-    {
-      title: "Tên sản phẩm",
-      dataIndex: "product.name",
-      key: "product.name",
-      render: (_: any, record: any) => {
-        let name = record.product.name;
-        return (
-          <Link href={"/products/" + record.productId}>
-            {compact
-              ? name.substring(0, 40) + (name.length > 40 ? "..." : "")
-              : record.product.name}
-          </Link>
-        );
-      },
-    },
 
+    {
+      title: "Số lượng",
+      dataIndex: "quantity",
+      key: "quantity",
+      align: "right",
+      width: 100,
+      editable: true,
+    },
     {
       title: "Giá cả",
       dataIndex: "product.price",
       key: "product.price",
+      width: 100,
       align: "right",
       render: (_: any, record: any) => {
         return (
@@ -333,6 +341,7 @@ export default function Cart({
     newSelectedRowKeys: React.Key[],
     selectedRows: CartItem[]
   ) => {
+    setSelectedRowKeys(newSelectedRowKeys);
     setOrderItems(selectedRows);
   };
 
@@ -340,9 +349,29 @@ export default function Cart({
     fixed: true,
     onChange: onSelectChange,
   };
+  // Hàm để xóa các sản phẩm được chọn
+  const deleteSelectedItems = () => {
+    selectedRowKeys.forEach((key) => {
+      removeItem(Number(key), sessionToken);
+    });
+    setOrderItems([]);
+    setSelectedRowKeys([]);
+  };
 
   return (
     <>
+      {!compact && (
+        <div style={{ marginBottom: 16 }}>
+          <Button
+            onClick={deleteSelectedItems}
+            icon={<DeleteOutlined />}
+            danger
+            disabled={selectedRowKeys.length === 0}
+          >
+            Xóa
+          </Button>
+        </div>
+      )}
       <Table
         components={components}
         rowClassName={styles.editableRow}
@@ -350,7 +379,7 @@ export default function Cart({
         rowSelection={compact ? undefined : rowSelection}
         columns={columns as any}
         dataSource={
-          limit ? items.toSpliced(limit) : compact ? items.toSpliced(5) : items
+          limit ? items.slice(0, limit) : compact ? items.slice(0, 5) : items
         }
         showHeader={!compact}
         style={{ overflow: "hidden" }}
