@@ -64,7 +64,7 @@ export const useCart = create<CartStore>()(
         const items = get().items;
         const found = items.find((x) => x.productId === item.productId);
         if (found) {
-          found.quantity++;
+          found.quantity += item.quantity;
         } else {
           items.push(item);
         }

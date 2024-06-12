@@ -28,6 +28,7 @@ const PasswordInput = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { user, setUser } = useAppContext();
   const { toast } = useToast();
+  const token = useAppContext().sessionToken;
 
   const form = useForm<PasswordBodyType>({
     resolver: zodResolver(PasswordBody),
@@ -51,7 +52,12 @@ const PasswordInput = () => {
     try {
       const result: any = await axiosClient.patch(
         `/customers/change-password/${user?.id}`,
-        data
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (result.status === 200) {
         setIsLoading(false);

@@ -22,7 +22,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
       timer = setTimeout(() => {
         setShowModal(false);
         onClose();
-      }, 2000);
+      }, 3000);
     }
     return () => clearTimeout(timer);
   }, [isOpen, onClose]);
@@ -39,7 +39,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
       className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50"
       onClick={handleModalClose}
     >
-      <div className="relative max-w-md mx-auto my-8 p-6 bg-white rounded-lg shadow-lg">
+      <div className="relative max-w-lg mx-auto my-8 p-6 bg-white rounded-lg shadow-lg">
         <div className="flex items-center justify-center mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"

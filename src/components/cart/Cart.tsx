@@ -11,11 +11,12 @@ import {
 } from "antd";
 import React, { useState, useEffect } from "react";
 import styles from "./Cart.module.css";
-import { DeleteOutlined, SelectOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useOrder } from "@/hooks/useOrder";
 import { toast } from "@/components/ui/use-toast";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface getoption {
   id: number;
@@ -145,7 +146,6 @@ export default function Cart({
           <InputNumber
             style={{ width: 60 }}
             autoFocus
-            // ref={inputRef}
             onPressEnter={save}
             onBlur={save}
             min={0}
@@ -169,7 +169,7 @@ export default function Cart({
     },
   };
 
-  const productColumn: (ColumnTypes[number] & {
+  const fullColumns: (ColumnTypes[number] & {
     editable?: boolean;
     dataIndex?: string;
   })[] = [
@@ -177,7 +177,7 @@ export default function Cart({
       title: "Tên sản phẩm",
       dataIndex: "product.name",
       key: "product.name",
-      width: 300,
+      width: 200,
       render: (_: any, record: any) => {
         let name = record.product.name;
         return (
@@ -210,7 +210,6 @@ export default function Cart({
         );
       },
     },
-
     {
       title: "Số lượng",
       dataIndex: "quantity",
@@ -288,13 +287,95 @@ export default function Cart({
           </Popconfirm>
         );
       },
+      responsive: ["md"],
     },
   ];
 
-  if (compact) {
-    productColumn.splice(1, 1);
-    productColumn.splice(2, 2);
-  }
+  const compactColumns = [
+    {
+      title: "Tên sản phẩm",
+      dataIndex: "product.name",
+      key: "product.name",
+      width: 200,
+      render: (_: any, record: any) => {
+        let name = record.product.name;
+        return (
+          <Link href={"/products/" + record.productId}>
+            {name.substring(0, 40) + (name.length > 40 ? "..." : "")}
+          </Link>
+        );
+      },
+    },
+    {
+      title: "Hình ảnh",
+      dataIndex: "product.imageUrls[0]?.url",
+      key: "product.imageUrls[0]?.url",
+      render: (_: any, record: any) => {
+        let coverImageUrl = record.product.imageUrls[0]?.url;
+        return (
+          <>
+            {coverImageUrl && (
+              <Image
+                src={coverImageUrl}
+                width={50}
+                height={50}
+                alt={record.product.name}
+              />
+            )}
+          </>
+        );
+      },
+    },
+    {
+      title: "Số lượng",
+      dataIndex: "quantity",
+      key: "quantity",
+      align: "right",
+      width: 100,
+      editable: true,
+    },
+    {
+      title: "Tổng tiền",
+      key: "total",
+      align: "right",
+      render: (_: any, record: any) => {
+        return (
+          <>
+            {(
+              ((record.product.price * (100 - record.product.discount)) / 100) *
+              record.quantity
+            ).toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </>
+        );
+      },
+    },
+    {
+      title: "",
+      dataIndex: "actions",
+      key: "actions",
+      fixed: "right",
+      width: 40,
+      render: (_: any, record: any, index: number) => {
+        return (
+          <Popconfirm
+            placement="topRight"
+            title="Xoá sản phẩm này?"
+            description="Bạn có chắc chắn muốn xoá sản phẩm này?"
+            onConfirm={() => {
+              removeItem(record.productId, sessionToken);
+            }}
+            okText="Đồng ý"
+            cancelText="Không"
+          >
+            <Button icon={<DeleteOutlined />} danger />
+          </Popconfirm>
+        );
+      },
+    },
+  ];
 
   const handleSave = (row: order) => {
     if (row.quantity <= 0) {
@@ -317,7 +398,7 @@ export default function Cart({
     );
   };
 
-  const columns = productColumn.map((col) => {
+  const columns = (compact ? compactColumns : fullColumns).map((col: any) => {
     if (!col.editable) {
       return col;
     }
@@ -345,6 +426,7 @@ export default function Cart({
     fixed: true,
     onChange: onSelectChange,
   };
+
   // Hàm để xóa các sản phẩm được chọn
   const deleteSelectedItems = () => {
     selectedRowKeys.forEach((key) => {
@@ -368,19 +450,21 @@ export default function Cart({
           </Button>
         </div>
       )}
-      <Table
-        components={components}
-        rowClassName={styles.editableRow}
-        rowKey="productId"
-        rowSelection={compact ? undefined : rowSelection}
-        columns={columns as any}
-        dataSource={
-          limit ? items.slice(0, limit) : compact ? items.slice(0, 5) : items
-        }
-        showHeader={!compact}
-        style={{ overflow: "hidden" }}
-        pagination={!compact && { position: ["bottomCenter"] }}
-      />
+      <ScrollArea className="h-96">
+        <Table
+          components={components}
+          rowClassName={styles.editableRow}
+          rowKey="productId"
+          rowSelection={compact ? undefined : rowSelection}
+          columns={columns as any}
+          dataSource={
+            limit ? items.slice(0, limit) : compact ? items.slice(0, 99) : items
+          }
+          showHeader={!compact}
+          style={{ overflow: "hidden" }}
+          pagination={!compact && { position: ["bottomCenter"] }}
+        />
+      </ScrollArea>
     </>
   );
 }

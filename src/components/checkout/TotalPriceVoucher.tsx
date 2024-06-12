@@ -68,18 +68,19 @@ export default function TotalPriceVoucher({ items, onVoucherSelect }: Props) {
   };
 
   const totalDiscount = items.reduce(
-    (acc, item) => acc + ((item.price * item.discount) / 100) * item.quantity,
+    (acc, item) =>
+      acc + ((item.price * (item.discount ?? 0)) / 100) * item.quantity,
     0
   );
 
   const subtotalPrice = items.reduce(
     (acc, item) =>
-      acc + ((item.price * (100 - item.discount)) / 100) * item.quantity,
+      acc + ((item.price * (100 - (item.discount ?? 0))) / 100) * item.quantity,
     0
   );
 
   const additionalDiscount = selectedVoucher
-    ? subtotalPrice * (selectedVoucher.discountPercentage / 100)
+    ? subtotalPrice * ((selectedVoucher.discountPercentage ?? 0) / 100)
     : 0;
 
   const totalPrice = subtotalPrice;

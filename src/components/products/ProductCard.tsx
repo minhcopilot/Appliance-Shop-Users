@@ -24,6 +24,7 @@ export default function ProductCard({ data }: Props) {
           compact
           className="absolute flex items-center justify-center p-3 font-bold text-white transition-colors duration-300 bg-yellow-500 rounded-full bottom-2 right-2 hover:bg-yellow-600 "
           product={data}
+          quantity={1}
         />
         {data.discount > 0 && (
           <span className="absolute top-0 right-0 px-2 py-1 text-white bg-red-500 rounded-md">
