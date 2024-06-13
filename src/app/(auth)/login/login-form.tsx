@@ -103,7 +103,10 @@ export function LoginForm() {
 
   const handleLogin = async (typeLogin: any) => {
     try {
-      window.open(`http://localhost:9000/user/auth/${typeLogin}`, "_self");
+      window.open(
+        `${process.env.NEXT_PUBLIC_baseURL}/user/auth/${typeLogin}`,
+        "_self"
+      );
     } catch (error) {
       toast({
         title: "Lỗi",
