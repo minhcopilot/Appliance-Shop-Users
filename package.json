@@ -31,6 +31,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
     "embla-carousel-react": "^8.0.4",
+    "framer-motion": "^11.2.10",
     "html-react-parser": "^5.1.10",
     "lodash": "^4.17.21",
     "lucide-react": "^0.363.0",
