@@ -16,6 +16,7 @@ import Footer from "@/components/footer/Footer";
 import NewsletterSignup from "@/components/ui/NewsletterSignup";
 import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
 import Navbar from "@/components/header/Navbar";
+import CallButton from "@/components/ui/CallButton";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -58,6 +59,7 @@ export default function RootLayout({
                   <Toaster />
                   <NewsletterSignup />
                   <Footer />
+                  <CallButton />
                   <ScrollToTopButton />
                 </AntdRegistry>
               </ReactQueryProvider>

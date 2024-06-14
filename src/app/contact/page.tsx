@@ -17,6 +17,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { set } from "lodash";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 const emailJSConfig = {
   serviceID: `${process.env.NEXT_PUBLIC_serviceID}`,
@@ -34,7 +36,7 @@ const formSchema = z.object({
 
 const Contact: React.FC = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
+  const [isLoading, setIsLoading] = React.useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,6 +47,7 @@ const Contact: React.FC = () => {
   });
 
   const sendEmail = (data: any) => {
+    setIsLoading(true);
     const templateParams = {
       from_name: data.name,
       reply_to: data.email,
@@ -61,12 +64,14 @@ const Contact: React.FC = () => {
       .then(
         (result) => {
           setTimeout(() => {
+            setIsLoading(false);
             setShowSuccessModal(true);
           }, 1000);
 
           form.reset();
         },
         (error) => {
+          setIsLoading(false);
           alert("Gửi email thất bại! hãy thử lại sau!");
         }
       );
@@ -134,7 +139,9 @@ const Contact: React.FC = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Gửi liên hệ</Button>
+              <Button type="submit">
+                {isLoading ? <LoadingSpinner /> : "Gửi"}
+              </Button>
             </form>
           </Form>
         </div>

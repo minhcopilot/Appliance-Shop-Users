@@ -14,6 +14,7 @@ import { axiosClient } from "@/lib/axiosClient";
 import { Button } from "@/components/ui/button";
 import SuccessModal from "@/components/ui/SuccessModal";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import emailjs from "@emailjs/browser";
 
 type Props = {};
 
@@ -41,6 +42,28 @@ export default function OrderForm({}: Props) {
 
   const router = useRouter();
   const loggedin = user ? true : false;
+
+  const emailJSConfig = {
+    serviceID: `${process.env.NEXT_PUBLIC_serviceID_order}`,
+    templateID: `${process.env.NEXT_PUBLIC_templateID_order}`,
+    publicKey: `${process.env.NEXT_PUBLIC_publicKey_order}`,
+  };
+
+  const sendEmail = (data: any) => {
+    const templateParams = {
+      from_name: "",
+      to_name: data.firstName + " " + data.lastName,
+      reply_to: data.email,
+      message: ``,
+    };
+
+    return emailjs.send(
+      emailJSConfig.serviceID,
+      emailJSConfig.templateID,
+      templateParams,
+      emailJSConfig.publicKey
+    );
+  };
 
   useEffect(() => {
     fetchCities();
@@ -80,13 +103,32 @@ export default function OrderForm({}: Props) {
           setOrderItems([]);
           orderForm.resetFields();
           window.location.href = response.data.payUrl;
+          sendEmail(data);
         } else {
           message.error("Thanh toán MoMo thất bại");
+        }
+      } else if (data.paymentType === "ZALOPAY") {
+        const response = await axiosClient.post(
+          "/orders/zalopay-payment",
+          orderData
+        );
+
+        if (response.data && response.data.order_url) {
+          orderItems.forEach((item) => {
+            removeItem(item.productId, token);
+          });
+          setOrderItems([]);
+          orderForm.resetFields();
+          window.location.href = response.data.order_url;
+          sendEmail(data);
+        } else {
+          message.error("Thanh toán zalopay thất bại");
         }
       } else {
         const result = await query.mutateAsync(orderData);
         if (result) {
           setShowSuccessModal(true);
+          sendEmail(data);
           await new Promise((resolve: any) => {
             setTimeout(() => {
               setShowSuccessModal(false);
@@ -248,7 +290,7 @@ export default function OrderForm({}: Props) {
             rules={[
               {
                 type: "enum",
-                enum: ["CASH", "MOMO"],
+                enum: ["CASH", "MOMO", "ZALOPAY"],
                 message: "Phương thức thanh toán không hợp lệ",
               },
               {
@@ -262,6 +304,7 @@ export default function OrderForm({}: Props) {
               options={[
                 { value: "CASH", label: "Tiền mặt" },
                 { value: "MOMO", label: "Ví MoMo" },
+                { value: "ZALOPAY", label: "Zalopay" },
               ]}
             />
           </Form.Item>

@@ -101,7 +101,7 @@ export function RegisterForm() {
         }, 1000);
       }
     } catch (error: any) {
-      const status = error.response.status;
+      const status = error.response.status ?? 500;
 
       if (status == 400) {
         form.setError("email", {
