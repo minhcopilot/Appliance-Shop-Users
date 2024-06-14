@@ -97,17 +97,18 @@ export default function OrderForm({}: Props) {
         );
 
         if (response.data && response.data.payUrl) {
+          sendEmail(data);
           orderItems.forEach((item) => {
             removeItem(item.productId, token);
           });
           setOrderItems([]);
           orderForm.resetFields();
           window.location.href = response.data.payUrl;
-          sendEmail(data);
         } else {
           message.error("Thanh toán MoMo thất bại");
         }
       } else if (data.paymentType === "ZALOPAY") {
+        sendEmail(data);
         const response = await axiosClient.post(
           "/orders/zalopay-payment",
           orderData
@@ -120,7 +121,6 @@ export default function OrderForm({}: Props) {
           setOrderItems([]);
           orderForm.resetFields();
           window.location.href = response.data.order_url;
-          sendEmail(data);
         } else {
           message.error("Thanh toán zalopay thất bại");
         }
