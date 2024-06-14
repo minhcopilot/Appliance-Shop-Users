@@ -41,6 +41,7 @@ type FormData = z.infer<typeof schema>;
 
 export default function ProfileForm() {
   const { user, setUser } = useAppContext();
+  const token = useAppContext().sessionToken;
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [avatarDataUrl, setAvatarDataUrl] = useState<string>(user?.photo || "");
@@ -102,6 +103,7 @@ export default function ProfileForm() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
         }
       );

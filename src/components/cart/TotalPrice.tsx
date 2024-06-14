@@ -14,7 +14,8 @@ export default function TotalPrice({ items }: Props) {
             .reduce(
               (acc, item) =>
                 acc +
-                ((item.price * (100 - item.discount)) / 100) * item.quantity,
+                ((item.price * (100 - (item.discount ?? 0))) / 100) *
+                  item.quantity,
               0
             )
             .toLocaleString("vi-VN", {
@@ -29,7 +30,8 @@ export default function TotalPrice({ items }: Props) {
           {items
             .reduce(
               (acc, item) =>
-                acc + ((item.price * item.discount) / 100) * item.quantity,
+                acc +
+                ((item.price * (item.discount ?? 0)) / 100) * item.quantity,
               0
             )
             .toLocaleString("vi-VN", {

@@ -1,7 +1,7 @@
 "use client";
-import { Button, Form, Input, Radio, Space, message, Select } from "antd";
+import { Form, Input, Radio, Space, message, Select } from "antd";
 import dayjs from "dayjs";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import utc from "dayjs/plugin/utc";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import useAdd from "@/hooks/useAdd";
@@ -11,13 +11,15 @@ import { useCart } from "@/hooks/useCart";
 import { useAppContext } from "@/app/AppProvider";
 import TotalPriceVoucher from "@/components/checkout/TotalPriceVoucher";
 import { axiosClient } from "@/lib/axiosClient";
+import { Button } from "@/components/ui/button";
+import SuccessModal from "@/components/ui/SuccessModal";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 type Props = {};
 
 dayjs.extend(customParseFormat);
 dayjs.extend(utc);
 const timeFormat = "HH:mm";
-const dateFormat = "DD/MM/YYYY " + timeFormat;
 
 export default function OrderForm({}: Props) {
   const { setOrderItems } = useOrder((state) => state);
@@ -32,6 +34,14 @@ export default function OrderForm({}: Props) {
   const query = useAdd("/orders");
   const [voucherCode, setVoucherCode] = React.useState<string | null>(null);
   const [cities, setCities] = React.useState<any>([]);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  const [showSuccessModal, setShowSuccessModal] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const router = useRouter();
+  const loggedin = user ? true : false;
+
   useEffect(() => {
     fetchCities();
   }, []);
@@ -46,6 +56,11 @@ export default function OrderForm({}: Props) {
     }
   };
   const submitOrder = async (data: any) => {
+    if (isSubmitting) {
+      return;
+    }
+    setIsSubmitting(true);
+    setIsLoading(true);
     const orderData = { ...data, orderDetails: orderItems };
     orderData.customerId = user.id;
     try {
@@ -70,36 +85,31 @@ export default function OrderForm({}: Props) {
         }
       } else {
         const result = await query.mutateAsync(orderData);
-        if (result.status === 200) {
+        if (result) {
+          setShowSuccessModal(true);
+          await new Promise((resolve: any) => {
+            setTimeout(() => {
+              setShowSuccessModal(false);
+              resolve();
+            }, 3000);
+          });
           orderItems.forEach((item) => {
             removeItem(item.productId, token);
           });
-          setOrderItems([]);
           orderForm.resetFields();
-          message.success("Đặt hàng thành công");
+          setOrderItems([]);
+          router.push("/profile/order");
+        } else {
+          message.error("Đặt hàng không thành công");
         }
       }
     } catch (error) {
       message.error("Đã xảy ra lỗi khi đặt hàng");
+    } finally {
+      setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
-  const Router = useRouter();
-  const loggedin = user ? true : false;
-  React.useEffect(() => {
-    if (query.isSuccess) {
-      orderItems.forEach((item) => {
-        removeItem(item.productId, token);
-      });
-      setOrderItems([]);
-      message.success("Đặt hàng thành công");
-
-      orderForm.resetFields();
-      Router.replace("/profile/order");
-    }
-    if (query.isError) {
-      message.error(query.error.message || "Đặt hàng thất bại");
-    }
-  }, [query]);
 
   const applyVoucher = async (voucherCode: string) => {
     try {
@@ -107,7 +117,6 @@ export default function OrderForm({}: Props) {
         voucherCode,
       });
       if (response.status === 200) {
-        message.success("Áp dụng voucher thành công!");
       } else {
         message.error(response.data.message);
       }
@@ -115,9 +124,15 @@ export default function OrderForm({}: Props) {
       message.error(error.message);
     }
   };
+
   const handleVoucherSelect = (voucherCode: string | null) => {
     setVoucherCode(voucherCode);
     orderForm.setFieldsValue({ voucherCode });
+    // Apply voucher
+    if (voucherCode) {
+      applyVoucher(voucherCode);
+      message.success("Áp dụng voucher thành công!");
+    }
   };
   return (
     <div className="flex justify-center mt-5 space-x-4">
@@ -133,6 +148,12 @@ export default function OrderForm({}: Props) {
           <h1 className="mb-5 text-xl font-semibold text-center uppercase">
             Thông tin đặt hàng
           </h1>
+          <SuccessModal
+            isOpen={showSuccessModal}
+            onClose={() => setShowSuccessModal(false)}
+            title="Đặt hàng thành công!"
+            content="Cảm ơn bạn đã đặt hàng, chúng tôi sẽ giao hàng cho bạn sớm nhất!"
+          />
           <Form.Item
             name="firstName"
             label="Tên"
@@ -269,10 +290,10 @@ export default function OrderForm({}: Props) {
             wrapperCol={{ span: 24, offset: 8 }}
           >
             <Space>
-              <Button type="primary" onClick={() => orderForm.submit()}>
-                Đặt hàng
+              <Button onClick={() => orderForm.submit()}>
+                {isLoading ? <LoadingSpinner /> : "Đặt hàng"}
               </Button>
-              <Button onClick={() => orderForm.resetFields()}>Làm mới</Button>
+              {/* <Button onClick={() => orderForm.resetFields()}>Làm mới</Button> */}
             </Space>
           </Form.Item>
         </Form>

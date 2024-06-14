@@ -10,12 +10,18 @@ const CustomerOrders: React.FC = () => {
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const user = useAppContext().user;
+  const token = useAppContext().sessionToken;
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const customerId = user?.id;
         const response = await axiosClient.get(
-          `/orders/customer/${customerId}`
+          `/orders/customer/${customerId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setOrders(response.data);
       } catch (error) {

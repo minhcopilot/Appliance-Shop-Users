@@ -24,7 +24,6 @@ export default function OrderDetail({}) {
   const orderDetailItems = orderItems.map((item) => {
     const product = items.find((x) => x.productId === item.productId);
     if (!product) {
-      Router.replace("/cart");
       return {
         ...item,
         product: null,

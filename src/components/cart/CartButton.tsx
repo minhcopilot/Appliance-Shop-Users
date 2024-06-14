@@ -13,9 +13,9 @@ export default function CartButton({}: Props) {
   return (
     <Popover
       placement="bottomRight"
-      title="Giỏ hàng"
-      content={<Cart limit={5} compact />}
-      className="block mb-[-10px]"
+      title="Sản phẩm mới thêm"
+      content={<Cart compact />}
+      className="block mb-[-10px] z-50"
     >
       <Link href="/cart">
         <Badge

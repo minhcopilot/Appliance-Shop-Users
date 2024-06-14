@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 // import useAuth from "./OnlineShop/hooks/useAuth";
 
 // "undefined" means the URL will be computed from the `window.location` object
-const URL = "http://localhost:9000";
+const URL = `${process.env.NEXT_PUBLIC_baseURL}`;
 export const useSocket = () => {
   // const token = useAuth((state) => state.token);
   return io(URL, {

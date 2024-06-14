@@ -276,21 +276,24 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
     }
   };
   const handleCancelOrder = async (orderId: any) => {
-    if (isLoading) return;
     setIsLoading(true);
     try {
-      await axiosClient.patch(`/orders/${orderId}/cancel`, user, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const updatedOrders = orderData.map((order) =>
-        order.id === orderId ? { ...order, status: "CANCELLED" } : order
+      const result = await axiosClient.patch(
+        `/orders/${orderId}/cancel`,
+        user,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      setOrderData(updatedOrders);
-      setShowSuccessModal(true);
-      console.log("Đơn hàng đã được hủy thành công.");
+      if (result) {
+        setShowSuccessModal(true);
+        const updatedOrders = orderData.map((order) =>
+          order.id === orderId ? { ...order, status: "CANCELLED" } : order
+        );
+        setOrderData(updatedOrders);
+      }
     } catch (error) {
       toast({
         title: "Lỗi huỷ đơn hàng",
@@ -471,7 +474,11 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                                     variant="destructive"
                                     onClick={handleOpenAlert}
                                   >
-                                    Hủy đơn hàng
+                                    {isLoading ? (
+                                      <LoadingSpinner />
+                                    ) : (
+                                      "Hủy đơn hàng"
+                                    )}
                                   </Button>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
@@ -495,7 +502,6 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                                         setIsAlertOpen(false);
                                       }}
                                       className="text-white bg-red-500 hover:text-white hover:bg-red-600"
-                                      disabled={isLoading}
                                     >
                                       {isLoading ? <LoadingSpinner /> : "Hủy"}
                                     </AlertDialogAction>
@@ -513,6 +519,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                           isOpen={showSuccessModal}
                           onClose={() => setShowSuccessModal(false)}
                           title="Huỷ đơn hàng thành công!"
+                          content="Đơn hàng của bạn đã được huỷ thành công."
                         />
                       </SheetContent>
                     </Sheet>
