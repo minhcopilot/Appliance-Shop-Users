@@ -51,7 +51,6 @@ import Link from "next/link";
 import { toast } from "@/components/ui/use-toast";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import SuccessModal from "@/components/ui/SuccessModal";
-import { ChevronLeft } from "lucide-react";
 
 interface OrderDetail {
   productId: number;
@@ -338,7 +337,14 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
                 <TableRow>
                   <TableCell>{order.id}</TableCell>
                   <TableCell>
-                    {new Date(order.createdDate).toLocaleString()}
+                    {new Date(order.createdDate).toLocaleString("vi-VN", {
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true,
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
                   </TableCell>
                   <TableCell className={getStatusColor(order.status)}>
                     {getStatusText(order.status)}

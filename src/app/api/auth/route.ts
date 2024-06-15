@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const maxAge = 30 * 24 * 60 * 60; // 7 ngày
+  const maxAge = 30 * 24 * 60 * 60;
   const userCookie = encodeURIComponent(JSON.stringify(res.user));
 
   return Response.json(res, {

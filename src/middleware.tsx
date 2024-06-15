@@ -18,7 +18,9 @@ export function middleware(request: NextRequest) {
   }
   //Nếu đăng nhập rồi thì sẽ redirect với trang /profile
   if (authPaths.some((path) => pathname.startsWith(path)) && sessionToken) {
-    return NextResponse.redirect(new URL("/profile", request.url));
+    const redirectRes = NextResponse.redirect(new URL("/profile", request.url));
+    redirectRes.headers.set("x-middleware-cache", "no-cache"); // Delete cache
+    return redirectRes;
   }
   //còn ko đúng điều kiện thì next()
   return NextResponse.next();
