@@ -15,16 +15,13 @@ type Props = {
   };
 };
 
-export const generateStaticPaths = async () => {
-  const posts = await getSubject("article/posts/?type=post");
-  const paths = posts.map((post: any) => ({
-    params: { url: post.url },
-  }));
-  return {
-    paths,
-    fallback: false,
-  };
-};
+// export const generateStaticParams = async () => {
+//   const posts = await getSubject("article/posts/?type=post");
+//   const paths = posts.map((post: any) => ({
+//     slug: { url: post.url },
+//   }));
+//   return paths;
+// };
 
 export default async function BlogPost({ params }: Props) {
   const { url } = params;
