@@ -10,6 +10,14 @@ type Props = {
   };
 };
 
+// export const generateStaticParams = async () => {
+//   const categories = await getSubject("article/categories/");
+//   const paths = categories.map((category: any) => ({
+//     slug: { url: category.url },
+//   }));
+//   return paths;
+// };
+
 export default async function Blog({ params: { url } }: Props) {
   const postList = await getSubject(`article/posts/?category=${url}`);
   return (

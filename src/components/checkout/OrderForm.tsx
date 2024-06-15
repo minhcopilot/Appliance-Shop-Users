@@ -85,7 +85,7 @@ export default function OrderForm({}: Props) {
     setIsSubmitting(true);
     setIsLoading(true);
     const orderData = { ...data, orderDetails: orderItems };
-    orderData.customerId = user.id;
+    if (user) orderData.customerId = user.id;
     try {
       if (voucherCode) {
         await applyVoucher(voucherCode);

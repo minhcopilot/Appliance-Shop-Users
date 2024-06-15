@@ -10,6 +10,14 @@ type Props = {
   };
 };
 
+// export const generateStaticParams = async () => {
+//   const authors = await getSubject("article/posts/authorIds");
+//   const paths = authors.map((author: any) => ({
+//     slug: { id: author },
+//   }));
+//   return paths;
+// };
+
 export default async function Blog({ params: { id } }: Props) {
   const postList = await getSubject(`article/posts/?authorId=${id}`);
   return (

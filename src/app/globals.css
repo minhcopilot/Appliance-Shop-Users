@@ -105,3 +105,16 @@
 .ant-menu-submenu::after {
   border: none !important;
 }
+
+.ant-input-outlined {
+  background-color: hsl(var(--background)) !important;
+  border-color: hsl(var(--border)) !important;
+}
+
+.ant-input {
+  color: hsl(var(--foreground)) !important;
+}
+
+::placeholder {
+  color: hsl(var(--muted-foreground)) !important;
+}
