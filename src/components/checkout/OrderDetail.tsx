@@ -35,8 +35,8 @@ export default function OrderDetail({}) {
     };
   });
   useEffect(() => {
-    getItems(token);
-  }, []);
+    token && getItems(token);
+  }, [token]);
   const productColumn: (ColumnTypes[number] & {
     dataIndex?: string;
   })[] = [
@@ -135,7 +135,7 @@ export default function OrderDetail({}) {
       columns={productColumn}
       dataSource={orderDetailItems}
       style={{ overflow: "hidden" }}
-      pagination={{ position: ["bottomCenter"] }}
+      pagination={false}
     />
   );
 }
