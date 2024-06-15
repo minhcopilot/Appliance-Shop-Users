@@ -271,6 +271,8 @@ const OrderList: React.FC<OrderListProps> = ({ orders }) => {
         return "Tiền mặt";
       case "MOMO":
         return "Ví MoMo";
+      case "ZALOPAY":
+        return "Zalopay";
       default:
         return paymentType;
     }
