@@ -19,7 +19,7 @@ export default function CheckoutRedirectButton({}: Props) {
       size="large"
       onClick={redirect}
       disabled={orderItems.length === 0}
-      className="w-full !bg-yellow-400 hover:!bg-yellow-500"
+      className="w-1/2 !bg-yellow-400 hover:!bg-yellow-500"
     >
       Mua hàng
     </Button>

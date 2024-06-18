@@ -64,14 +64,14 @@ export default function HeaderMain() {
           <input
             placeholder="Nhập tên sản phẩm"
             type="text"
-            className="w-full p-2 px-4 border border-gray-200 rounded-lg"
+            className="w-full mt-2 p-2 px-4 border border-gray-200 rounded-lg"
             value={searchTerm}
             onChange={handleInputChange}
             onFocus={() => fetchSuggestions(searchTerm)}
           />
           <button
             type="button"
-            className="absolute top-0 right-0 p-3 text-yellow-400 rounded-e-lg hover:bg-yellow-300 hover:text-white"
+            className="absolute top-2 right-0 p-3 text-yellow-400 rounded-e-lg hover:bg-yellow-300 hover:text-white"
             onClick={handleSearch}
           >
             <BsSearch size={17} />

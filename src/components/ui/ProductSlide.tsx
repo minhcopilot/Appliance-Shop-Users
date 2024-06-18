@@ -1,4 +1,5 @@
 import ProductCard from "@/components/products/ProductCard";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -36,7 +37,7 @@ const ProductSlides: React.FC<ProductSlidesProps> = ({
         <CarouselContent>
           {productChunks.map((chunk: any[], index: number) => (
             <CarouselItem key={index}>
-              <div className="flex justify-around py-5 space-x-4">
+              <div className="grid grid-cols-1 gap-4 py-5 sm:grid-cols-2 lg:grid-cols-4">
                 {chunk.map((product: any) => (
                   <ProductCard key={product.id} data={product} />
                 ))}

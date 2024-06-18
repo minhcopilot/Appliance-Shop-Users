@@ -44,20 +44,20 @@ const VoucherList: React.FC = () => {
   );
 
   return (
-    <div className="container py-8 mx-auto">
-      <h1 className="mb-6 text-3xl font-bold text-center">Kho Voucher</h1>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div className="">
+      <h1 className="mb-6 text-2xl font-bold text-center">Kho Voucher</h1>
+      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {validVouchers.map((voucher) => (
           <div
             key={voucher.id}
-            className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
+            className="sm:w-full md:text-md   bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
           >
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-xl font-bold text-yellow-600">
+                <span className="sm:text-sm md:text-md lg:text-lg font-bold text-yellow-600">
                   {voucher.voucherCode}
                 </span>
-                <span className="bg-yellow-100 text-yellow-800 text-sm font-semibold px-2 py-1 rounded">
+                <span className="sm:text-sm md:text-md lg:text-md  bg-yellow-100 text-yellow-800 text-sm font-semibold px-2 py-1 rounded">
                   Giảm giá {voucher.discountPercentage}%
                 </span>
               </div>
@@ -86,9 +86,9 @@ const VoucherList: React.FC = () => {
                   })}
                 </p>
               </div>
-              <div className="flex justify-center ">
+              <div className="flex justify-center">
                 <Link href="/cart">
-                  <button className="p-2 rounded-md bg-yellow-500 text-white font-semibold hover:bg-yellow-600 transition-colors duration-300">
+                  <button className="px-4 py-2 rounded-md bg-yellow-500 text-white font-semibold hover:bg-yellow-600 transition-colors duration-300">
                     Dùng ngay
                   </button>
                 </Link>

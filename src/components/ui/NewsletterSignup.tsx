@@ -68,9 +68,11 @@ const NewsletterSignup: React.FC = () => {
   };
 
   return (
-    <div className="mt-16 bg-yellow-300 py-9">
+    <div className="mt-16 bg-yellow-300 py-9 ">
       <div className="container flex items-center justify-between px-4 mx-auto">
-        <h3 className="text-2xl font-bold">Đăng ký nhận tin khuyến mãi</h3>
+        <h3 className="sm:text-sm md:text-md lg:text-2xl font-bold ">
+          Đăng ký nhận tin khuyến mãi
+        </h3>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(sendEmail)} className="flex">
             <FormField

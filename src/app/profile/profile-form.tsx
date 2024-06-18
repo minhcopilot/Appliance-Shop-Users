@@ -127,130 +127,126 @@ export default function ProfileForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <div className="flex flex-col gap-4">
-          <div className="mb-6">
-            <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
-              Hồ Sơ Của Tôi
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              Quản lý thông tin hồ sơ để bảo mật tài khoản
-            </p>
-          </div>
+        <div className="mb-6">
+          <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
+            Hồ Sơ Của Tôi
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            Quản lý thông tin hồ sơ để bảo mật tài khoản
+          </p>
+        </div>
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4">
+          <div className="order-2 sm:order-2 md:order-1 lg:order-1 xl:order-1">
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem className="mt-5">
+                  <FormLabel>Họ</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem className="mt-5">
+                  <FormLabel>Tên</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="mt-5">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem className="mt-5">
+                  <FormLabel>Số điện thoại</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem className="mt-5">
+                  <FormLabel>Địa chỉ</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Họ</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tên</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input type="email" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phoneNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Số điện thoại</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Địa chỉ</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="grid items-center ">
-                <FormLabel className="mb-4">Ngày sinh</FormLabel>
+            <div className="grid items-center ">
+              <FormLabel className="mt-4 mb-3">Ngày sinh</FormLabel>
+              <div className="col-span-2">
                 <div className="col-span-2">
-                  <div className="col-span-2">
-                    <BirthDateInputs
-                      birthday={user?.birthday}
-                      onDateChange={handleBirthdayChange}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center gap-4">
-              <div className="flex flex-col items-center gap-4">
-                <Avatar>
-                  <AvatarImage src={avatarDataUrl} />
-                  <AvatarFallback>AVT</AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col items-center gap-4">
-                  <ImageUploader
-                    maxFileSize={2 * 1024 * 1024}
-                    acceptedFileTypes="image/jpeg"
-                    onFileSelected={handleFileSelected}
+                  <BirthDateInputs
+                    birthday={user?.birthday}
+                    onDateChange={handleBirthdayChange}
                   />
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  Dung lượng file tối đa 1 MB
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Định dạng: .JPEG, .PNG
-                </p>
               </div>
             </div>
+          </div>
 
-            <div className="flex justify-center">
-              <Button
-                type="submit"
-                variant="outline"
-                className="text-white bg-yellow-500 hover:bg-yellow-600 hover:text-white "
-                disabled={isLoading}
-              >
-                {isLoading ? <LoadingSpinner /> : "Lưu"}
-              </Button>
+          <div className="flex flex-col items-center gap-4 order-1 sm:order-1 md:order-2 lg:order-2 xl:order-2">
+            <div className="flex flex-col items-center gap-4">
+              <Avatar>
+                <AvatarImage src={avatarDataUrl} />
+                <AvatarFallback>AVT</AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col items-center gap-4">
+                <ImageUploader
+                  maxFileSize={2 * 1024 * 1024}
+                  acceptedFileTypes="image/jpeg"
+                  onFileSelected={handleFileSelected}
+                />
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Dung lượng file tối đa 1 MB
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Định dạng: .JPEG, .PNG
+              </p>
             </div>
           </div>
+        </div>
+        <div className="flex justify-center mt-4">
+          <Button
+            type="submit"
+            variant="outline"
+            className="text-white bg-yellow-500 hover:bg-yellow-600 hover:text-white "
+            disabled={isLoading}
+          >
+            {isLoading ? <LoadingSpinner /> : "Lưu"}
+          </Button>
         </div>
       </form>
       <SuccessModal

@@ -1,25 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 type SearchProductProps = {
   onSearch: (term: string) => void;
 };
 
 const SearchProduct: React.FC<SearchProductProps> = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = () => {
     onSearch(searchTerm);
   };
 
   return (
-    <div className="search-bar flex mb-6">
+    <div className="search-bar  flex mb-6">
       <input
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Tìm sản phẩm"
-        className="border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
+        className="
+    border border-gray-300 rounded-l-md 
+    px-2 py-1   sm:px-3 sm:py-2   md:px-4 md:py-2 
+    focus:outline-none focus:ring focus:border-blue-300
+    lg:w-full sm:w-1/2 md:w-full
+  "
       />
+
       <button
         type="button"
         onClick={handleSearch}

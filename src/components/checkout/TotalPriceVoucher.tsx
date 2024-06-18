@@ -13,6 +13,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { axiosClient } from "@/lib/axiosClient";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type Props = {
   items: OrderItem[];
@@ -88,13 +89,15 @@ export default function TotalPriceVoucher({ items, onVoucherSelect }: Props) {
 
   return (
     <div className="flex flex-col gap-3 text-base">
-      <div>
-        <span>Haven Voucher</span>
+      <div className=" flex items-center">
+        <p className="sm:text-xs md:text-sm lg:text-md font-bold">
+          Haven Voucher
+        </p>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button
               variant="ghost"
-              className="ms-4 text-yellow-600 hover:!bg-white hover:!text-yellow-700"
+              className=" text-yellow-600 hover:!bg-white hover:!text-yellow-700"
               onClick={() => setIsDialogOpen(true)}
             >
               {selectedVoucher ? selectedVoucher.voucherCode : "Chọn Voucher"}
@@ -108,50 +111,52 @@ export default function TotalPriceVoucher({ items, onVoucherSelect }: Props) {
               </DialogDescription>
             </DialogHeader>
             <ul>
-              {validVouchers.map((voucher) => (
-                <li key={voucher.id} className="my-2">
-                  <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
-                    <div className="flex justify-between items-center">
-                      <div className="flex flex-col">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-lg font-bold text-yellow-600">
-                            {voucher.voucherCode}
-                          </span>
-                          <span className="bg-yellow-100 text-yellow-800 text-sm font-semibold px-2 py-1 rounded">
-                            Giảm giá {Math.round(voucher.discountPercentage)}%
-                          </span>
+              <ScrollArea className="h-96">
+                {validVouchers.map((voucher) => (
+                  <li key={voucher.id} className="my-2">
+                    <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
+                      <div className="flex justify-between items-center">
+                        <div className="flex flex-col">
+                          <div className="flex items-center space-x-2">
+                            <span className="text-lg font-bold text-yellow-600">
+                              {voucher.voucherCode}
+                            </span>
+                            <span className="bg-yellow-100 text-yellow-800 text-sm font-semibold px-2 py-1 rounded">
+                              Giảm giá {Math.round(voucher.discountPercentage)}%
+                            </span>
+                          </div>
+                          <div className="text-sm text-gray-500 mt-1">
+                            <span>
+                              Đã dùng:{" "}
+                              {Math.round(
+                                (voucher.remainingUsageCount * 100) /
+                                  voucher.maxUsageCount
+                              )}
+                              %
+                            </span>
+                            <span className="mx-2">|</span>
+                            <span>
+                              HSD:{" "}
+                              {voucher.expiryDate.toLocaleDateString("vi-VN", {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                              })}
+                            </span>
+                          </div>
                         </div>
-                        <div className="text-sm text-gray-500 mt-1">
-                          <span>
-                            Đã dùng:{" "}
-                            {Math.round(
-                              (voucher.remainingUsageCount * 100) /
-                                voucher.maxUsageCount
-                            )}
-                            %
-                          </span>
-                          <span className="mx-2">|</span>
-                          <span>
-                            HSD:{" "}
-                            {voucher.expiryDate.toLocaleDateString("vi-VN", {
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "numeric",
-                            })}
-                          </span>
-                        </div>
+                        <Button
+                          variant="outline"
+                          className="text-yellow-600 hover:bg-yellow-600 hover:text-white transition-colors duration-300"
+                          onClick={() => handleSelectVoucher(voucher)}
+                        >
+                          Chọn
+                        </Button>
                       </div>
-                      <Button
-                        variant="outline"
-                        className="text-yellow-600 hover:bg-yellow-600 hover:text-white transition-colors duration-300"
-                        onClick={() => handleSelectVoucher(voucher)}
-                      >
-                        Chọn
-                      </Button>
                     </div>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                ))}
+              </ScrollArea>
             </ul>
             <DialogClose asChild>
               <Button

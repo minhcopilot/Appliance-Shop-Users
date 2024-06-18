@@ -6,7 +6,7 @@ import CategoryFilter from "@/components/products/ProductFiler";
 import SearchProduct from "@/components/products/SearchProduct";
 import { axiosClient } from "@/lib/axiosClient";
 import ReactPaginate from "react-paginate";
-import "@/components/products/ProductPage.css"
+import "@/components/products/ProductPage.css";
 
 // Định nghĩa kiểu dữ liệu cho Product và Category
 type Product = {
@@ -25,9 +25,11 @@ type Category = {
 const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  );
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const itemsPerPage = 8; // Số lượng sản phẩm trên mỗi trang
 
   useEffect(() => {
@@ -56,7 +58,8 @@ const ProductsPage = () => {
 
   const filteredProducts = products.filter((product) => {
     return (
-      (selectedCategoryId === null || product.categoryId === selectedCategoryId) &&
+      (selectedCategoryId === null ||
+        product.categoryId === selectedCategoryId) &&
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
@@ -66,24 +69,28 @@ const ProductsPage = () => {
   const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
   return (
     <div className="container mx-auto py-8 px-4 flex flex-col">
-      <div className="flex mb-8">
-        <div className="w-1/4 mr-4">
+      <h1 className="text-3xl font-bold mb-5">Tất cả sản phẩm</h1>
+      <div className="flex mb-8 gap-3">
+        <div className="hidden md:block lg:w-1/4 md:w-1/4 sm:w-1/4">
           <div className="mb-6">
-            <h1 className="text-3xl font-bold mb-6">Sản phẩm</h1>
-            <SearchProduct onSearch={handleSearch} /> {/* Sử dụng SearchProduct */}
+            <SearchProduct onSearch={handleSearch} />{" "}
+            {/* Sử dụng SearchProduct */}
             <div className="dropdown mb-6">
               <button className="dropdown-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-md focus:outline-none focus:ring focus:border-blue-300">
                 Sắp xếp theo
               </button>
               <div className="dropdown-content bg-white border border-gray-300 rounded-md mt-1 p-2">
-                <a href="#" className="block py-1 hover:bg-gray-100 text-dark">Mới nhất</a>
-                <a href="#" className="block py-1 hover:bg-gray-100 text-dark">Giá cao nhất</a>
-                <a href="#" className="block py-1 hover:bg-gray-100 text-dark">Giá thấp nhất</a>
+                <a href="#" className="block py-1 hover:bg-gray-100 text-dark">
+                  Mới nhất
+                </a>
+                <a href="#" className="block py-1 hover:bg-gray-100 text-dark">
+                  Giá cao nhất
+                </a>
+                <a href="#" className="block py-1 hover:bg-gray-100 text-dark">
+                  Giá thấp nhất
+                </a>
               </div>
             </div>
-
-         
-
             <CategoryFilter
               categories={categories}
               selectedCategoryId={selectedCategoryId}
@@ -92,7 +99,7 @@ const ProductsPage = () => {
           </div>
         </div>
 
-        <div className="w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className=" grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {currentItems.map((product) => (
             <ProductCard key={product.id} data={product} />
           ))}

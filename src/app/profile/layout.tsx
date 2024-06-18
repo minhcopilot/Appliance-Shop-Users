@@ -6,9 +6,14 @@ export default function ProfileLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex container">
-      <Sidebar />
-      <main className="flex-1 p-4">{children}</main>
+    <div className="container mx-auto">
+      <div className="md:flex">
+        <div className="md:w-1/4 lg:w-1/6">
+          <Sidebar />
+        </div>
+
+        <main className="flex-1 p-0 md:p-6 lg:p-8">{children}</main>
+      </div>
     </div>
   );
 }

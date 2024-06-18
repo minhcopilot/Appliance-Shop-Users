@@ -1,6 +1,7 @@
 import { axiosClient } from "@/lib/axiosClient";
 import { Menu } from "antd";
 import { ItemType } from "antd/lib/menu/hooks/useItems";
+import { MenuIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -101,21 +102,23 @@ export default async function Navbar({ className }: NavbarProps) {
   ];
 
   return (
-    <div className={`hidden lg:block ${className || ""}`}>
-      <div className="container flex justify-center">
-        <Menu
-          selectable={false}
-          className="flex py-4 mx-auto font-bold w-fit text-blackish"
-          style={{
-            minWidth: 0,
-            flex: "auto",
-            justifyContent: "center",
-            fontSize: "1rem",
-          }}
-          mode="horizontal"
-          items={menuItem}
-        />
+    <>
+      <div className={` lg:block ${className || ""}`}>
+        <div className="container flex justify-center">
+          <Menu
+            selectable={false}
+            className="flex py-4 mx-auto font-bold w-fit text-blackish"
+            style={{
+              minWidth: 0,
+              flex: "auto",
+              justifyContent: "center",
+              fontSize: "1rem",
+            }}
+            mode="horizontal"
+            items={menuItem}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

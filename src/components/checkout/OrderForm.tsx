@@ -177,7 +177,7 @@ export default function OrderForm({}: Props) {
     }
   };
   return (
-    <div className="flex justify-center mt-5 space-x-4">
+    <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 justify-center mt-5 space-x-4">
       <div className="max-w-2xl w-full">
         <Form
           form={orderForm}
@@ -234,7 +234,10 @@ export default function OrderForm({}: Props) {
             rules={[
               { type: "string", message: "Số điện thoại không hợp lệ" },
               { required: true, message: "Số điện thoại không được bỏ trống" },
-              { max: 12, message: "Số điện thoại không hợp lệ" },
+              {
+                pattern: /^((\+84|0)[3|5|7|8|9])+([0-9]{8})\b/,
+                message: "Số điện thoại không hợp lệ",
+              },
             ]}
           >
             <Input addonBefore="+84" name="phoneNumber" type="number"></Input>
@@ -328,16 +331,11 @@ export default function OrderForm({}: Props) {
           <Form.Item name="voucherCode" hidden>
             <Input type="hidden" />
           </Form.Item>
-          <Form.Item
-            className="flex justify-end"
-            wrapperCol={{ span: 24, offset: 8 }}
-          >
-            <Space>
-              <Button onClick={() => orderForm.submit()}>
-                {isLoading ? <LoadingSpinner /> : "Đặt hàng"}
-              </Button>
-              {/* <Button onClick={() => orderForm.resetFields()}>Làm mới</Button> */}
-            </Space>
+          <Form.Item className="flex justify-center sm:justify-center md:justify-center lg:justify-end ">
+            <Button onClick={() => orderForm.submit()}>
+              {isLoading ? <LoadingSpinner /> : "Đặt hàng"}
+            </Button>
+            {/* <Button onClick={() => orderForm.resetFields()}>Làm mới</Button> */}
           </Form.Item>
         </Form>
       </div>

@@ -14,7 +14,7 @@ export default function Sidebar() {
   const { user } = useAppContext();
 
   return (
-    <div className="bg-white shadow-md rounded-md p-4 w-1/6 h-screen top-0 left-0">
+    <div className="sm:w-full md:w-full lg:w-full sm:h-auto md:h-auto lg:h-screen bg-white shadow-md rounded-md p-4 top-0 left-0">
       <div className="flex items-center mb-4">
         <Avatar>
           <AvatarImage src={user?.photo ?? ""} />
