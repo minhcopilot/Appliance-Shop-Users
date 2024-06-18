@@ -15,9 +15,19 @@ export const useSocket = () => {
   });
 };
 
+interface chat {
+  id: number;
+  customerName: string;
+  phoneNumber: string;
+}
+
 interface chatId {
-  chatId: number | null;
-  setChatId: (chatId: number | null) => void;
+  chatId: chat | null;
+  setChatId: (chatId: chat | null) => void;
+  unRead: number;
+  setUnRead: (unRead: number) => void;
+  chatOpen: boolean;
+  setChatOpen: (chatOpen: boolean) => void;
 }
 
 export const useChat = create<chatId>()(
@@ -25,6 +35,10 @@ export const useChat = create<chatId>()(
     (set) => ({
       chatId: null,
       setChatId: (chatId) => set({ chatId }),
+      unRead: 0,
+      setUnRead: (unRead) => set({ unRead }),
+      chatOpen: false,
+      setChatOpen: (chatOpen) => set({ chatOpen }),
     }),
     { name: "chatId" }
   )

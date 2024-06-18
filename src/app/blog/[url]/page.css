@@ -1,0 +1,14 @@
+@media (min-width: 1024px) {
+    .articleContent {
+        width: 65%;
+    }
+
+    .articleSide {
+        width: 30%;
+    }
+}
+
+.articleContent,
+.articleSide {
+    max-width: 80vw;
+}

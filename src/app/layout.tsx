@@ -17,6 +17,7 @@ import NewsletterSignup from "@/components/ui/NewsletterSignup";
 import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
 import Navbar from "@/components/header/Navbar";
 import CallButton from "@/components/ui/CallButton";
+import ChatProvider from "@/providers/ChatProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -51,16 +52,18 @@ export default function RootLayout({
             <AntdProvider>
               <ReactQueryProvider>
                 <AntdRegistry>
-                  <Chat />
-                  <Header>
-                    <Navbar />
-                  </Header>
-                  <div className="mt-44">{children}</div>
-                  <Toaster />
-                  <NewsletterSignup />
-                  <Footer />
-                  <CallButton />
-                  <ScrollToTopButton />
+                  <ChatProvider>
+                    <Chat />
+                    <Header>
+                      <Navbar />
+                    </Header>
+                    <div className="mt-44">{children}</div>
+                    <Toaster />
+                    <NewsletterSignup />
+                    <Footer />
+                    <CallButton />
+                    <ScrollToTopButton />
+                  </ChatProvider>
                 </AntdRegistry>
               </ReactQueryProvider>
             </AntdProvider>

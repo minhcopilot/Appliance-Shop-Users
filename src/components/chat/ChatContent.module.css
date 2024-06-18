@@ -9,3 +9,18 @@
 .container>div:last-child {
     scroll-snap-align: end;
 }
+
+.chatCard {
+    width: 500px;
+    height: 80vh;
+    position: absolute !important;
+    right: 0;
+    bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .chatCard {
+        width: 80vw;
+    }
+
+}

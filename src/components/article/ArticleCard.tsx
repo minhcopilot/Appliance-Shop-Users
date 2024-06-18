@@ -13,6 +13,7 @@ import Title from "antd/lib/typography/Title";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { cropArticleCard } from "@/lib/utils";
+import styles from "./article.module.css";
 
 type Props = {
   post: postSchema;
@@ -61,7 +62,7 @@ export const ArticleCard = async ({ post }: Props) => {
   return (
     <>
       <Card
-        className="w-[400px]"
+        className={styles.articleCard}
         style={{ backgroundColor: "hsl(var(--card))" }}
         cover={
           <Link key="edit" href={"/blog/" + post.url}>
@@ -69,9 +70,9 @@ export const ArticleCard = async ({ post }: Props) => {
               <Image
                 alt={post.title}
                 src={cropArticleCard(post.imageUrl.url)}
-                width={400}
+                width={320}
                 height={200}
-                style={{ height: 200, objectFit: "cover" }}
+                sizes="(max-width: 320px) 90vw, 25vw"
               />
             ) : (
               <div style={{ height: 200, backgroundColor: "#00000073" }}></div>

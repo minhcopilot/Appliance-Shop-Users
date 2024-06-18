@@ -43,7 +43,7 @@ export default function ArticlePost({ post }: Props) {
           </Title>
         </Space>
       </Space>
-      {parse(post.content)}
+      <div>{parse(post.content)}</div>
     </Card>
   );
 }

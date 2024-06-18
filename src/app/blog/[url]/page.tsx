@@ -6,8 +6,8 @@ import PostAuthor from "@/components/article/PostAuthor";
 import { SidebarList } from "@/components/article/SidebarList";
 import { getSubject } from "@/hooks/blog/useGet";
 import { Flex, Layout } from "antd";
-import Sider from "antd/lib/layout/Sider";
 import { Content } from "antd/lib/layout/layout";
+import "./page.css";
 
 type Props = {
   params: {
@@ -36,49 +36,36 @@ export default async function BlogPost({ params }: Props) {
     "article/posts/?type=post&limit=3&sort=-createdAt"
   );
   return (
-    <Content className="mx-[10%] min-w-[80%]">
+    <Content className="mx-[10%]">
       <Breadcumb postContent={postContent} />
-      <Layout hasSider>
-        <Content>
-          <Flex vertical gap={20} align="center">
-            <ArticlePost post={postContent} />
-            {postContent.type === "post" && (
-              <>
-                <PostAuthor
-                  authorName={postContent.authorName}
-                  authorId={postContent.authorId || undefined}
-                />
-                <CommentSection
-                  url={url}
-                  enableComment={postContent.commentStatus === "open"}
-                />
-              </>
-            )}
-          </Flex>
-        </Content>
+      <Flex gap={10} className="w-full" wrap>
+        <Flex vertical gap={20} align="center" className="articleContent">
+          <ArticlePost post={postContent} />
+          {postContent.type === "post" && (
+            <>
+              <PostAuthor
+                authorName={postContent.authorName}
+                authorId={postContent.authorId || undefined}
+              />
+              <CommentSection
+                url={url}
+                enableComment={postContent.commentStatus === "open"}
+              />
+            </>
+          )}
+        </Flex>
         {postContent.type === "post" && (
-          <Sider
-            width={400}
-            breakpoint="xl"
-            collapsible
-            collapsedWidth={0}
-            className="ml-5"
-          >
-            <Flex vertical gap={20}>
-              <SidebarList postList={newest} title="Bài viết mới nhất" />
-              <ArticleSearchBar />
-              <SidebarList
-                postList={mostLiked}
-                title="Bài viết được yêu thích"
-              />
-              <SidebarList
-                postList={mostViewed}
-                title="Bài viết được xem nhiều"
-              />
-            </Flex>
-          </Sider>
+          <Flex vertical gap={20} className="articleSide">
+            <SidebarList postList={newest} title="Bài viết mới nhất" />
+            <ArticleSearchBar />
+            <SidebarList postList={mostLiked} title="Bài viết được yêu thích" />
+            <SidebarList
+              postList={mostViewed}
+              title="Bài viết được xem nhiều"
+            />
+          </Flex>
         )}
-      </Layout>
+      </Flex>
     </Content>
   );
 }

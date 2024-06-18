@@ -115,6 +115,19 @@
   color: hsl(var(--foreground)) !important;
 }
 
+.ant-float-btn-content {
+  overflow: initial !important;
+}
+
 ::placeholder {
   color: hsl(var(--muted-foreground)) !important;
+}
+
+.recaptchaDiv * {
+  background-color: hsl(var(--background));
+  border-color: hsl(var(--background));
+}
+
+.recaptchaDiv {
+  display: "inline-block"
 }
