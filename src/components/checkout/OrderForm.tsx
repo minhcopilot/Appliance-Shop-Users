@@ -124,6 +124,23 @@ export default function OrderForm({}: Props) {
         } else {
           message.error("Thanh toán zalopay thất bại");
         }
+      } else if (data.paymentType === "PAYOS") {
+        sendEmail(data);
+        const response = await axiosClient.post(
+          "/orders/payos-payment",
+          orderData
+        );
+
+        if (response.data) {
+          orderItems.forEach((item) => {
+            removeItem(item.productId, token);
+          });
+          setOrderItems([]);
+          orderForm.resetFields();
+          window.location.href = response.data;
+        } else {
+          message.error("Thanh toán chuyển khoản thất bại");
+        }
       } else {
         const result = await query.mutateAsync(orderData);
         if (result) {
@@ -293,7 +310,7 @@ export default function OrderForm({}: Props) {
             rules={[
               {
                 type: "enum",
-                enum: ["CASH", "MOMO", "ZALOPAY"],
+                enum: ["CASH", "MOMO", "ZALOPAY", "PAYOS"],
                 message: "Phương thức thanh toán không hợp lệ",
               },
               {
@@ -308,6 +325,7 @@ export default function OrderForm({}: Props) {
                 { value: "CASH", label: "Tiền mặt" },
                 { value: "MOMO", label: "Ví MoMo" },
                 { value: "ZALOPAY", label: "Zalopay" },
+                { value: "PAYOS", label: "Chuyển khoản" },
               ]}
             />
           </Form.Item>
