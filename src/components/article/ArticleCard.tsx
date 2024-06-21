@@ -73,6 +73,7 @@ export const ArticleCard = async ({ post }: Props) => {
                 width={320}
                 height={200}
                 sizes="(max-width: 320px) 90vw, 25vw"
+                style={{ height: 200 }}
               />
             ) : (
               <div style={{ height: 200, backgroundColor: "#00000073" }}></div>

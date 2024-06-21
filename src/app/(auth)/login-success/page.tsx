@@ -1,6 +1,6 @@
 "use client";
 import { apiLoginSuccess } from "@/app/api/auth/authService";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "@/app/AppProvider";
@@ -12,7 +12,9 @@ interface Params {
 
 export default function LoginSuccess() {
   //@ts-ignore
-  const { email } = useParams<Params>();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email") || "";
+  // const { email } = useParams<Params>();
   const decodedEmail = decodeURIComponent(email);
   const router = useRouter();
   const { setSessionToken, setUser } = useAppContext();

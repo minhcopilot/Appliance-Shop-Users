@@ -35,7 +35,7 @@ export default function CommentForm({ url }: Props) {
     setLoading(true);
     const result = await axiosClient.post(
       "article/posts/" + url + "/comments",
-      data
+      { ...data, recaptchaToken }
     );
     commentForm.resetFields();
     setLoading(false);

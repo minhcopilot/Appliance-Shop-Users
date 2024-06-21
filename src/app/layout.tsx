@@ -57,7 +57,7 @@ export default function RootLayout({
                     <Header>
                       <Navbar />
                     </Header>
-                    <div className="mt-44">{children}</div>
+                    <div className="mt-56 sm:mt-44">{children}</div>
                     <Toaster />
                     <NewsletterSignup />
                     <Footer />

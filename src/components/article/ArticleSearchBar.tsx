@@ -34,7 +34,7 @@ export default function ArticleSearchBar({}: Props) {
         onChange={(e) => {
           debounceSetQuery(e.target.value);
         }}
-        onSearch={() => Router.push(`/blog/search/${query}`)}
+        onSearch={() => Router.push(`/blog/search/?query=${query}`)}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         size="large"

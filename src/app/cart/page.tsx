@@ -15,8 +15,9 @@ export default function CartPage({}: Props) {
       <h1 className="text-2xl font-bold text-center uppercase">
         Giỏ hàng của bạn
       </h1>
-      <div className="bg-inherit grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
-        <div className="lg:py-3 lg:px-14 sm:p-2 p-2">
+      <br />
+      <div className="bg-inherit grid grid-cols-1 lg:grid-cols-3">
+        <div className="lg:py-3 lg:px-14 sm:p-2 p-2 lg:col-span-2">
           <Cart />
         </div>
         <div className="lg:py-3 lg:px-14 bg-inherit flex-shrink-0 lg:mt-16">

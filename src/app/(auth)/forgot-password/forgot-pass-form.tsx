@@ -20,13 +20,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { axiosClient } from "@/lib/axiosClient";
 import { ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export function ForgotPassForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const { toast } = useToast();
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const handleCaptchaChange = (value: any) => {
+    setIsCaptchaVerified(!!value);
+  };
   // 1. Define your form.
   const form = useForm<ForgotPassType>({
     resolver: zodResolver(ForgotPassBody),
@@ -39,11 +45,22 @@ export function ForgotPassForm() {
     if (isLoading) return;
     setIsSuccess(false);
     setIsLoading(true);
+    const recaptchaToken = await recaptchaRef.current?.getValue();
+    recaptchaRef.current?.reset();
+
+    if (!recaptchaToken) {
+      toast({
+        title: "Lỗi xác thực",
+        description: "Vui lòng xác minh bạn không phải là robot!",
+      });
+      setIsLoading(false);
+      return;
+    }
     try {
-      const result = await axiosClient.post(
-        "/user/auth/forgot-password",
-        values
-      );
+      const result = await axiosClient.post("/user/auth/forgot-password", {
+        ...values,
+        recaptchaToken,
+      });
       if (result.status === 200) {
         setIsSuccess(true);
       }
@@ -116,6 +133,12 @@ export function ForgotPassForm() {
                   <FormMessage />
                 </FormItem>
               )}
+            />
+            <ReCAPTCHA
+              className="mt-3"
+              ref={recaptchaRef}
+              sitekey={`${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+              onChange={handleCaptchaChange}
             />
             <Button type="submit" className="w-full">
               Xác nhận
