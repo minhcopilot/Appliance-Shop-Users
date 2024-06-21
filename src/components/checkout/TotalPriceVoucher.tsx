@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { axiosClient } from "@/lib/axiosClient";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useAppContext } from "@/app/AppProvider";
 
 type Props = {
   items: OrderItem[];
@@ -28,34 +29,87 @@ interface Voucher {
   remainingUsageCount: number;
   expiryDate: Date;
   startDate: Date;
+  voucherType: string;
 }
 
 export default function TotalPriceVoucher({ items, onVoucherSelect }: Props) {
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const user = useAppContext().user;
+  const token = useAppContext().sessionToken;
 
   useEffect(() => {
     const fetchVouchers = async () => {
       try {
-        const response = await axiosClient.get("/vouchers");
-        const fetchedVouchers = response.data.map((voucher: any) => ({
-          ...voucher,
-          expiryDate: new Date(voucher.expiryDate),
-          startDate: new Date(voucher.startDate),
-        }));
-        setVouchers(fetchedVouchers);
+        let allVouchers: Voucher[] = [];
+
+        const userVouchersResponse = await axiosClient.get(
+          `/vouchers/get-vouchers-for-customer/${user?.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (userVouchersResponse.data.length > 0) {
+          const userVoucherIds = userVouchersResponse.data.map(
+            (voucher: any) => voucher.voucherId
+          );
+
+          const userVoucherPromises = userVoucherIds.map((id: number) =>
+            axiosClient.get(`/vouchers/${id}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+          );
+
+          const userVoucherDetails = await Promise.all(userVoucherPromises);
+          const detailedUserVouchers = userVoucherDetails.map(
+            (res) => res.data
+          );
+
+          allVouchers = [...detailedUserVouchers];
+        }
+
+        // Fetch global vouchers
+        const globalVouchersResponse = await axiosClient.get(`/vouchers`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const detailedGlobalVouchers = globalVouchersResponse.data;
+        const filteredGlobalVouchers = detailedGlobalVouchers.filter(
+          (voucher: Voucher) => voucher.voucherType === "GLOBAL"
+        );
+
+        // Combine user-specific and global vouchers
+        allVouchers = [...allVouchers, ...filteredGlobalVouchers];
+
+        setVouchers(allVouchers);
       } catch (error) {
         console.error("Error fetching vouchers:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchVouchers();
-  }, []);
+  }, [user, token]);
 
-  // Lọc các voucher hợp lệ
+  const formatDayVoucher = vouchers.map((voucher: any) => ({
+    ...voucher,
+    expiryDate: new Date(voucher.expiryDate),
+    startDate: new Date(voucher.startDate),
+  }));
+
+  // Filter valid vouchers
   const currentDate = new Date();
-  const validVouchers = vouchers.filter(
+  const validVouchers = formatDayVoucher.filter(
     (voucher) =>
       voucher.expiryDate >= currentDate &&
       voucher.startDate <= currentDate &&
