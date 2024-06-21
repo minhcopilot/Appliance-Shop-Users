@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 import { useToast } from "@/components/ui/use-toast";
 import {
@@ -34,7 +34,12 @@ export default function ForgotPassword() {
     },
   });
   //@ts-ignore
-  const { token } = useParams<Params>();
+  // const { token } = useParams<Params>();
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  if (!token) {
+    return <div>Invalid token</div>;
+  }
   const decodedToken = decodeURIComponent(token);
   async function onSubmit(values: ResetPassType) {
     if (isLoading) return;

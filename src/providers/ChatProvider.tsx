@@ -2,6 +2,7 @@
 import { useLoading } from "@/hooks/chat/useLoading";
 import { useChat, useSocket } from "@/hooks/chat/useSocket";
 import { useQueryClient } from "@tanstack/react-query";
+import { message } from "antd";
 import React from "react";
 
 type Props = {};
@@ -41,6 +42,12 @@ export default function ChatProvider({ children }: React.PropsWithChildren) {
     setDisconnectLoading(false);
   }, []);
 
+  const errorHandle = React.useCallback((data: any) => {
+    disconnectHandle(data);
+    message.error("Có lỗi xảy ra, vui lòng thử lại sau");
+    console.log(data.message);
+  }, []);
+
   React.useEffect(() => {
     if (!socket.connected) {
       socketConnect();
@@ -49,9 +56,11 @@ export default function ChatProvider({ children }: React.PropsWithChildren) {
   React.useEffect(() => {
     socket.on("new-message", newMessageHandle);
     socket.on("disconnected", disconnectHandle);
+    socket.on("error", errorHandle);
     return () => {
       socket.off("disconnected");
       socket.off("new-message");
+      socket.off("error");
     };
   }, [socket, chatOpen, unRead]);
   return <>{children}</>;

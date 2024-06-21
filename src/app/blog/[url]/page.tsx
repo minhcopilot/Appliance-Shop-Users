@@ -8,20 +8,33 @@ import { getSubject } from "@/hooks/blog/useGet";
 import { Flex, Layout } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import "./page.css";
+import { Metadata, ResolvingMetadata } from "next";
 
 type Props = {
-  params: {
-    url: string;
-  };
+  params: { url: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
-// export const generateStaticParams = async () => {
-//   const posts = await getSubject("article/posts/?type=post");
-//   const paths = posts.map((post: any) => ({
-//     slug: { url: post.url },
-//   }));
-//   return paths;
-// };
+export const generateStaticParams = async () => {
+  const posts = await getSubject("article/posts/?type=post&pagination=false");
+  const paths = posts.docs.map((post: any) => ({
+    url: post.url,
+  }));
+  return paths;
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { url } = params;
+  const postContent = await getSubject("article/posts", url);
+
+  return {
+    title: postContent.title,
+    description: postContent.content,
+  };
+}
 
 export default async function BlogPost({ params }: Props) {
   const { url } = params;

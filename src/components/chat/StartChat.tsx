@@ -24,7 +24,7 @@ export default function StartChat({}: Props) {
   const { startLoading, setStartLoading } = useLoading((state) => state);
 
   const initialValues = {
-    customerName: user?.lastName + " " + user?.firstName,
+    customerName: user && user?.lastName + " " + user?.firstName,
     phoneNumber: user?.phoneNumber,
   };
 
@@ -42,7 +42,7 @@ export default function StartChat({}: Props) {
     socket.connect();
     socket.emit("client-message", {
       type: "start-chat",
-      message: { ...data, customerId: user?.id },
+      message: { ...data, customerId: user?.id, recaptchaToken },
     });
     console.log("Start Chat");
     socket.on("server-message", (data: any) => {

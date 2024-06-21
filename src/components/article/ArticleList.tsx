@@ -1,4 +1,4 @@
-import { Flex } from "antd";
+import { Empty, Flex } from "antd";
 import React from "react";
 import { ArticleCard, postSchema } from "./ArticleCard";
 import ArticlePagination from "./ArticlePagination";
@@ -17,11 +17,11 @@ interface postResponseSchema {
 }
 
 type Props = {
-  postList: postResponseSchema;
+  postList: postResponseSchema | null;
 };
 
 export const ArticleList = ({ postList }: Props) => {
-  if (!postList) return null;
+  if (!postList || postList.totalDocs === 0) return <Empty />;
   const { totalDocs, page, limit } = postList;
   return (
     <Flex vertical gap={30} align="center">

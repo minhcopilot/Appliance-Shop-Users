@@ -103,7 +103,7 @@ export default async function Navbar({ className }: NavbarProps) {
 
   return (
     <>
-      <div className={` lg:block ${className || ""}`}>
+      <div className={className}>
         <div className="container flex justify-center">
           <Menu
             selectable={false}
