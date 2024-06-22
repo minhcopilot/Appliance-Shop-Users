@@ -164,8 +164,8 @@ const ProductsPage = () => {
 
       <div className="pagination-container mt-8">
         <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
+          previousLabel={"Trước"}
+          nextLabel={"Sau"}
           breakLabel={"..."}
           breakClassName={"break-me"}
           pageCount={pageCount}
