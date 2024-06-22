@@ -11,12 +11,19 @@ const SearchProduct: React.FC<SearchProductProps> = ({ onSearch }) => {
     onSearch(searchTerm);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
-    <div className="search-bar  flex mb-6">
+    <div className="search-bar flex mb-6">
       <input
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyPress={handleKeyPress}
         placeholder="Tìm sản phẩm"
         className="
     border border-gray-300 rounded-l-md 
