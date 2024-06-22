@@ -72,6 +72,9 @@ const OrderCheckForm = () => {
         onSubmit={handleSubmit}
         className="max-w-md p-6 mx-auto mt-8 bg-white rounded-lg shadow-md"
       >
+        <h2 className="mb-4 text-2xl font-semibold text-center">
+          Kiểm tra đơn hàng
+        </h2>
         <div className="mb-4">
           <Label
             htmlFor="contact-type"

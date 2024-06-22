@@ -1,6 +1,11 @@
 import { ForgotPassForm } from "@/app/(auth)/forgot-password/forgot-pass-form";
 import React from "react";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Quên mật khẩu Gia dụng Haven",
+  description: "Quên mật khẩu Gia dụng Haven",
+};
 export default function ForgotPassword() {
   return (
     <div>

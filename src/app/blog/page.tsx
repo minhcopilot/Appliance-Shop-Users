@@ -16,6 +16,7 @@ export default async function Blog() {
   );
   return (
     <Content style={{ margin: "0 50px" }}>
+      <h1 className="text-2xl font-bold text-center my-5">Blog gia dụng</h1>
       <ArticleList postList={postList} />
     </Content>
   );

@@ -127,5 +127,8 @@
 .recaptchaDiv * {
   background-color: hsl(var(--background)) !important;
   border-color: hsl(var(--background)) !important;
-  max-width: 100% !important
+  max-width: 100% !important;
+}
+html {
+  scroll-behavior: smooth;
 }

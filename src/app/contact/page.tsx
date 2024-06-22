@@ -78,92 +78,99 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="container flex flex-col md:flex-row">
-      <div className="p-6 md:w-1/2">
-        <h2 className="mb-4 text-2xl font-bold">Thông tin liên hệ</h2>
-        <div className="mb-4">
-          <h3 className="text-lg font-semibold">
-            Haven Miền Trung - Vận hành đơn hàng toàn quốc
-          </h3>
-          <p>
-            Địa chỉ: A4-27 Nguyễn Sinh Sắc, F. Hòa Minh, Q. Liên Chiểu, Tp. Đà
-            Nẵng
-          </p>
-          <p>Mã số thuế: 0401678723</p>
-          <p>Email: havenvn@gmail.com</p>
-          <p>Hotline: 0989 27 47 27</p>
+    <>
+      <h2 className="mb-4 text-2xl font-bold text-center">Thông tin liên hệ</h2>
+      <div className="container flex flex-col md:flex-row">
+        <div className="p-6 md:w-1/2">
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold">
+              Haven Miền Trung - Vận hành đơn hàng toàn quốc
+            </h3>
+            <p>
+              Địa chỉ: A4-27 Nguyễn Sinh Sắc, F. Hòa Minh, Q. Liên Chiểu, Tp. Đà
+              Nẵng
+            </p>
+            <p>Mã số thuế: 0401678723</p>
+            <p>Email: havenvn@gmail.com</p>
+            <p>Hotline: 0989 27 47 27</p>
+          </div>
+          <div>
+            <h3 className="mb-2 text-lg font-semibold">
+              Liên hệ với chúng tôi
+            </h3>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(sendEmail)}
+                className="space-y-4"
+              >
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Họ tên</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Nguyễn Văn A" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="example@email.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nội dung</FormLabel>
+                      <FormControl>
+                        <Textarea rows={4} {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Vui lòng nhập nội dung cần liên hệ.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit">
+                  {isLoading ? <LoadingSpinner /> : "Gửi"}
+                </Button>
+              </form>
+            </Form>
+          </div>
         </div>
-        <div>
-          <h3 className="mb-2 text-lg font-semibold">Liên hệ với chúng tôi</h3>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(sendEmail)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Họ tên</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Nguyễn Văn A" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="example@email.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="message"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nội dung</FormLabel>
-                    <FormControl>
-                      <Textarea rows={4} {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Vui lòng nhập nội dung cần liên hệ.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit">
-                {isLoading ? <LoadingSpinner /> : "Gửi"}
-              </Button>
-            </form>
-          </Form>
+        <div className="md:w-1/2">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.771243008544!2d108.1614509749677!3d16.077356284603283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314218dda9826097%3A0x9c12211bc84abdaa!2zQTQgTmd1eeG7hW4gU2luaCBT4bqvYywgSG_DoCBNaW5oLCBMacOqbiBDaGnhu4N1LCDEkMOgIE7hurVuZyA1MDAwMCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1716430428018!5m2!1svi!2s"
+            width="100%"
+            height="550"
+            style={{ border: 0 }}
+            allowFullScreen={false}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
+        <SuccessModal
+          isOpen={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
+          title="Gửi thành công "
+          content="Cảm ơn bạn đã liên hệ với chúng tôi!"
+        />
       </div>
-      <div className="md:w-1/2">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.771243008544!2d108.1614509749677!3d16.077356284603283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314218dda9826097%3A0x9c12211bc84abdaa!2zQTQgTmd1eeG7hW4gU2luaCBT4bqvYywgSG_DoCBNaW5oLCBMacOqbiBDaGnhu4N1LCDEkMOgIE7hurVuZyA1MDAwMCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1716430428018!5m2!1svi!2s"
-          width="100%"
-          height="550"
-          style={{ border: 0 }}
-          allowFullScreen={false}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </div>
-      <SuccessModal
-        isOpen={showSuccessModal}
-        onClose={() => setShowSuccessModal(false)}
-        title="Gửi thành công "
-        content="Cảm ơn bạn đã liên hệ với chúng tôi!"
-      />
-    </div>
+    </>
   );
 };
 

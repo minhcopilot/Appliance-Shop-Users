@@ -21,9 +21,9 @@ export default function CartButton({}: Props) {
         <Badge
           count={items.length}
           overflowCount={99}
-          className="border-accent"
+          className="border-accent text-[10px] sm:text-[14px] md:text-[15px] lg:text-[16px]"
         >
-          <HiOutlineShoppingBag className="text-[30px] text-accent-foreground" />
+          <HiOutlineShoppingBag className="text-[20px] sm:text-[20px] md:text-[25px] lg:text-[30px] text-accent-foreground" />
         </Badge>
       </Link>
     </Popover>
