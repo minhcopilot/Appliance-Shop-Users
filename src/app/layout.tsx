@@ -18,7 +18,7 @@ import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
 import Navbar from "@/components/header/Navbar";
 import CallButton from "@/components/ui/CallButton";
 import ChatProvider from "@/providers/ChatProvider";
-
+import ChatBot from "@/components/chatbot/ChatBot";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Gia dụng Đà Nẵng",
@@ -63,6 +63,7 @@ export default function RootLayout({
                     <Footer />
                     <CallButton />
                     <ScrollToTopButton />
+                    <ChatBot />
                   </ChatProvider>
                 </AntdRegistry>
               </ReactQueryProvider>
