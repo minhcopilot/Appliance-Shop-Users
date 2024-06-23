@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { OrderItem } from "@/hooks/useOrder";
-import { Flex } from "antd";
+import { Flex, Skeleton } from "antd";
 import React, { useEffect, useState } from "react";
 import {
   Dialog,
@@ -166,50 +166,60 @@ export default function TotalPriceVoucher({ items, onVoucherSelect }: Props) {
             </DialogHeader>
             <ul>
               <ScrollArea className="h-96">
-                {validVouchers.map((voucher) => (
-                  <li key={voucher.id} className="my-2">
-                    <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
-                      <div className="flex justify-between items-center">
-                        <div className="flex flex-col">
-                          <div className="flex items-center space-x-2">
-                            <span className="text-lg font-bold text-yellow-600">
-                              {voucher.voucherCode}
-                            </span>
-                            <span className="bg-yellow-100 text-yellow-800 text-sm font-semibold px-2 py-1 rounded">
-                              Giảm giá {Math.round(voucher.discountPercentage)}%
-                            </span>
+                {loading ? (
+                  <Skeleton />
+                ) : validVouchers.length === 0 ? (
+                  <p>Không có voucher nào.</p>
+                ) : (
+                  validVouchers.map((voucher) => (
+                    <li key={voucher.id} className="my-2">
+                      <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
+                        <div className="flex justify-between items-center">
+                          <div className="flex flex-col">
+                            <div className="flex items-center space-x-2">
+                              <span className="text-lg font-bold text-yellow-600">
+                                {voucher.voucherCode}
+                              </span>
+                              <span className="bg-yellow-100 text-yellow-800 text-sm font-semibold px-2 py-1 rounded">
+                                Giảm giá{" "}
+                                {Math.round(voucher.discountPercentage)}%
+                              </span>
+                            </div>
+                            <div className="text-sm text-gray-500 mt-1">
+                              <span>
+                                Đã dùng:{" "}
+                                {Math.round(
+                                  (voucher.remainingUsageCount * 100) /
+                                    voucher.maxUsageCount
+                                )}
+                                %
+                              </span>
+                              <span className="mx-2">|</span>
+                              <span>
+                                HSD:{" "}
+                                {voucher.expiryDate.toLocaleDateString(
+                                  "vi-VN",
+                                  {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                  }
+                                )}
+                              </span>
+                            </div>
                           </div>
-                          <div className="text-sm text-gray-500 mt-1">
-                            <span>
-                              Đã dùng:{" "}
-                              {Math.round(
-                                (voucher.remainingUsageCount * 100) /
-                                  voucher.maxUsageCount
-                              )}
-                              %
-                            </span>
-                            <span className="mx-2">|</span>
-                            <span>
-                              HSD:{" "}
-                              {voucher.expiryDate.toLocaleDateString("vi-VN", {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                              })}
-                            </span>
-                          </div>
+                          <Button
+                            variant="outline"
+                            className="text-yellow-600 hover:bg-yellow-600 hover:text-white transition-colors duration-300"
+                            onClick={() => handleSelectVoucher(voucher)}
+                          >
+                            Chọn
+                          </Button>
                         </div>
-                        <Button
-                          variant="outline"
-                          className="text-yellow-600 hover:bg-yellow-600 hover:text-white transition-colors duration-300"
-                          onClick={() => handleSelectVoucher(voucher)}
-                        >
-                          Chọn
-                        </Button>
                       </div>
-                    </div>
-                  </li>
-                ))}
+                    </li>
+                  ))
+                )}
               </ScrollArea>
             </ul>
             <DialogClose asChild>
