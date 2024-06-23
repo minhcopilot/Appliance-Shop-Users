@@ -60,12 +60,12 @@ export default function HeaderMain() {
   return (
     <div className="py-4 border-b border-border">
       <div className="container flex flex-col items-center justify-between md:flex-row">
-        <div className="flex items-center justify-between w-full md:w-auto">
+        <div className="flex gap-2 items-center justify-between w-full md:w-auto">
           <Link href="/" className="text-3xl font-bold text-blackish">
             <Image src="/logo.svg" width={200} height={200} alt="logo" />
           </Link>
-          <div className="flex items-center md:hidden">
-            <CartButton />
+          <div className="flex gap-1 items-center md:hidden">
+            <CartButton isMobile />
             <div className="relative group mx-2 hoverButton">
               {user ? (
                 <div className="flex items-center cursor-pointer">
@@ -122,7 +122,7 @@ export default function HeaderMain() {
         </div>
 
         <div
-          className={`w-full md:w-1/2 lg:w-[40%] mt-4 md:mt-0 ${
+          className={`w-full md:w-1/2 lg:w-[40%] mt-4 md:mt-0 mx-1 ${
             isMobileMenuOpen ? "block" : "hidden md:block"
           }`}
         >
