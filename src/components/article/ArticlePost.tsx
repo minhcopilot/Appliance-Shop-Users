@@ -7,6 +7,7 @@ import { CalendarOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Title from "antd/lib/typography/Title";
 import LikeButton from "./LikeButton";
+import { SocialShare } from "./SocialShare";
 type Props = {
   post: postSchema;
 };
@@ -25,8 +26,9 @@ export default function ArticlePost({ post }: Props) {
           <div style={{ height: 400, backgroundColor: "#00000073" }}></div>
         )
       }
-      className="w-full"
+      className="w-full relative"
     >
+      <SocialShare title={post.title} slug={post.url} />
       <LikeButton url={post.url} />
       <Space direction="vertical" size={20}>
         <Space direction="vertical" size={10}>
