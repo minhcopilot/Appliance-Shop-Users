@@ -150,3 +150,19 @@ html {
 .ant-float-btn-icon {
   color: white !important
 }
+
+
+.showOnHover {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s ease;
+  display: none !important;
+}
+
+.hoverButton:hover>.showOnHover,
+.showOnHover:hover {
+  visibility: visible;
+  opacity: 1;
+  display: block !important;
+
+}

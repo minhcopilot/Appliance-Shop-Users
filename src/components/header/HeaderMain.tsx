@@ -64,49 +64,51 @@ export default function HeaderMain() {
           <Link href="/" className="text-3xl font-bold text-blackish">
             <Image src="/logo.svg" width={200} height={200} alt="logo" />
           </Link>
-          <div className="flex items-center md:hidden  ">
+          <div className="flex items-center md:hidden">
             <CartButton />
-            <div className="relative group mx-2">
+            <div className="relative group mx-2 hoverButton">
               {user ? (
-                <div className="flex items-center ">
-                  <div className="text-[8px] sm:text-[14px] md:text-[15px] lg:text-[16px] cursor-pointer mr-2">
+                <div className="flex items-center cursor-pointer">
+                  {/* <div className="text-[8px] sm:text-[14px] md:text-[15px] lg:text-[16px] mr-2">
                     <p>{`${user.firstName} ${user.lastName}`}</p>
-                  </div>
-                  <BiUser className="text-[24px] cursor-pointer" />
+                  </div> */}
+                  <BiUser className="text-[24px]" />
                 </div>
               ) : (
-                <div className="flex items-center">
-                  <span className="text-[16px] mr-2">Tài khoản </span>
-                  <BiUser className="text-[24px] cursor-pointer" />
+                <div className="flex items-center cursor-pointer">
+                  {/* <span className="text-[16px] mr-2">Tài khoản </span> */}
+                  <BiUser className="text-[24px]" />
                 </div>
               )}
-              <div className="absolute z-50 p-1 sm:p-2 mt-1 transition-opacity duration-300 bg-white rounded-md shadow-md opacity-0 top-full -right-4 w-24 sm:w-36 group-hover:opacity-100">
-                {user ? (
-                  <>
-                    <Link
-                      href="/profile"
-                      className="block px-1 sm:px-2 py-1 sm:py-2 mb-1 text-[10px] sm:text-sm text-center text-white bg-yellow-500 rounded-md hover:bg-yellow-600"
-                    >
-                      Tài khoản
-                    </Link>
-                    <ButtonLogout />
-                  </>
-                ) : (
-                  <>
-                    <Link
-                      href="/login"
-                      className="block px-1 sm:px-2 py-1 sm:py-2 mb-1 text-[10px] sm:text-sm text-center text-white bg-yellow-500 rounded-md hover:bg-yellow-600"
-                    >
-                      Đăng nhập
-                    </Link>
-                    <Link
-                      href="/register"
-                      className="block px-1 sm:px-2 py-1 sm:py-2 text-[10px] sm:text-sm text-center text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
-                    >
-                      Đăng ký
-                    </Link>
-                  </>
-                )}
+              <div className="absolute z-50 p-2 top-full -right-4 w-36 showOnHover">
+                <div className="p-2 bg-white mt-1 rounded-md shadow-md">
+                  {user ? (
+                    <>
+                      <Link
+                        href="/profile"
+                        className="block px-1 sm:px-2 py-1 sm:py-2 mb-1 text-[10px] sm:text-sm text-center text-white bg-yellow-500 rounded-md hover:bg-yellow-600"
+                      >
+                        Tài khoản
+                      </Link>
+                      <ButtonLogout />
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/login"
+                        className="block px-1 sm:px-2 py-1 sm:py-2 mb-1 text-[10px] sm:text-sm text-center text-white bg-yellow-500 rounded-md hover:bg-yellow-600"
+                      >
+                        Đăng nhập
+                      </Link>
+                      <Link
+                        href="/register"
+                        className="block px-1 sm:px-2 py-1 sm:py-2 text-[10px] sm:text-sm text-center text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
+                      >
+                        Đăng ký
+                      </Link>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
             <button
@@ -161,45 +163,47 @@ export default function HeaderMain() {
         >
           <CartButton />
           <ModeToggle />
-          <div className="relative group">
+          <div className="relative group block hoverButton">
             {user ? (
-              <div className="flex items-center">
-                <div className="text-[16px] cursor-pointer mr-2">{`${user.firstName} ${user.lastName}`}</div>
-                <BiUser className="text-[24px] cursor-pointer" />
+              <div className="flex items-center cursor-pointer">
+                <div className="text-[16px] mr-2">{`${user.firstName} ${user.lastName}`}</div>
+                <BiUser className="text-[24px]" />
               </div>
             ) : (
-              <div className="flex items-center">
+              <div className="flex items-center cursor-pointer">
                 <span className="text-[16px] mr-2">Tài khoản </span>
-                <BiUser className="text-[24px] cursor-pointer" />
+                <BiUser className="text-[24px]" />
               </div>
             )}
-            <div className="absolute z-50 p-2 mt-1 transition-opacity duration-300 bg-white rounded-md shadow-md opacity-0 top-full -right-4 w-36 group-hover:opacity-100">
-              {user ? (
-                <>
-                  <Link
-                    href="/profile"
-                    className="block px-2 py-2 mb-1 text-sm text-center text-white bg-yellow-500 rounded-md hover:bg-yellow-600"
-                  >
-                    Tài khoản
-                  </Link>
-                  <ButtonLogout />
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/login"
-                    className="block px-2 py-2 mb-1 text-sm text-center text-white bg-yellow-500 rounded-md hover:bg-yellow-600"
-                  >
-                    Đăng nhập
-                  </Link>
-                  <Link
-                    href="/register"
-                    className="block px-2 py-2 text-sm text-center text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
-                  >
-                    Đăng ký
-                  </Link>
-                </>
-              )}
+            <div className="absolute z-50 p-2 top-full -right-4 w-36 showOnHover">
+              <div className="p-2 bg-white mt-1 rounded-md shadow-md">
+                {user ? (
+                  <>
+                    <Link
+                      href="/profile"
+                      className="block px-2 py-2 mb-1 text-sm text-center text-white bg-yellow-500 rounded-md hover:bg-yellow-600"
+                    >
+                      Tài khoản
+                    </Link>
+                    <ButtonLogout />
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/login"
+                      className="block px-2 py-2 mb-1 text-sm text-center text-white bg-yellow-500 rounded-md hover:bg-yellow-600"
+                    >
+                      Đăng nhập
+                    </Link>
+                    <Link
+                      href="/register"
+                      className="block px-2 py-2 text-sm text-center text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
+                    >
+                      Đăng ký
+                    </Link>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
