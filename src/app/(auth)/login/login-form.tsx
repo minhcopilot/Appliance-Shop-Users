@@ -23,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { ToastAction } from "@/components/ui/toast";
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -90,10 +91,34 @@ export function LoginForm() {
           message: `Email hoặc mật khẩu không chính xác!`,
         });
         form.setError("email", { message: `` });
+        toast({
+          title: "Lỗi xác thực",
+          description: "Email hoặc mật khẩu không chính xác!",
+          action: (
+            <ToastAction
+              altText="Goto account settings to upgrade"
+              onClick={() => {
+                router.push("/forgot-password");
+              }}
+            >
+              Quên mật khẩu
+            </ToastAction>
+          ),
+        });
       } else {
         toast({
-          title: "Lỗi",
-          description: "Đã có lỗi xảy ra!",
+          title: "Lỗi xác thực",
+          description: "Email hoặc mật khẩu không chính xác!",
+          action: (
+            <ToastAction
+              altText="Goto account settings to upgrade"
+              onClick={() => {
+                router.push("/forgot-password");
+              }}
+            >
+              Quên mật khẩu
+            </ToastAction>
+          ),
         });
       }
     } finally {

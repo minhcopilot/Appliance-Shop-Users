@@ -162,8 +162,16 @@ export default function OrderForm({}: Props) {
           message.error("Đặt hàng không thành công");
         }
       }
-    } catch (error) {
-      message.error("Đã xảy ra lỗi khi đặt hàng");
+    } catch (error: any) {
+      const status = error.response.status ?? 500;
+
+      if (status == 400) {
+        message.error("Email đã tồn tại");
+      } else if (status === 409) {
+        message.error("Số điện thoại đã tồn tại");
+      } else {
+        message.error("Đã xảy ra lỗi khi đặt hàng, Vui lòng thử lại sau!");
+      }
     } finally {
       setIsSubmitting(false);
       setIsLoading(false);

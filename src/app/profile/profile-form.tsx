@@ -119,7 +119,32 @@ export default function ProfileForm() {
           description: "Đã có lỗi xảy ra, Vui lòng thử lại sau!",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
+      const status = error.response.status ?? 500;
+
+      if (status == 400) {
+        form.setError("email", {
+          message: `Email đã tồn tại`,
+        });
+        toast({
+          title: "Lỗi",
+          description: "Email đã tồn tại!",
+        });
+      } else if (status === 409) {
+        form.setError("phoneNumber", {
+          message: `Số điện thoại đã tồn tại`,
+        });
+        toast({
+          title: "Lỗi",
+          description: "Số điện thoại đã tồn tại!",
+        });
+      } else {
+        toast({
+          title: "Lỗi",
+          description: "Đã có lỗi xảy ra vui lòng thử lại sau!",
+        });
+      }
+    } finally {
       setIsLoading(false);
     }
   };

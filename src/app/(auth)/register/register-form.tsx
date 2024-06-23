@@ -111,10 +111,18 @@ export function RegisterForm() {
           title: "Lỗi",
           description: "Email đã tồn tại!",
         });
+      } else if (status === 409) {
+        form.setError("phoneNumber", {
+          message: `Số điện thoại đã tồn tại`,
+        });
+        toast({
+          title: "Lỗi",
+          description: "Số điện thoại đã tồn tại!",
+        });
       } else {
         toast({
           title: "Lỗi",
-          description: "Đã có lỗi xảy ra!",
+          description: "Đã có lỗi xảy ra vui lòng thử lại sau!",
         });
       }
     } finally {
