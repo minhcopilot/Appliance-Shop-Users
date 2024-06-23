@@ -18,14 +18,23 @@ export const SidebarCard = ({ post }: Props) => {
     <Link href={"/blog/" + post.url} className="w-full">
       <Card
         className="w-full"
-        style={{ backgroundColor: "hsl(var(--card))" }}
+        style={{
+          backgroundColor: "hsl(var(--card))",
+        }}
         size="small"
         hoverable
       >
         <Meta
           title={
             <Tooltip title={post.title}>
-              <Title style={{ color: "hsl(var(--card-foreground))" }} level={5}>
+              <Title
+                style={{
+                  color: "hsl(var(--card-foreground))",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
+                level={5}
+              >
                 {post.title}
               </Title>
             </Tooltip>

@@ -21,9 +21,20 @@ export default function Message({ message }: { message: MessageProps }) {
   return (
     <>
       {/* {message.replyTo && <ReplyTo id={message.replyTo} />} */}
-      <Badge.Ribbon text={message.sender} placement={placement}>
-        <Card size="small">
-          <div style={{ marginLeft: 70 }}>
+      <Badge.Ribbon
+        text={message.sender === "employee" ? "Nhân viên" : "Khách hàng"}
+        placement={placement}
+        style={{ margin: 10 }}
+      >
+        <Card size="small" className="break-words">
+          <p
+            style={
+              message.sender === "customer"
+                ? { marginLeft: 90 }
+                : { marginRight: 80 }
+            }
+            dir={message.sender === "employee" ? "" : "rtl"}
+          >
             {message.type === "text" && message.content}
             {message.type === "image" && (
               <img src={message.content} alt="image" />
@@ -31,7 +42,7 @@ export default function Message({ message }: { message: MessageProps }) {
             {message.type === ("product" || "order") && (
               <Button onClick={() => {}}>Go to {message.type}</Button>
             )}
-          </div>
+          </p>
         </Card>
       </Badge.Ribbon>
     </>

@@ -67,7 +67,7 @@ export const SocialShare = ({
   };
 
   return (
-    <div className="absolute top-[200px] left-[-50px] h-full">
+    <div className="absolute top-[400px] left-[-50px] h-[calc(100%_-_350px)]">
       <ul className="block sticky top-[150px] flex flex-col items-center mt-8 space-y-4 text-yellow-600 p-4">
         <li>
           <a

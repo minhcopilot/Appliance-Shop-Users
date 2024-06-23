@@ -6,6 +6,7 @@ import { useGetContent } from "@/hooks/chat/useGet";
 import { useChat, useSocket } from "@/hooks/chat/useSocket";
 import styles from "./ChatContent.module.css";
 import { ArrowDownOutlined } from "@ant-design/icons";
+import { useIntersection } from "@/hooks/useIntersection";
 
 type Props = {};
 
@@ -25,13 +26,16 @@ export default function ChatContent({}: Props) {
       <Flex vertical className={styles.container + " px-2"} gap={10}>
         <FloatButton
           icon={<ArrowDownOutlined />}
+          className="shadow-lg"
           onClick={scrollToLatest}
           tooltip="Scroll to latest"
           style={{
             position: "absolute",
-            right: 24,
+            right: 35,
             bottom: 80,
             opacity: 0.5,
+            display: useIntersection(latestMessage, "100px") ? "none" : "block",
+            backgroundColor: "#1677ff",
           }}
         />
         {chatContent.isSuccess &&
@@ -41,7 +45,7 @@ export default function ChatContent({}: Props) {
               message={message}
             />
           ))}
-        <div ref={latestMessage} />
+        <div ref={latestMessage} className="h-[1px] block grow-1 shrink-0" />
       </Flex>
     </Skeleton>
   );

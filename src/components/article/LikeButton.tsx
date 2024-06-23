@@ -16,7 +16,7 @@ export default function LikeButton({ url }: Props) {
       whileTap={{ scale: 0.9, filter: "drop-shadow(0 1px 1px gray)" }}
       whileHover={{
         scale: 1.1,
-        filter: "drop-shadow(0 3px 2px gray)",
+        filter: "drop-shadow(0 0 2px gray)",
       }}
       transition={{ duration: 0.2 }}
       onClick={() => {
@@ -29,7 +29,7 @@ export default function LikeButton({ url }: Props) {
         right: 10,
         fontSize: 30,
         color: "red",
-        filter: "drop-shadow(0 2px 1px gray)",
+        filter: "drop-shadow(0 0 1px gray)",
       }}
     >
       {like ? <HeartFilled color="red" /> : <HeartOutlined color="red" />}

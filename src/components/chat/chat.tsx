@@ -21,21 +21,18 @@ export const Chat = ({}: Props) => {
       trigger="click"
       type="primary"
       open={chatOpen}
-      style={{ right: 24 }}
-      icon={
-        <Badge count={unRead} overflowCount={99} offset={[15, 15]}>
-          <CommentOutlined style={{ color: "white" }} />{" "}
-        </Badge>
-      }
+      style={{ right: 24, bottom: 24 }}
+      icon={<CommentOutlined style={{ color: "white" }} />}
+      badge={{ count: unRead, overflowCount: 99, offset: [15, 15] }}
       onClick={() => {
         setChatOpen(!chatOpen);
-        if (chatOpen) {
+        if (!chatOpen) {
           setUnRead(0);
         }
       }}
     >
       <Card
-        className={styles.chatCard}
+        className={styles.chatCard + " z-[200]"}
         title="Chat với nhân viên hỗ trợ"
         extra={chatId && <ChatDisconnect chatId={chatId.id} />}
       >

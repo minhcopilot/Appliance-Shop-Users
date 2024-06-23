@@ -14,11 +14,12 @@ import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import AntdProvider from "@/providers/AntdProvider";
 import Footer from "@/components/footer/Footer";
 import NewsletterSignup from "@/components/ui/NewsletterSignup";
-import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
+// import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
 import Navbar from "@/components/header/Navbar";
 import CallButton from "@/components/ui/CallButton";
 import ChatProvider from "@/providers/ChatProvider";
 import ChatBot from "@/components/chatbot/ChatBot";
+import BackTop from "antd/es/float-button/BackTop";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Gia dụng Đà Nẵng",
@@ -62,7 +63,12 @@ export default function RootLayout({
                     <NewsletterSignup />
                     <Footer />
                     <CallButton />
-                    <ScrollToTopButton />
+                    <BackTop
+                      style={{
+                        bottom: 137,
+                      }}
+                      className="floatButton"
+                    />
                     <ChatBot />
                   </ChatProvider>
                 </AntdRegistry>

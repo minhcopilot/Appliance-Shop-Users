@@ -97,7 +97,11 @@ export const ArticleCard = async ({ post }: Props) => {
                 title={
                   <Tooltip title={post.title}>
                     <Title
-                      style={{ color: "hsl(var(--card-foreground))" }}
+                      style={{
+                        color: "hsl(var(--card-foreground))",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                      }}
                       level={5}
                     >
                       {post.title}

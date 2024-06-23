@@ -1,8 +1,12 @@
+import Link from "next/link";
 import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-white-800 text-black pt-8">
+    <footer
+      className="bg-white-800 pt-8"
+      style={{ color: "hsl(var(--card-foreground)))" }}
+    >
       <div className="container mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="mb-4">
           <h3 className="text-lg font-bold mb-8">Thông tin liên hệ</h3>
@@ -20,29 +24,33 @@ const Footer: React.FC = () => {
           <h3 className="text-lg font-bold mb-8">Về chúng tôi</h3>
           <ul className="space-y-2">
             <li>
-              <a href="#" className="hover:text-gray-400">
+              <Link href="/" className="text-foreground hover:text-blue-400">
                 Trang chủ
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-gray-400">
-                Giới thiệu
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-400">
+              <Link
+                href="/products"
+                className="text-foreground hover:text-blue-400"
+              >
                 Sản phẩm
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-gray-400">
+              <Link
+                href="/blog/category/tin-tuc"
+                className="text-foreground hover:text-blue-400"
+              >
                 Tin tức
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-gray-400">
+              <Link
+                href="/contact"
+                className="text-foreground hover:text-blue-400"
+              >
                 Liên hệ
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -51,24 +59,36 @@ const Footer: React.FC = () => {
           <h3 className="text-lg font-bold mb-8">Chính sách</h3>
           <ul className="space-y-2">
             <li>
-              <a href="#" className="hover:text-gray-400">
+              <Link
+                href="/blog/chinh-sach-bao-ve-thong-tin-ca-nhan-cua-khach-hang"
+                className="text-foreground hover:text-blue-400"
+              >
                 Chính sách bảo mật
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-gray-400">
+              <Link
+                href="/blog/dieu-khoan-dich-vu"
+                className="text-foreground hover:text-blue-400"
+              >
                 Chính sách vận chuyển
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-gray-400">
+              <Link
+                href="/blog/dieu-khoan-dich-vu"
+                className="text-foreground hover:text-blue-400"
+              >
                 Chính sách đổi trả
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-gray-400">
+              <Link
+                href="/blog/dieu-khoan-dich-vu"
+                className="text-foreground hover:text-blue-400"
+              >
                 Quy định sử dụng
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

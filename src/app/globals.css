@@ -93,7 +93,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--accent));
+  background: hsl(var(--muted-foreground));
   -webkit-border-radius: 1ex;
 }
 
@@ -129,6 +129,24 @@
   border-color: hsl(var(--background)) !important;
   max-width: 100% !important;
 }
+
 html {
   scroll-behavior: smooth;
+}
+
+.floatButton {
+  background-color: rgb(234 179 8) !important;
+  color: white !important;
+}
+
+.floatButton:hover {
+  background-color: rgb(161 98 7) !important;
+}
+
+.ant-float-btn-body {
+  background-color: initial !important;
+}
+
+.ant-float-btn-icon {
+  color: white !important
 }

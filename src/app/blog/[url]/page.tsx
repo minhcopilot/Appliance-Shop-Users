@@ -52,7 +52,12 @@ export default async function BlogPost({ params }: Props) {
     <Content className="mx-[10%]">
       <Breadcumb postContent={postContent} />
       <Flex gap={10} className="w-full" wrap>
-        <Flex vertical gap={20} align="center" className="articleContent">
+        <Flex
+          vertical
+          gap={20}
+          align="center"
+          className={postContent.type === "post" ? "articleContent" : ""}
+        >
           <ArticlePost post={postContent} />
           {postContent.type === "post" && (
             <>

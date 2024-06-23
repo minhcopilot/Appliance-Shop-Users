@@ -23,7 +23,9 @@ export default function ArticlePost({ post }: Props) {
             style={{ height: 400, objectFit: "cover" }}
           />
         ) : (
-          <div style={{ height: 400, backgroundColor: "#00000073" }}></div>
+          post.type === "post" && (
+            <div style={{ height: 400, backgroundColor: "#00000073" }}></div>
+          )
         )
       }
       className="w-full relative"
