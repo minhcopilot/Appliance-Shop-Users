@@ -6,24 +6,39 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import Cart from "./Cart";
 import Link from "next/link";
 
-type Props = {};
+type Props = {
+  isMobile?: boolean;
+};
 
-export default function CartButton({}: Props) {
+export default function CartButton({ isMobile }: Props) {
   const { items } = useCart((state) => state);
+  if (isMobile)
+    return (
+      <Link href="/cart" className="mt-1">
+        <Badge
+          count={items.length}
+          overflowCount={99}
+          className="border-accent text-[10px]"
+        >
+          <HiOutlineShoppingBag className="text-[25px] text-accent-foreground" />
+        </Badge>
+      </Link>
+    );
   return (
     <Popover
       placement="bottomRight"
       title="Sản phẩm mới thêm"
       content={<Cart compact />}
       className="block mb-[-10px] z-50"
+      trigger="hover"
     >
       <Link href="/cart">
         <Badge
           count={items.length}
           overflowCount={99}
-          className="border-accent text-[10px] sm:text-[14px] md:text-[15px] lg:text-[16px]"
+          className="border-accent text-[10px]"
         >
-          <HiOutlineShoppingBag className="text-[20px] sm:text-[20px] md:text-[25px] lg:text-[30px] text-accent-foreground" />
+          <HiOutlineShoppingBag className="text-[25px] text-accent-foreground" />
         </Badge>
       </Link>
     </Popover>
