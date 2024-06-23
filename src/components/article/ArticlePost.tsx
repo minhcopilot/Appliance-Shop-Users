@@ -47,7 +47,9 @@ export default function ArticlePost({ post }: Props) {
           </Title>
         </Space>
       </Space>
-      <div>{parse(post.content)}</div>
+      <div className="w-full overflow-hidden break-words">
+        {parse(post.content)}
+      </div>
     </Card>
   );
 }
