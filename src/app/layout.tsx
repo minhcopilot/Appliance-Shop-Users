@@ -66,6 +66,7 @@ export default function RootLayout({
                     <BackTop
                       style={{
                         bottom: 137,
+                        zIndex: 50,
                       }}
                       className="floatButton"
                     />

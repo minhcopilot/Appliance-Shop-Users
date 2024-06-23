@@ -9,7 +9,7 @@ interface NavbarProps {
   className?: string;
 }
 
-const getCategoryMenu = async () => {
+export const getCategoryMenu = async () => {
   try {
     const categories = await axiosClient.get("/article/categories");
     const data = categories.data.map((category: any) => {
@@ -103,7 +103,7 @@ export default async function Navbar({ className }: NavbarProps) {
 
   return (
     <>
-      <div className={className}>
+      <div className={`hidden md:block ${className || ""}`}>
         <div className="container flex justify-center">
           <Menu
             selectable={false}

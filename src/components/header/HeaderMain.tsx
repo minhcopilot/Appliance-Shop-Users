@@ -10,6 +10,7 @@ import ButtonLogout from "@/components/ui/button-logout";
 import CartButton from "../cart/CartButton";
 import { axiosClient } from "@/lib/axiosClient";
 import { useRouter } from "next/navigation";
+import { SideMenu } from "./SideMenu/SideMenu";
 
 export default function HeaderMain() {
   const { user } = useAppContext();
@@ -111,21 +112,18 @@ export default function HeaderMain() {
                 </div>
               </div>
             </div>
-            <button
+            <SideMenu />
+            {/* <button
               className="p-2"
               onClick={toggleMobileMenu}
               aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? "✕" : "☰"}
-            </button>
+            </button> */}
           </div>
         </div>
 
-        <div
-          className={`w-full md:w-1/2 lg:w-[40%] mt-4 md:mt-0 mx-1 ${
-            isMobileMenuOpen ? "block" : "hidden md:block"
-          }`}
-        >
+        <div className={`w-full md:w-1/2 lg:w-[40%] mt-4 md:mt-0 mx-1`}>
           <div className="relative">
             <input
               placeholder="Nhập tên sản phẩm"
