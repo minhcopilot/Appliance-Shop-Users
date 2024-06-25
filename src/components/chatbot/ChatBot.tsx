@@ -34,13 +34,16 @@ export default function ChatBot() {
       ]);
 
       try {
-        const response = await fetch(process.env.CHATBOT_API + "/api/search", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ content: inputMessage }),
-        });
+        const response = await fetch(
+          "https://mern-chatbot.thienvandanang.com/api/search",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ content: inputMessage }),
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Network response was not ok");
