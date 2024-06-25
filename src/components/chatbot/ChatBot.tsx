@@ -34,16 +34,13 @@ export default function ChatBot() {
       ]);
 
       try {
-        const response = await fetch(
-          "https://6d62-2402-800-629c-34d8-d040-e7bf-9b80-75d0.ngrok-free.app/api/search",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ content: inputMessage }),
-          }
-        );
+        const response = await fetch(process.env.CHATBOT_API + "/api/search", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content: inputMessage }),
+        });
 
         if (!response.ok) {
           throw new Error("Network response was not ok");
