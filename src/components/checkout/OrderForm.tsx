@@ -144,6 +144,7 @@ export default function OrderForm({}: Props) {
       } else {
         const result = await query.mutateAsync(orderData);
         if (result) {
+          setIsLoading(false);
           setShowSuccessModal(true);
           sendEmail(data);
           await new Promise((resolve: any) => {

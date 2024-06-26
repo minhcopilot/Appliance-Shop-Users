@@ -109,14 +109,14 @@ const ProductDetails = ({
                 <hr className="my-4" />
 
                 <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
+                  {/* <div>
                     <label className="block mb-2">Kích thước</label>
                     <select className="form-select border border-secondary h-10 w-full rounded">
                       <option>Nhỏ</option>
                       <option>Vừa</option>
                       <option>Lớn</option>
                     </select>
-                  </div>
+                  </div> */}
                   <div>
                     <label className="block mb-2">Số lượng</label>
                     <div className="flex items-center border border-secondary h-10 w-full rounded">
