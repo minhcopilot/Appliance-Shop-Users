@@ -24,6 +24,8 @@ interface chat {
 interface chatId {
   chatId: chat | null;
   setChatId: (chatId: chat | null) => void;
+  employee: string | null;
+  setEmployee: (employee: string | null) => void;
   unRead: number;
   setUnRead: (unRead: number) => void;
   chatOpen: boolean;
@@ -35,6 +37,8 @@ export const useChat = create<chatId>()(
     (set) => ({
       chatId: null,
       setChatId: (chatId) => set({ chatId }),
+      employee: null,
+      setEmployee: (employee) => set({ employee }),
       unRead: 0,
       setUnRead: (unRead) => set({ unRead }),
       chatOpen: false,

@@ -10,8 +10,15 @@ type Props = {};
 export default function ChatProvider({ children }: React.PropsWithChildren) {
   const socket = useSocket();
   const QueryClient = useQueryClient();
-  const { chatId, setChatId, chatOpen, setChatOpen, unRead, setUnRead } =
-    useChat((state) => state);
+  const {
+    chatId,
+    setChatId,
+    setEmployee,
+    chatOpen,
+    setChatOpen,
+    unRead,
+    setUnRead,
+  } = useChat((state) => state);
 
   const { setDisconnectLoading } = useLoading((state) => state);
   const socketConnect = React.useCallback(() => {
@@ -38,6 +45,7 @@ export default function ChatProvider({ children }: React.PropsWithChildren) {
   const disconnectHandle = React.useCallback((data: any) => {
     socket.disconnect();
     setChatId(null);
+    setEmployee(null);
     setUnRead(0);
     setDisconnectLoading(false);
   }, []);
@@ -47,7 +55,11 @@ export default function ChatProvider({ children }: React.PropsWithChildren) {
     message.error("Có lỗi xảy ra, vui lòng thử lại sau");
     console.log(data.message);
   }, []);
-
+  const serverHandle = React.useCallback((data: any) => {
+    if (data.type === "chat-accepted") {
+      setEmployee(data.message?.employee);
+    }
+  }, []);
   React.useEffect(() => {
     if (!socket.connected) {
       socketConnect();
@@ -57,10 +69,12 @@ export default function ChatProvider({ children }: React.PropsWithChildren) {
     socket.on("new-message", newMessageHandle);
     socket.on("disconnected", disconnectHandle);
     socket.on("error", errorHandle);
+    socket.on("server-message", serverHandle);
     return () => {
       socket.off("disconnected");
       socket.off("new-message");
       socket.off("error");
+      socket.off("server-message");
     };
   }, [socket, chatOpen, unRead]);
   return <>{children}</>;
