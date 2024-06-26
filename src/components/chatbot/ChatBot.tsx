@@ -35,7 +35,7 @@ export default function ChatBot() {
 
       try {
         const response = await fetch(
-          "https://mern-chatbot.thienvandanang.com/api/search",
+          "https://mern-chatbot.devlv.com/api/search",
           {
             method: "POST",
             headers: {
