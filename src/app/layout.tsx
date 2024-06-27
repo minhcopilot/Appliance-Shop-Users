@@ -20,6 +20,7 @@ import CallButton from "@/components/ui/CallButton";
 import ChatProvider from "@/providers/ChatProvider";
 import ChatBot from "@/components/chatbot/ChatBot";
 import BackTop from "antd/es/float-button/BackTop";
+import FacebookIcon from "@/components/ui/FacebookIcon";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Gia dụng Đà Nẵng",
@@ -62,10 +63,11 @@ export default function RootLayout({
                     <Toaster />
                     <NewsletterSignup />
                     <Footer />
+                    <FacebookIcon />
                     <CallButton />
                     <BackTop
                       style={{
-                        bottom: 137,
+                        bottom: 177,
                         zIndex: 50,
                       }}
                       className="floatButton"
