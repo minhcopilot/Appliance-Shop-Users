@@ -9,7 +9,7 @@ export default function Error() {
       subTitle="Không tìm thấy trang bạn muốn truy cập"
       extra={
         <Link href="/">
-          <Button type="primary">Quay lại trang chủ</Button>
+          <Button type="primary">Quay lại trang chủ nha</Button>
         </Link>
       }
     />
