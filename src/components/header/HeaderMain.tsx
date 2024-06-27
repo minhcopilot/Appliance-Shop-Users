@@ -160,7 +160,7 @@ export default function HeaderMain() {
           className={`hidden md:flex items-center gap-4 text-accent-foreground text-[24px]`}
         >
           <CartButton />
-          <ModeToggle />
+          {/* <ModeToggle /> */}
           <div className="relative group block hoverButton">
             {user ? (
               <div className="flex items-center cursor-pointer">

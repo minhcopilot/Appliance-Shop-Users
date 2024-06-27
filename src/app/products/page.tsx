@@ -127,19 +127,25 @@ const ProductsPage = () => {
               <div className="dropdown-content bg-white border border-gray-300 rounded-md mt-1 p-2">
                 <button
                   onClick={() => handleSortChange("newest")}
-                  className="block w-full text-left py-1 hover:bg-gray-100 text-dark"
+                  className={`block w-full text-left py-1 hover:bg-gray-100 text-dark ${
+                    sortOption === "newest" ? "font-bold" : ""
+                  }`}
                 >
                   Mới nhất
                 </button>
                 <button
                   onClick={() => handleSortChange("highestPrice")}
-                  className="block w-full text-left py-1 hover:bg-gray-100 text-dark"
+                  className={`block w-full text-left py-1 hover:bg-gray-100 text-dark ${
+                    sortOption === "highestPrice" ? "font-bold" : ""
+                  }`}
                 >
                   Giá cao nhất
                 </button>
                 <button
                   onClick={() => handleSortChange("lowestPrice")}
-                  className="block w-full text-left py-1 hover:bg-gray-100 text-dark"
+                  className={`block w-full text-left py-1 hover:bg-gray-100 text-dark ${
+                    sortOption === "lowestPrice" ? "font-bold" : ""
+                  }`}
                 >
                   Giá thấp nhất
                 </button>

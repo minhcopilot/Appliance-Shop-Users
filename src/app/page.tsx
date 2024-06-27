@@ -37,7 +37,7 @@ export default async function Home() {
   return (
     <main className="container mt-44">
       <Hero />
-      <FoodGroup />
+      {/* <FoodGroup /> */}
       <SectionSalesProduct />
       <StepsComponent />
       <SectionMotherBaby />
