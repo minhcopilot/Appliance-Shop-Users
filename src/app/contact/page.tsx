@@ -86,13 +86,10 @@ const Contact: React.FC = () => {
             <h3 className="text-lg font-semibold">
               Haven Miền Trung - Vận hành đơn hàng toàn quốc
             </h3>
-            <p>
-              Địa chỉ: A4-27 Nguyễn Sinh Sắc, F. Hòa Minh, Q. Liên Chiểu, Tp. Đà
-              Nẵng
-            </p>
-            <p>Mã số thuế: 0401678723</p>
-            <p>Email: havenvn@gmail.com</p>
-            <p>Hotline: 0989 27 47 27</p>
+            <p>Địa chỉ: 92/26 Thi Sách, Hoà Thuận Nam, Hải Châu, Tp. Đà Nẵng</p>
+            {/* <p>Mã số thuế: 0401678723</p> */}
+            <p className="mb-2">Email: baovuphan@gmail.com</p>
+            <p className="mb-2">Hotline: 0905 3636 82</p>
           </div>
           <div>
             <h3 className="mb-2 text-lg font-semibold">
@@ -154,7 +151,7 @@ const Contact: React.FC = () => {
         </div>
         <div className="md:w-1/2">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.771243008544!2d108.1614509749677!3d16.077356284603283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314218dda9826097%3A0x9c12211bc84abdaa!2zQTQgTmd1eeG7hW4gU2luaCBT4bqvYywgSG_DoCBNaW5oLCBMacOqbiBDaGnhu4N1LCDEkMOgIE7hurVuZyA1MDAwMCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1716430428018!5m2!1svi!2s"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d958.5590150938768!2d108.2049022695628!3d16.053235499039015!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314219eaff15bfa9%3A0xdaa79eccaaa5e4ed!2zOTIgVGhpIFPDoWNoLCBIw7JhIFRodeG6rW4gTmFtLCBI4bqjaSBDaMOidSwgxJDDoCBO4bq1bmcgNTUwMDAwLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1719500902515!5m2!1svi!2s"
             width="100%"
             height="550"
             style={{ border: 0 }}

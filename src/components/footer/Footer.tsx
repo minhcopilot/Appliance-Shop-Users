@@ -12,12 +12,11 @@ const Footer: React.FC = () => {
           <h3 className="text-lg font-bold mb-8">Thông tin liên hệ</h3>
           <p className="mb-2">Haven Miền Trung - Vận hành đơn hàng toàn quốc</p>
           <p className="mb-2">
-            Địa chỉ trụ sở giao dịch: A4-27 Nguyễn Sinh Sắc, F. Hòa Minh, Q.
-            Liên Chiểu, Tp. Đà Nẵng
+            Địa chỉ : 92/26 Thi Sách, Hoà Thuận Nam, Hải Châu, Tp. Đà Nẵng
           </p>
-          <p className="mb-2">Mã số thuế: 0401679723</p>
-          <p className="mb-2">Email: havenvn@gmail.com</p>
-          <p className="mb-2">Hotline: 0989 27 42 27</p>
+          {/* <p className="mb-2">Mã số thuế: 0401679723</p> */}
+          <p className="mb-2">Email: baovuphan@gmail.com</p>
+          <p className="mb-2">Hotline: 0905 3636 82</p>
         </div>
 
         <div className="mb-4">
@@ -96,15 +95,20 @@ const Footer: React.FC = () => {
         <div className="mb-4">
           <h3 className="text-lg font-bold mb-8">Fanpage</h3>
           <div className="flex items-center">
-            <a
-              href="#"
-              className="mr-4 hover:text-gray-400"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="https://www.facebook.com/phanvubao1990"
+              className="text-foreground hover:text-blue-400"
             >
-              <i className="fab fa-facebook-square fa-2x"></i>
-            </a>
-            <span>Theo dõi Trang</span>
+              Facebook
+            </Link>
+          </div>
+          <div className="flex items-center">
+            <Link
+              href="https://www.facebook.com/phanvubao1990"
+              className="text-foreground hover:text-blue-400"
+            >
+              Zalo: 0905.3636.82
+            </Link>
           </div>
         </div>
       </div>
@@ -116,7 +120,7 @@ const Footer: React.FC = () => {
           </a>{" "}
           | Cung cấp bởi{" "}
           <a className="uppercase font-bold text-yellow-500" href="#">
-            Aptech Đà Nẵng
+            Dev Đà Nẵng
           </a>
         </p>
       </div>
