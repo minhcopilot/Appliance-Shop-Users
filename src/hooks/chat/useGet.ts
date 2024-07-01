@@ -7,7 +7,7 @@ export const useGetContent = () => {
   const chatId = useChat((state) => state.chatId);
   const getMessage = async () => {
     try {
-      const response = chatId
+      const response = chatId?.id
         ? await axiosClient.get(
             `/chat/content/client/${chatId.id}/?name=${chatId.customerName}&phoneNumber=${chatId.phoneNumber}`
           )

@@ -1,7 +1,7 @@
 "use client";
 import { useAppContext } from "@/app/AppProvider";
 import { useLoading } from "@/hooks/chat/useLoading";
-import { useChat, useSocket } from "@/hooks/chat/useSocket";
+import { chat, useChat, useSocket } from "@/hooks/chat/useSocket";
 import { SendOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Space, message } from "antd";
 import { useTheme } from "next-themes";
@@ -17,7 +17,7 @@ export default function StartChat({}: Props) {
   const { sessionToken, user } = useAppContext();
   const { theme } = useTheme();
   const socket = useSocket();
-  const setChatId = useChat((state) => state.setChatId);
+  const { chatId, setChatId } = useChat((state) => state);
   const [isCaptchaVerified, setIsCaptchaVerified] = React.useState(false);
   const recaptchaRef = React.useRef<ReCAPTCHA>(null);
   const [form] = Form.useForm();
@@ -32,6 +32,19 @@ export default function StartChat({}: Props) {
     setIsCaptchaVerified(!!value);
   };
 
+  const serverMessageHandle = React.useCallback(
+    (data: any) => {
+      console.log(data);
+      console.log("startchat listening");
+      if (data.type === "chat-started") {
+        setChatId({ ...chatId, ...data.message } as chat);
+        setStartLoading(false);
+        console.log("chat started");
+      }
+    },
+    [chatId]
+  );
+
   const startChat = async (data: any) => {
     const recaptchaToken = await recaptchaRef.current?.getValue();
     if (!recaptchaToken || !isCaptchaVerified) {
@@ -39,19 +52,12 @@ export default function StartChat({}: Props) {
       return;
     }
     setStartLoading(true);
-    socket.connect();
+    !socket.connected && socket.connect();
     socket.emit("client-message", {
       type: "start-chat",
       message: { ...data, customerId: user?.id, recaptchaToken },
     });
-    console.log("Start Chat");
-    socket.on("server-message", (data: any) => {
-      console.log(data);
-      if (data.type === "chat-started") {
-        setChatId(data.message);
-      }
-      setStartLoading(false);
-    });
+    socket.on("server-message", serverMessageHandle);
     return () => {
       socket.off("server-message");
     };

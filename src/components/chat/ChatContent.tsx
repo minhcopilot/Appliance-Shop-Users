@@ -7,12 +7,14 @@ import { useChat, useSocket } from "@/hooks/chat/useSocket";
 import styles from "./ChatContent.module.css";
 import { ArrowDownOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useIntersection } from "@/hooks/useIntersection";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {};
 
 export default function ChatContent({}: Props) {
-  let { chatId, employee } = useChat((state) => state);
+  let { chatId } = useChat((state) => state);
   let chatContent = useGetContent();
+  const queryClient = useQueryClient();
   const latestMessage = React.useRef<HTMLDivElement>(null);
   const scrollToLatest = () => {
     latestMessage.current?.scrollIntoView({ behavior: "smooth" });
@@ -39,7 +41,7 @@ export default function ChatContent({}: Props) {
           }}
         />
         {chatContent.isSuccess &&
-          chatContent.data?.map((message: any) => (
+          chatContent.data.map((message: any) => (
             <Message
               key={message._id || Math.random().toString(16).slice(2)}
               message={message}
@@ -49,8 +51,10 @@ export default function ChatContent({}: Props) {
           indicator={<LoadingOutlined spin />}
           size="small"
           tip="Đang chờ nhân viên kết nối"
-          spinning={!employee}
-        />
+          spinning={!chatId?.employeeName}
+        >
+          <div style={{ height: 50 }}></div>
+        </Spin>
         <div ref={latestMessage} className="h-[1px] block grow-1 shrink-0" />
       </Flex>
     </Skeleton>

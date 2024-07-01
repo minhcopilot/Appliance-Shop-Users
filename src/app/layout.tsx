@@ -21,6 +21,7 @@ import ChatProvider from "@/providers/ChatProvider";
 import ChatBot from "@/components/chatbot/ChatBot";
 import BackTop from "antd/es/float-button/BackTop";
 import FacebookIcon from "@/components/ui/FacebookIcon";
+import { ChatStoreProvider } from "@/providers/ChatStoreProvider";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Gia dụng Đà Nẵng",
@@ -54,26 +55,28 @@ export default function RootLayout({
             <AntdProvider>
               <ReactQueryProvider>
                 <AntdRegistry>
-                  <ChatProvider>
-                    <Chat />
-                    <Header>
-                      <Navbar />
-                    </Header>
-                    <div className="mt-36">{children}</div>
-                    <Toaster />
-                    <NewsletterSignup />
-                    <Footer />
-                    <FacebookIcon />
-                    <CallButton />
-                    <BackTop
-                      style={{
-                        bottom: 177,
-                        zIndex: 50,
-                      }}
-                      className="floatButton"
-                    />
-                    <ChatBot />
-                  </ChatProvider>
+                  <ChatStoreProvider>
+                    <ChatProvider>
+                      <Chat />
+                      <Header>
+                        <Navbar />
+                      </Header>
+                      <div className="mt-36">{children}</div>
+                      <Toaster />
+                      <NewsletterSignup />
+                      <Footer />
+                      <FacebookIcon />
+                      <CallButton />
+                      <BackTop
+                        style={{
+                          bottom: 177,
+                          zIndex: 50,
+                        }}
+                        className="floatButton"
+                      />
+                      <ChatBot />
+                    </ChatProvider>
+                  </ChatStoreProvider>
                 </AntdRegistry>
               </ReactQueryProvider>
             </AntdProvider>

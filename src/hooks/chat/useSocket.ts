@@ -1,6 +1,8 @@
 import { io } from "socket.io-client";
-import { create } from "zustand";
+import { create, useStore } from "zustand";
+import { createStore } from "zustand/vanilla";
 import { persist } from "zustand/middleware";
+import { createContext, useContext } from "react";
 // import useAuth from "./OnlineShop/hooks/useAuth";
 
 // "undefined" means the URL will be computed from the `window.location` object
@@ -11,39 +13,63 @@ export const useSocket = () => {
     // extraHeaders: {
     //   Authorization: `Bearer  ${token}`,
     // },
-    autoConnect: false,
+    autoConnect: true,
   });
 };
 
-interface chat {
+export interface chat {
   id: number;
   customerName: string;
   phoneNumber: string;
+  employeeName?: string;
 }
 
-interface chatId {
+export type ChatState = {
   chatId: chat | null;
-  setChatId: (chatId: chat | null) => void;
-  employee: string | null;
-  setEmployee: (employee: string | null) => void;
   unRead: number;
-  setUnRead: (unRead: number) => void;
   chatOpen: boolean;
-  setChatOpen: (chatOpen: boolean) => void;
-}
+};
 
-export const useChat = create<chatId>()(
-  persist(
-    (set) => ({
-      chatId: null,
-      setChatId: (chatId) => set({ chatId }),
-      employee: null,
-      setEmployee: (employee) => set({ employee }),
-      unRead: 0,
-      setUnRead: (unRead) => set({ unRead }),
-      chatOpen: false,
-      setChatOpen: (chatOpen) => set({ chatOpen }),
-    }),
-    { name: "chatId" }
-  )
+export type ChatAction = {
+  setChatId: (chatId: any) => void;
+  setUnRead: (unRead: number) => void;
+  setChatOpen: (chatOpen: boolean) => void;
+};
+
+export type chatId = ChatState & ChatAction;
+
+export const defaultInitState: ChatState = {
+  chatId: null,
+  unRead: 0,
+  chatOpen: false,
+};
+
+export const createChatStore = (initState: ChatState = defaultInitState) => {
+  return createStore<chatId>()(
+    persist(
+      (set) => ({
+        ...initState,
+        setChatId: (chatId) => set({ chatId }),
+        setUnRead: (unRead) => set({ unRead }),
+        setChatOpen: (chatOpen) => set({ chatOpen }),
+      }),
+      { name: "chatId" }
+    )
+  );
+};
+
+export type chatStoreApi = ReturnType<typeof createChatStore>;
+
+export const ChatStoreContext = createContext<chatStoreApi | undefined>(
+  undefined
 );
+
+export const useChat = <T>(selector: (store: chatId) => T): T => {
+  const counterStoreContext = useContext(ChatStoreContext);
+
+  if (!counterStoreContext) {
+    throw new Error(`useCounterStore must be used within CounterStoreProvider`);
+  }
+
+  return useStore(counterStoreContext, selector);
+};

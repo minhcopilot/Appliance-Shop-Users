@@ -8,13 +8,27 @@ import ChatContent from "./ChatContent";
 import ChatDisconnect from "./ChatDisconnect";
 import SendForm from "./SendForm";
 import styles from "./ChatContent.module.css";
+import axiosClient from "@/config/axiosClient";
 
 type Props = {};
 
 export const Chat = ({}: Props) => {
-  const { chatId, chatOpen, setChatOpen, unRead, setUnRead } = useChat(
-    (state) => state
-  );
+  const { chatId, setChatId, chatOpen, setChatOpen, unRead, setUnRead } =
+    useChat((state) => state);
+  React.useEffect(() => {
+    if (chatId?.id) {
+      axiosClient
+        .get(
+          `/chat/${chatId.id}/?name=${chatId.customerName}&phoneNumber=${chatId.phoneNumber}`
+        )
+        .then((res) => {
+          setChatId(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [chatId?.id]);
 
   return (
     <FloatButton.Group
